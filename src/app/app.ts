@@ -1,14 +1,14 @@
-/// <reference path="./typings/index.d.ts" />
+/// <reference path="../typings/main.d.ts" />
 
-import express = require('express');
-import bodyParser = require('body-parser');
-import mongoose = require('mongoose');
-import passport = require('passport');
-import session = require('express-session');
-import morgan = require('morgan');
-import restfulRoutes = require('./routes/restful');
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import * as mongoose from 'mongoose';
+import * as passport from 'passport';
+import * as session from 'express-session';
+import * as morgan from 'morgan';
+// import restfulRoutes = require('./routes/restful');
 
-import staticRoutes = require('./routes/static');
+// import staticRoutes = require('./routes/static');
 
 
 // Local config file.
@@ -58,7 +58,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Pretty logs
-app.use(morgan('dev'));    
+app.use(morgan('dev'));
 
 // All other routes are static
 app.use(express.static('public'));
@@ -66,8 +66,8 @@ app.use(express.static('public'));
 // Listen on desired port
 server.listen(config.port);
 
-// Express static routes
-app.route('/').get(staticRoutes.index);
+// Express static routesv
+//app.route('/').get(staticRoutes.index);
 //app.route('/reviewer.html').get(staticRoutes.exam);
 //app.route('/reference.html').get(staticRoutes.entrance);
 //app.route('/admin.html').get(staticRoutes.admin);

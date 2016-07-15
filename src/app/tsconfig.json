@@ -9,9 +9,7 @@
     }, 
     "exclude": [
         "tsd.json",
-        "tsconfig.json"
-    ],
-    "files": [
-        "typings/index.d.ts"
+        "tsconfig.json",
+        "typings"
     ]
 }

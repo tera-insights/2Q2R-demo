@@ -1,0 +1,30 @@
+{
+  "name": "2Q2R-demo",
+  "homepage": "https://github.com/alinVD/2Q2R-demo",
+  "authors": [
+    "Vlad Dobra <vladmathwiz@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-animate": "~1.4.7",
+    "angular-aria": "~1.4.7",
+    "angular-material": "~0.11.2",
+    "angular-resource": "~1.4.7",
+    "angularjs": "~1.4.8",
+    "d3": "~3.5.6",
+    "font-awesome": "fontawesome#~4.5.0",
+    "jquery": "~2.1.4",
+    "js-xlsx": "~0.8.0",
+    "lodash": "~3.10.1",
+    "angular-material-icons": "~0.6.0"
+  }
+}

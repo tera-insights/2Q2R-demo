@@ -4,6 +4,8 @@
   "description": "This is a demo of the 2Q2R library and set of tools.",
   "main": "index.js",
   "scripts": {
+    "prestart": "./pre_start.sh",
+    "start": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

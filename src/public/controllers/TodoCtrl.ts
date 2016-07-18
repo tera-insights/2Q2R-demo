@@ -1,8 +1,10 @@
+/// <reference path="../services/Todos.ts" />
+
 module todos {
     'use strict';
 
     export class TodoCtrl {
-        private todos: TodoItem[];
+        private todos: ITodoItem[];
 
 
     }

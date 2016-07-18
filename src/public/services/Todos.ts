@@ -1,4 +1,4 @@
-/// <reference path="../typings/index.d.ts" />
+/// <reference path="../../typings/index.d.ts" />
 
 module todos {
     'use strict';
@@ -14,23 +14,29 @@ module todos {
     /**
      * The todolist stored in the back
      */
-    export interface ITodoList extends ng.resrource.IResource<ITodoList> {
+    export interface ITodoList extends ng.resource.IResource<ITodoList> {
         items: ITodoItem[]; // the array of todo items
         name: string; // the list name
     }
 
+    interface ITodoListResource extends ng.resource.IResourceClass<ITodoList> {
+
+    }
+
     export class TodoLists {
-        static Resource($resrouce: ng.resource.IResourceService): ITodoList {
+        private resource: ITodoListResource; // the resource to access backend
+
+        static Resource($resource: ng.resource.IResourceService): ITodoListResource {
             var url = "/todos";
             var resource = $resource("", {}, {
                 'get': { method: 'GET', url: url, isArray: false },
                 'save': { method: 'POST', url: url }
             });
-            return <ITodoList>resource;
+            return <ITodoListResource>resource;
         }
 
         getTodos(): ng.IPromise<ITodoList> {
-
+            return;
         }
 
         static $inject = ['$resource', '$q', '$http'];

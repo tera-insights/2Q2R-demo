@@ -1,4 +1,4 @@
-/// <reference path="./typings/index.d.ts" />
+/// <reference path="../typings/index.d.ts" />
 /**
  * The main file for Todo application.
  *
@@ -8,9 +8,10 @@
 module todos {
     'use strict';
 
-    var admin = angular.module('2Q2R', ['ngAria', 'ngMaterial', 'ngResource'])
+    var todos = angular.module('2Q2R', ['ngAria', 'ngMaterial', 'ngResource'])
         //      .controller('AdminCtrl', AdminCtrl)
         .service('TodoLists', TodoLists)
+        .controller('TodoCtrl', TodoCtrl)
         ;
 
 }

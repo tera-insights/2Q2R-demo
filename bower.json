@@ -21,7 +21,7 @@
     "angular-resource": "~1.4.7",
     "angularjs": "~1.4.8",
     "d3": "~3.5.6",
-    "font-awesome": "fontawesome#~4.5.0",
+    "font-awesome": "^4.6.3",
     "jquery": "~2.1.4",
     "js-xlsx": "~0.8.0",
     "lodash": "~3.10.1",

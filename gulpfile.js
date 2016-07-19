@@ -26,13 +26,13 @@ gulp.task('typescript server', ['prettify'], function() {
 });
 
 gulp.task('typescript client', ['typescript server'], function() {
-    var result = gulp.src('src/public/modules/**/*.ts')
+    var result = gulp.src('src/public/**/*.ts')
             .pipe(sourcemaps.init())
             .pipe(ts(tsProject));
     
     return result.js
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('public/modules/'));
+        .pipe(gulp.dest('public/'));
 });
 
 gulp.task('copy assets',  function() {

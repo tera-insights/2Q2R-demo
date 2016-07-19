@@ -1,24 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="2Q2R">
 
 <head>
+	<link href="css/main.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="lib/angular-material/angular-material.min.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 
-<body>
-    <div class="todo">
-        <h1>TODO</h1>
-        <div class="todo-list">
-            <div class="todo-header">
-                <input>
-                <md-button class="md-icon-button todo-button" aria-label="Add">
-                    <md-icon md-svg-icon="img/icons/more_vert.svg"></md-icon>
-                </md-button>
-            </div>
-            <div class="todo-items">
-            
-            </div>
-        </div>
-    </div>
+<body ng-controller="TodoCtrl as ctrl">
+    <div ng-include="'views/main.html'"></div>
 </body>
+<!-- Libs -->
+<script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="lib/angularjs/angular.js"></script>
+<script type="text/javascript" src="lib/angular-resource/angular-resource.js"></script>
+<script type="text/javascript" src="lib/angular-aria/angular-aria.js"></script>
+<script type="text/javascript" src="lib/angular-animate/angular-animate.js"></script>
+<script type="text/javascript" src="lib/angular-material/angular-material.js"></script>
+<!-- Our files -->
+<script src="services/Todos.js"></script>
+<script src="controllers/TodoCtrl.js"></script>
+<!-- LAST SCRIPT IS APP.JS -->
+<script src="App.js"></script>
 
 </html>

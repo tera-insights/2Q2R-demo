@@ -1,0 +1,47 @@
+.todo-wrap {
+	margin: 0 auto;
+    margin-top: 8em;
+}
+
+.todo-title {
+	text-align: center;
+}
+
+.todo {
+    width: 800px;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.todo-title {}
+
+.todo-list {
+	display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.todo-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.todo-input {
+	width: 32rem;
+}
+
+button:hover {
+    background-color: rgba(158, 158, 158, 0.2);
+}
+
+/* Fix to perfectly center icon buttons with font awesome */
+.md-icon-button {
+	text-align: center;
+    line-height: 48px; /* Or whatever the height of your icon-button is */
+}
+
+.md-icon-button i {
+    line-height: inherit;
+}

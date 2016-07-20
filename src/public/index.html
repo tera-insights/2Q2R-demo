@@ -8,7 +8,8 @@
 </head>
 
 <body ng-controller="TodoCtrl as ctrl">
-    <div ng-include="'views/main.html'"></div>
+	<div ng-if="!ctrl.logged" class="login-container" ng-include="'views/login.html'"></div>
+    <div ng-if="ctrl.logged" ng-include="'views/main.html'"></div>
 </body>
 <!-- Libs -->
 <script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>

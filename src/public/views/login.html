@@ -1,0 +1,40 @@
+<div class="login md-whiteframe-2dp">
+    <md-tabs class="login-tabs" md-dynamic-height md-border-bottom>
+        <md-tab label="Signup" md-selected>
+            <div class="login-tab-wrapper">
+                <md-content class="login-tab">
+                    <md-input-container>
+                        <label>Email</label>
+                        <input ng-model="user.title">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Password</label>
+                        <input ng-model="user.email" type="email">
+                    </md-input-container>
+                    <md-button class="md-raised md-primary" ng-click="ctrl.showDialog()">Sign Up</md-button>
+                </md-content>
+                <md-content class="login-explain">
+                    Enter a username and password to initialize the U2F registration process. In the next step you will be prompted to register your U2F device. As this demo service may be used by multiple users at the same time, you should select a username that isn't likely to be in use already. Names such as "test" or "demo" are not recommended. If someone else registers a user with the same name as you, you will no longer be able to log in as your password and U2F registration will have been overwritten.
+                </md-content>
+            </div>
+        </md-tab>
+        <md-tab class="login-tab-wrapper" label="Login">
+            <div class="login-tab-wrapper">
+                <md-content class="login-tab">
+                    <md-input-container>
+                        <label>Email</label>
+                        <input ng-model="user.title">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Password</label>
+                        <input ng-model="user.email" type="email">
+                    </md-input-container>
+                    <md-button class="md-raised md-primary" ng-click="ctrl.logIn()">Log in</md-button>
+                </md-content>
+                <md-content class="login-explain">
+                    SOME OTHER TEXT
+                </md-content>
+            </div>
+        </md-tab>
+    </md-tabs>
+</div>

@@ -3,25 +3,41 @@
     <div class="todo md-whiteframe-2dp" ng-controller="TodoCtrl as ctrl">
         <div class="todo-list">
             <div class="todo-header">
+                <md-checkbox ng-model="todo.completed"></md-checkbox>
                 <md-input-container class="todo-input">
                     <label>Write a note</label>
-                    <input ng-model="ctrl.newTodo">
+                    <input ng-model="ctrl.newTodo" autofocus>
                 </md-input-container>
                 <md-button class="md-icon-button todo-button" ng-click="ctrl.addTodo()" aria-label="Add">
                     <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
                 </md-button>
             </div>
-            <md-list class="todo-items">
-                <md-list-item class="" ng-repeat="todo in ctrl.todos" md-no-ink>
-                    <md-checkbox aria-label="Checkbox 1">
-                        Checkbox 1: {{ data.cb1 }}
-                    </md-checkbox>
-                    <p>{{ todo.title }}</p>
-                    <md-button class="md-icon-button todo-button" ng-click="ctrl.addTodo()" aria-label="Add">
-                        <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
-                    </md-button>
-                </md-list-item>
-            </md-list>
+            <div class="todo-list-inner">
+                <md-subheader></md-subheader>
+                <md-divider></md-divider>
+                <md-list class="todo-items">
+                    <md-list-item class="" ng-repeat="todo in ctrl.todos | filter:{completed:false}" md-no-ink>
+                        <md-checkbox aria-label="Checkbox 1" ng-model="todo.completed" class="check-fix"> 
+                        </md-checkbox>
+                        <p>{{ todo.title }}</p>
+                        <md-button class="md-icon-button todo-button" ng-click="ctrl.removeTodo($index)" aria-label="Add">
+                            <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                        </md-button>
+                    </md-list-item>
+                </md-list>
+                <md-subheader></md-subheader>
+                <md-divider></md-divider>
+                <md-list class="todo-items">
+                    <md-list-item class="" ng-repeat="todo in ctrl.todos | filter:{completed:true}" md-no-ink>
+                        <md-checkbox aria-label="Checkbox 1" ng-model="todo.completed" class="check-fix">   
+                        </md-checkbox>
+                        <p class="todo-completed">{{ todo.title }}</p>
+                        <md-button class="md-icon-button todo-button" ng-click="ctrl.removeTodo($index)" aria-label="Add">
+                            <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                        </md-button>
+                    </md-list-item>
+                </md-list>
+            </div>
         </div>
     </div>
 </div>

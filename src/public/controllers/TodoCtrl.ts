@@ -6,6 +6,17 @@ module todos {
     export class TodoCtrl {
         private todos: ITodoItem[] = [];
         private newTodo: string = "";
+        private logged: boolean = false;
+
+        logIn() {
+            this.logged = true;
+        }
+
+        showDialog() {
+            this.$mdDialog.show({
+
+            })
+        }
 
         addTodo() {
             // TODO: push into service
@@ -22,7 +33,20 @@ module todos {
 
         removeTodo($index) {
             // Take out current element from todos array
-            this.todos.splice($index, 1);
+            if ($index >= 0) {
+                this.todos.splice($index, 1);
+            }
         }
+
+        markAllCompleted(completed: boolean) {
+            this.todos.forEach(todoItem => {
+                // this is from tastejs' todomvc app
+                todoItem.completed = completed;
+            });
+        }
+        constructor(
+            private $mdDialog: ng.material.IDialogService
+        ) { }
+
     }
 }

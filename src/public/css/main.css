@@ -1,45 +1,120 @@
+body {
+    overflow: hidden;
+}
+
 .todo-wrap {
-	margin: 0 auto;
-    margin-top: 8em;
+    margin: 0 auto;
+    margin-top: 6em;
 }
 
 .todo-title {
-	text-align: center;
+    text-align: center;
+    font-size: 60px;
 }
 
 .todo {
-    width: 800px;
-    padding: 10px;
+    width: 600px;
+    padding: 0.5em 0 0.5em 0;
     margin: 0 auto;
+    height: 44em;
 }
 
 .todo-title {}
 
 .todo-list {
-	display: flex;
+    display: flex;
     justify-content: center;
     flex-direction: column;
 }
 
 .todo-header {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 4em;
+}
+
+.todo-list-inner {
+    overflow-y: auto;
+    max-height: 40.5em;
 }
 
 .todo-input {
-	width: 32rem;
+    width: 32rem;
+}
+
+.todo-divider {
+    width: 100%;
+    height: 1px;
+    background: #F2F2F2;
+}
+
+.todo-completed {
+    text-decoration: line-through;
 }
 
 button:hover {
     background-color: rgba(158, 158, 158, 0.2);
 }
 
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.login {
+    height: 24em;
+    width:  60em;
+    display: flex;
+}
+
+.login-tabs {
+    width: 100%; 
+}
+
+.login-tab-wrapper {
+	display: flex;
+}
+
+.login-tab {
+	width: 30%;
+	padding: 0.5em;
+}
+
+.login-explain {
+	padding: 1em;
+	padding-left: 30%;
+	width: 70%;
+}
+
+.check-fix {
+	margin-left: 8px !important;
+}
+
+md-tabs-wrapper {}
+
+md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
+    color: rgba(0, 0, 0, 0.54) !important;
+}
+
+md-tabs .md-tab.md-active {
+    color: rgb(63, 81, 181) !important;
+}
+
+.md-list-item-inner {
+	padding: 0 !important;
+}
+
+
 /* Fix to perfectly center icon buttons with font awesome */
+
 .md-icon-button {
-	text-align: center;
-    line-height: 48px; /* Or whatever the height of your icon-button is */
+    text-align: center;
+    line-height: 48px;
+    /* Or whatever the height of your icon-button is */
 }
 
 .md-icon-button i {

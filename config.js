@@ -1,5 +1,5 @@
 module.exports = {
-    "port": process.env.SESSION_SECRET || 3030,
+    "port": process.env.PORT || 3030,
     "sessionCookie": {
         "maxAge": 8640000,
         "httpOnly": true,
@@ -7,5 +7,8 @@ module.exports = {
     },
     "sessionSecret": process.env.SESSION_SECRET || "TestTest",
     "sessionKey": 'sessionId',
-    "sessionCollection": 'sessions'
+    "sessionCollection": 'sessions',
+    // 2Q2R cohnfig options
+    "appID": "761842o37647823648172",
+    "apiKey": "274849238748293482"
 };

@@ -8,10 +8,11 @@
 module todos {
     'use strict';
 
-    var todos = angular.module('2Q2R', ['ngAria', 'ngMaterial', 'ngResource'])
-        //      .controller('AdminCtrl', AdminCtrl)
+    var todos = angular.module('2Q2R', ['ngAria', 'ngMaterial', 'ngResource', 'ngMessages'])
+        //.controller('AdminCtrl', AdminCtrl)
         .service('TodoLists', TodoLists)
         .controller('TodoCtrl', TodoCtrl)
+        .controller('SignupCtrl', SignupCtrl)
         ;
 
 }

@@ -1,4 +1,5 @@
 /// <reference path="../services/Todos.ts" />
+/// <reference path="../../typings/index.d.ts" />
 
 module todos {
     'use strict';
@@ -7,15 +8,21 @@ module todos {
         private todos: ITodoItem[] = [];
         private newTodo: string = "";
         private logged: boolean = false;
-
         logIn() {
             this.logged = true;
         }
 
-        showDialog() {
+        showSignupDialog(email: string, device: string) {
             this.$mdDialog.show({
-
-            })
+                controller: SignupCtrl,
+                controllerAs: 'ctrl',
+                templateUrl: 'views/signup-modal.html',
+                clickOutsideToClose: true,
+                locals: {
+                    device: device,
+                    email: email
+                }
+            });
         }
 
         addTodo() {
@@ -39,11 +46,14 @@ module todos {
         }
 
         markAllCompleted(completed: boolean) {
-            this.todos.forEach(todoItem => {
+            this.todos.forEach(ITodoItem => {
                 // this is from tastejs' todomvc app
-                todoItem.completed = completed;
+                ITodoItem.completed = completed;
             });
         }
+
+        static $inject = ['$mdDialog'];
+
         constructor(
             private $mdDialog: ng.material.IDialogService
         ) { }

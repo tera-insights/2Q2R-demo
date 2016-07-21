@@ -90,6 +90,11 @@ button:hover {
 	width: 70%;
 }
 
+.signup-modal {
+	width: 32em;
+	height: 24em;
+}
+
 .check-fix {
 	margin-left: 8px !important;
 }

@@ -28,6 +28,7 @@
     "typescript": "^1.5.3"
   },
   "dependencies": {
+    "angular-messages": "^1.5.7",
     "body-parser": "^1.14.1",
     "connect-mongo": "^1.2.1",
     "express": "^4.13.3",

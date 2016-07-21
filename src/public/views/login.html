@@ -3,15 +3,27 @@
         <md-tab label="Signup" md-selected>
             <div class="login-tab-wrapper">
                 <md-content class="login-tab">
-                    <md-input-container>
-                        <label>Email</label>
-                        <input ng-model="user.title">
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Password</label>
-                        <input ng-model="user.email" type="email">
-                    </md-input-container>
-                    <md-button class="md-raised md-primary" ng-click="ctrl.showDialog()">Sign Up</md-button>
+                    <form novalidate name="signupForm">
+                        <md-input-container>
+                            <label>Email</label>
+                            <input name="email" ng-model="email" required ng-pattern="/^.+@.+\..+$/">
+                            <ng-messages for="signupForm.email.$error">
+                                <ng-message when="pattern">Not a valid email.</ng-message>
+                                <ng-message when="required">Required Field</ng-message>
+                            </ng-messages>
+                        </md-input-container>
+                        <md-input-container class="md-block">
+                            <label>Authentication Device</label>
+                            <md-select name="device" ng-model="device" required ng-init="device='2q2r'">
+                                <md-option value="2q2r">2Q2R App</md-option>
+                                <md-option value="u2f">U2F Device</md-option>
+                            </md-select>
+                            <ng-messages for="signupForm.device.$error">
+                                <ng-message when="required">Required Field</ng-message>
+                            </ng-messages>
+                        </md-input-container>
+                        <md-button class="md-raised md-primary" ng-click="ctrl.showSignupDialog(email, device)" ng-disabled="signupForm.$invalid">Sign Up</md-button>
+                    </form>
                 </md-content>
                 <md-content class="login-explain">
                     Enter a username and password to initialize the U2F registration process. In the next step you will be prompted to register your U2F device. As this demo service may be used by multiple users at the same time, you should select a username that isn't likely to be in use already. Names such as "test" or "demo" are not recommended. If someone else registers a user with the same name as you, you will no longer be able to log in as your password and U2F registration will have been overwritten.
@@ -21,18 +33,27 @@
         <md-tab class="login-tab-wrapper" label="Login">
             <div class="login-tab-wrapper">
                 <md-content class="login-tab">
-                    <md-input-container>
-                        <label>Email</label>
-                        <input ng-model="user.title">
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Password</label>
-                        <input ng-model="user.email" type="email">
-                    </md-input-container>
-                    <md-button class="md-raised md-primary" ng-click="ctrl.logIn()">Log in</md-button>
-                </md-content>
-                <md-content class="login-explain">
-                    SOME OTHER TEXT
+                    <form novalidate name="loginForm">
+                        <md-input-container>
+                            <label>Email</label>
+                            <input name="email" ng-model="email" required type="email" ng-pattern="/^.+@.+\..+$/">
+                            <ng-messages for="loginForm.email.$error">
+                                <ng-message when="pattern">Not a valid email.</ng-message>
+                                <ng-message when="required">Required Field</ng-message>
+                            </ng-messages>
+                        </md-input-container>
+                        <md-input-container class="md-block">
+                            <label>Authentication Device</label>
+                            <md-select name="device" ng-model="device" required ng-init="device='2q2r'">
+                                <md-option value="2q2r">2Q2R App</md-option>
+                                <md-option value="u2f">U2F Device</md-option>
+                            </md-select>
+                            <ng-messages for="loginForm.device.$error">
+                                <ng-message when="required">Required Field</ng-message>
+                            </ng-messages>
+                        </md-input-container>
+                        <md-button class="md-raised md-primary" ng-click="logIn()" ng-disabled="loginForm.$invalid">Sign Up</md-button>
+                    </form>
                 </md-content>
             </div>
         </md-tab>

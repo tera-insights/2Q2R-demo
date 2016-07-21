@@ -25,6 +25,7 @@
     "jquery": "~2.1.4",
     "js-xlsx": "~0.8.0",
     "lodash": "~3.10.1",
-    "angular-material-icons": "~0.6.0"
+    "angular-material-icons": "~0.6.0",
+    "angular-messages": "^1.5.7"
   }
 }

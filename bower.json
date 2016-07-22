@@ -26,6 +26,11 @@
     "js-xlsx": "~0.8.0",
     "lodash": "~3.10.1",
     "angular-material-icons": "~0.6.0",
-    "angular-messages": "^1.5.7"
+    "angular-messages": "^1.5.7",
+    "angular-qrcode": "^6.2.1",
+    "angular-qr": "^0.2.0"
+  },
+  "resolutions": {
+    "angular": "1.5.7"
   }
 }

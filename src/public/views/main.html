@@ -3,7 +3,7 @@
     <div class="todo md-whiteframe-2dp" ng-controller="TodoCtrl as ctrl">
         <div class="todo-list">
             <div class="todo-header">
-                <md-checkbox ng-model="todo.completed"></md-checkbox>
+                <md-checkbox ng-model="todo.allCompleted" click="markAllCompleted()"></md-checkbox>
                 <md-input-container class="todo-input">
                     <label>Write a note</label>
                     <input ng-model="ctrl.newTodo" autofocus>
@@ -13,7 +13,7 @@
                 </md-button>
             </div>
             <div class="todo-list-inner">
-                <md-subheader></md-subheader>
+                <md-subheader>Active Todos</md-subheader>
                 <md-divider></md-divider>
                 <md-list class="todo-items">
                     <md-list-item class="" ng-repeat="todo in ctrl.todos | filter:{completed:false}" md-no-ink>
@@ -25,7 +25,7 @@
                         </md-button>
                     </md-list-item>
                 </md-list>
-                <md-subheader></md-subheader>
+                <md-subheader>Completed</md-subheader>
                 <md-divider></md-divider>
                 <md-list class="todo-items">
                     <md-list-item class="" ng-repeat="todo in ctrl.todos | filter:{completed:true}" md-no-ink>

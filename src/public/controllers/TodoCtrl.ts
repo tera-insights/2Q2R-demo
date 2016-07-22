@@ -8,14 +8,11 @@ module todos {
         private todos: ITodoItem[] = [];
         private newTodo: string = "";
         private logged: boolean = false;
-        logIn() {
-            this.logged = true;
-        }
 
-        showSignupDialog(email: string, device: string) {
+        signup(email: string, device: string) {
             this.$mdDialog.show({
                 controller: SignupCtrl,
-                controllerAs: 'ctrl',
+                controllerAs: 'cmod',
                 templateUrl: 'views/signup-modal.html',
                 clickOutsideToClose: true,
                 locals: {
@@ -23,6 +20,20 @@ module todos {
                     email: email
                 }
             });
+        }
+
+        login(email: string, device: string) {
+            this.$mdDialog.show({
+                controller: LoginCtrl,
+                controllerAs: 'ctrl',
+                templateUrl: 'views/login-modal.html',
+                clickOutsideToClose: true,
+                locals: {
+                    device: device,
+                    email: email
+                }
+            });
+            this.logged = true;
         }
 
         addTodo() {
@@ -45,10 +56,9 @@ module todos {
             }
         }
 
-        markAllCompleted(completed: boolean) {
+        markAllCompleted() {
             this.todos.forEach(ITodoItem => {
-                // this is from tastejs' todomvc app
-                ITodoItem.completed = completed;
+
             });
         }
 

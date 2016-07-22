@@ -4,6 +4,7 @@ module todos {
     'use strict';
 
     export class SignupCtrl {
+        private testqr: string = 'hey hey hey';
 
         static $inject = ['$mdDialog', 'email', 'device'];
 

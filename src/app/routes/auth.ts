@@ -10,7 +10,7 @@ import * as path from 'path';
 import * as passport from 'passport';
 
 var unirest = require('unirest');
-var config = require('../config.json');
+var config = require('../../config');
 
 var ChallengeStrategy = require('passport-challenge').Strategy;
 

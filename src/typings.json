@@ -19,5 +19,8 @@
     "passport": "github:DefinitelyTyped/DefinitelyTyped/passport/passport.d.ts#05557455c49043ff0189182e27c9e04403a70802",
     "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#001ca36ba58cef903c4c063555afb07bbc36bb58",
     "validator": "github:DefinitelyTyped/DefinitelyTyped/validator/validator.d.ts#30387ec3dd6eb426cc48522fd3aef09ada83aa48"
+  },
+  "dependencies": {
+    "mongoose": "registry:npm/mongoose#4.3.5+20160628072220"
   }
 }

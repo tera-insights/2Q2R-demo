@@ -12,7 +12,8 @@ import ITodos = require('../interfaces/ITodos');
 // GET: /todos
 export function get(req: express.Request, res: express.Response) {
     // injected by passport
-    var email = req.user;
+    // DEACTIVATED var email = req.user;
+    var email = req.query.email; // TODO: go back to authenticated route
 
     if (!email)
         res.status(401).send("User not logged in");
@@ -33,7 +34,9 @@ export function get(req: express.Request, res: express.Response) {
 // POST: /todos
 export function create(req: express.Request, res: express.Response) {
     // injected by passport
-    var email = req.user;
+    // DEACTIVATED var email = req.user;
+    var email = req.query.email; // TODO: go back to authenticated route
+
     var todos = new Todos(req.body);
     todos.email = email;
 

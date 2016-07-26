@@ -25,7 +25,7 @@ module todos {
         login(email: string, device: string) {
             this.$mdDialog.show({
                 controller: LoginCtrl,
-                controllerAs: 'ctrl',
+                controllerAs: 'cmod',
                 templateUrl: 'views/login-modal.html',
                 clickOutsideToClose: true,
                 locals: {
@@ -34,6 +34,14 @@ module todos {
                 }
             });
             this.logged = true;
+        }
+
+        close() {
+            this.$mdDialog.hide();
+        }
+
+        accept() {
+            this.$mdDialog.hide();
         }
 
         addTodo() {

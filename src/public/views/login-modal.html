@@ -13,10 +13,10 @@
     <div flex class="order-fix"></div>
     <md-dialog-actions layout="row">
         <span flex></span>
-        <md-button class="md-warn">
+        <md-button class="md-warn" ng-click="ctrl.close()">
             Cancel
         </md-button>
-        <md-button class="md-primary">
+        <md-button class="md-primary" ng-click="ctrl.accept()">
             Continue
         </md-button>
     </md-dialog-actions>

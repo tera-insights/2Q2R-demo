@@ -19,7 +19,7 @@ var config = require('../config.js');
 var app = express();
 var server = require('http').createServer(app);
 
-var MongoStore = require('connect-mongo')(session);
+/*var MongoStore = require('connect-mongo')(session);*/
 
 app.use(session({
     saveUninitialized: true,
@@ -29,10 +29,10 @@ app.use(session({
         maxAge: config.sessionCookie.maxAge,
         httpOnly: config.sessionCookie.httpOnly,
         secure: config.sessionCookie.secure && config.secure.ssl
-    }, store: new MongoStore({
+    }/*, store: new MongoStore({
         mongooseConnection: mongoose.connection,
         collection: config.sessionCollection
-    })
+    })*/
 }));
 
 app.use(bodyParser.json());

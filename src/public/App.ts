@@ -2,6 +2,8 @@
 /// <reference path="services/Todos.ts" />
 /// <reference path="controllers/TodoCtrl.ts" />
 /// <reference path="controllers/SignupCtrl.ts" />
+/// <reference path="controllers/LoginCtrl.ts" />
+
 /**
  * The main file for Todo application.
  *

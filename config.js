@@ -1,5 +1,5 @@
 module.exports = {
-    "port": process.env.PORT || 3030,
+    "port": process.env.PORT || 8080,
     "sessionCookie": {
         "maxAge": 8640000,
         "httpOnly": true,

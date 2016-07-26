@@ -1,5 +1,6 @@
 body {
     overflow: hidden;
+    position: static !important;
 }
 
 a {

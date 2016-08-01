@@ -5,10 +5,11 @@
 	<link href="css/main.css" rel="stylesheet" type="text/css" media="all" />
     <link href="lib/angular-material/angular-material.min.css" rel="stylesheet" type="text/css" media="all" />
     <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="lib/semantic/dist/semantic.min.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 
 <body ng-controller="TodoCtrl as ctrl">
-	<div ng-if="!ctrl.logged" class="login-container" ng-include="'views/login.html'"></div>
+	<div ng-if="!ctrl.logged" class="login" ng-include="'views/login.html'"></div>
     <div ng-if="ctrl.logged" ng-include="'views/main.html'"></div>
 </body>
 <!-- Libs -->
@@ -18,6 +19,8 @@
 <script type="text/javascript" src="lib/angular-messages/angular-messages.min.js"></script>
 <script type="text/javascript" src="lib/qrcode/lib/qrcode.min.js"></script>
 <script type="text/javascript" src="lib/angular-qr/angular-qr.min.js"></script>
+<script type="text/javascript" src="lib/semantic/dist/semantic.min.js"></script>
+<script type="text/javascript" src="lib/ng.dropdown/dist/ngDropdown.js"></script>
 <script type="text/javascript" src="lib/angular-aria/angular-aria.js"></script>
 <script type="text/javascript" src="lib/angular-animate/angular-animate.js"></script>
 <script type="text/javascript" src="lib/angular-material/angular-material.js"></script>
@@ -30,4 +33,3 @@
 <script src="App.js"></script>
 
 </html>
-	

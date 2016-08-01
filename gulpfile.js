@@ -42,7 +42,8 @@ gulp.task('copy assets',  function() {
         'src/public/**/*.js',
         'src/public/**/*.html',
         'src/public/**/*.png',
-        'src/public/**/*.jpg'
+        'src/public/**/*.jpg',
+        'src/public/**/*.svg'
     ]);
 
     return result.pipe(gulp.dest('public/'));

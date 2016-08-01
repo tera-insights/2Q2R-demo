@@ -9,31 +9,29 @@ module todos {
         private newTodo: string = "";
         private logged: boolean = false;
 
-        signup(email: string, device: string) {
-            this.$mdDialog.show({
-                controller: SignupCtrl,
-                controllerAs: 'cmod',
-                templateUrl: 'views/signup-modal.html',
-                clickOutsideToClose: true,
-                locals: {
-                    device: device,
-                    email: email
-                }
-            });
+        // State defined as a bunch of potential strings
+        private state: string = "deviceSelect" || "2q2rSignLog" || "u2fSignLog" || "2q2rSignup" || "u2fSignup";
+
+        // Cannot have a number in function name
+        twoQtwoR() {
+            // Change state to 2q2r signup/login
+            this.state = "2q2rSignLog";
         }
 
-        login(email: string, device: string) {
-            this.$mdDialog.show({
-                controller: LoginCtrl,
-                controllerAs: 'cmod',
-                templateUrl: 'views/login-modal.html',
-                clickOutsideToClose: true,
-                locals: {
-                    device: device,
-                    email: email
-                }
-            });
-            this.logged = true;
+        // Same problem
+        utwof() {
+            // Change state to u2f signup/login
+            this.state = "u2fSignLog";
+        }
+
+        // 2Q2R signup
+        twoQtwoRSignup() {
+            this.state = "2q2rSignup";
+        }
+
+        // U2F signup
+        utwofSignup() {
+            this.state = "u2fSignup";
         }
 
         close() {

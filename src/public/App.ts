@@ -13,7 +13,7 @@
 module todos {
     'use strict';
 
-    var todos = angular.module('2Q2R', ['ngAria', 'ngMaterial', 'ngResource', 'ngMessages', 'ja.qr'])
+    var todos = angular.module('2Q2R', ['ngAria', 'ngMaterial', 'ngResource', 'ngMessages', 'ja.qr', 'ngDropdown'])
         //.controller('AdminCtrl', AdminCtrl)
         .service('TodoLists', TodoLists)
         .controller('TodoCtrl', TodoCtrl)

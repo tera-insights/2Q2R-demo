@@ -28,7 +28,9 @@
     "angular-material-icons": "~0.6.0",
     "angular-messages": "^1.5.7",
     "angular-qrcode": "^6.2.1",
-    "angular-qr": "^0.2.0"
+    "angular-qr": "^0.2.0",
+    "semantic": "semantic-ui#^2.2.2",
+    "ng.dropdown": "semanticUI.ngDropdown#^1.0.3"
   },
   "resolutions": {
     "angular": "1.5.7"

@@ -1,68 +1,47 @@
-<div class="login-title">2Q2R Demo</div>
-<div class="login md-whiteframe-2dp">
-    <md-tabs class="login-tabs" md-dynamic-height md-border-bottom>
-        <md-tab label="Signup" md-selected>
-            <div class="login-tab-wrapper">
-                <md-content class="login-tab">
-                    <form novalidate name="signupForm">
-                        <md-input-container>
-                            <label>Email</label>
-                            <input name="email" ng-model="email" required ng-pattern="/^.+@.+\..+$/">
-                            <ng-messages for="signupForm.email.$error">
-                                <ng-message when="pattern">Not a valid email.</ng-message>
-                                <ng-message when="required">Required Field</ng-message>
-                            </ng-messages>
-                        </md-input-container>
-                        <md-input-container class="md-block">
-                            <label>Authentication Device</label>
-                            <md-select name="device" ng-model="device" required ng-init="device='2q2r'">
-                                <md-option value="2q2r">2Q2R App</md-option>
-                                <md-option value="u2f">U2F Device</md-option>
-                            </md-select>
-                            <ng-messages for="signupForm.device.$error">
-                                <ng-message when="required">Required Field</ng-message>
-                            </ng-messages>
-
-                        </md-input-container>
-                        <md-button class="md-raised md-primary" ng-click="ctrl.signup(email, device)" ng-disabled="signupForm.$invalid">Sign Up</md-button>
-                    </form>
-                </md-content>
-                <md-content class="login-explain">
-                    Enter a username and password to initialize the U2F registration process. In the next step you will be prompted to register your U2F device. As this demo service may be used by multiple users at the same time, you should select a username that isn't likely to be in use already. Names such as "test" or "demo" are not recommended. If someone else registers a user with the same name as you, you will no longer be able to log in as your password and U2F registration will have been overwritten.
-                    <div ng-if="signupForm.device === '2q2r'">a babyyyyy</div>
-
-                	<div ng-if="signupForm.device === 'u2f'">BEEEE babyyyyy</div>
-                </md-content>
-
-
+<!-- Select your device -->
+<div class="login-device" ng-if="ctrl.state == 'deviceSelect'">
+    <p class="login-text">Select the device you would like to use with the demo.</p>
+    <div class="login-icon-buttons">
+        <a class="login-icon-button" ng-click="ctrl.twoQtwoR()">
+            <img src="../img/2q2r-logo.svg"> 2Q2R App
+        </a>
+        <a class="login-icon-button" ng-click="ctrl.utwof()">
+            <img src="../img/u2f-icon2.svg"> U2F Device
+        </a>
+    </div>
+</div>
+<!-- You selected 2q2r -->
+<div class="login-signlog-2q2r signlog" ng-if="ctrl.state == '2q2rSignLog'">
+    <p>Would you like to login with an existing account, or create a new one? (2Q2R)</p>
+    <div class="signlog-form">
+        <div class="login-form">
+        	believe it
+        </div>
+        <div class="ui vertical divider">O.R.N.O.T</div>
+        <div class="signup-form">
+            <div class="ui big green labeled icon button">
+                <i class="signup icon"></i> Sign Up
             </div>
-        </md-tab>
-        <md-tab class="login-tab-wrapper" label="Login">
-            <div class="login-tab-wrapper">
-                <md-content class="login-tab">
-                    <form novalidate name="loginForm">
-                        <md-input-container>
-                            <label>Email</label>
-                            <input name="email" ng-model="email" required type="email" ng-pattern="/^.+@.+\..+$/">
-                            <ng-messages for="loginForm.email.$error">
-                                <ng-message when="pattern">Not a valid email.</ng-message>
-                                <ng-message when="required">Required Field</ng-message>
-                            </ng-messages>
-                        </md-input-container>
-                        <md-input-container class="md-block">
-                            <label>Authentication Device</label>
-                            <md-select name="device" ng-model="device" required ng-init="device='2q2r'">
-                                <md-option value="2q2r">2Q2R App</md-option>
-                                <md-option value="u2f">U2F Device</md-option>
-                            </md-select>
-                            <ng-messages for="loginForm.device.$error">
-                                <ng-message when="required">Required Field</ng-message>
-                            </ng-messages>
-                        </md-input-container>
-                        <md-button class="md-raised md-primary" ng-click="ctrl.login()" ng-disabled="loginForm.$invalid">Log In</md-button>
-                    </form>
-                </md-content>
-            </div>
-        </md-tab>
-    </md-tabs>
+        </div>
+    </div>
+    <button ng-click="ctrl.twoQtwoRLogin()">login</button>
+    <button ng-click="ctrl.twoQtwoRSignup()">signup</button>
+</div>
+<!-- You selected u2f -->
+<div class="login-signlog-u2f signlog" ng-if="ctrl.state == 'u2fSignLog'">
+    <p>Would you like to login with an existing account, or create a new one? (U2F)</p>
+    <button>login</button>
+    <button ng-click="ctrl.utwofSignup()">signup</button>
+</div>
+<!-- Make a 2q2r account -->
+<div class="login-signlog-2q2r signlog" ng-if="ctrl.state == '2q2rSignup'">
+    <p>Select a username and password for your 2q2r account</p>
+    <button>input</button>
+    <button>here</button>
+</div>
+<!-- Make a u2f account -->
+<div class="login-signlog-2q2r signlog" ng-if="ctrl.state == 'u2fSignup'">
+    <p>create a username and password for your u2f account</p>
+    <button>input</button>
+    <button>here</button>
 </div>

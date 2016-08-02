@@ -9,6 +9,9 @@
 </head>
 
 <body ng-controller="TodoCtrl as ctrl">
+	<div class="banner">
+		<img src="img/2q2r-logo-words.svg">
+	</div>
 	<div ng-if="!ctrl.logged" class="login" ng-include="'views/login.html'"></div>
     <div ng-if="ctrl.logged" ng-include="'views/main.html'"></div>
 </body>

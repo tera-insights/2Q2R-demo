@@ -1,3 +1,26 @@
+html {
+    background: #F2F2F2 !important;
+}
+
+body {
+    background: #F2F2F2 !important;
+    margin: 0;
+    overflow: hidden;
+}
+
+.banner {
+    width: 100%;
+    height: 8rem;
+    background: #FBFBFB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner img {
+    height: 7rem;
+}
+
 /* Login page */
 
 .login {
@@ -37,19 +60,23 @@
     width: inherit;
 }
 
-.signlog {}
-
-.signlog-form {
-    display: flex;
-    width: 32rem;
-}
-
-.login-signlog-2q2r {
-    height: 100%;
+.signlog {
+    height: calc(100% - 20rem);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.form-wrapper {
+    width: 56em;
+    position: relative;
+    /* Gotta force important because of semantic */
+    margin-bottom: 12rem !important;
+}
+
+.error-message {
+    color: maroon;
 }
 
 .login-signlog-u2f {}

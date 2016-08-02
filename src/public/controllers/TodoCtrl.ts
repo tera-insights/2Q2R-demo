@@ -10,28 +10,19 @@ module todos {
         private logged: boolean = false;
 
         // State defined as a bunch of potential strings
-        private state: string = "deviceSelect" || "2q2rSignLog" || "u2fSignLog" || "2q2rSignup" || "u2fSignup";
+        private state: string = "signLog" || "deviceSelect" || "signup";
 
-        // Cannot have a number in function name
-        twoQtwoR() {
-            // Change state to 2q2r signup/login
-            this.state = "2q2rSignLog";
+        // Skip past signup phases
+        login() {
+            this.state = "deviceSelect";
         }
 
-        // Same problem
-        utwof() {
-            // Change state to u2f signup/login
-            this.state = "u2fSignLog";
+        signupRedirect() {
+            this.state = "signup";
         }
 
-        // 2Q2R signup
-        twoQtwoRSignup() {
-            this.state = "2q2rSignup";
-        }
+        signup() {
 
-        // U2F signup
-        utwofSignup() {
-            this.state = "u2fSignup";
         }
 
         close() {

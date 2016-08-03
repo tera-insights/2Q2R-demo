@@ -21,6 +21,7 @@ body {
     height: 7rem;
 }
 
+
 /* Login page */
 
 .login {
@@ -75,11 +76,46 @@ body {
     margin-bottom: 12rem !important;
 }
 
+.signup-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup {
+    width: 24rem;
+    /* Gotta force important because of semantic */
+    margin-bottom: 24rem !important;
+}
+
+.signup-text {
+    font-size: 20px;
+    text-align: center;
+}
+
+.signup-return {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24rem !important;
+    font-size: 20px;
+}
+
 .error-message {
     color: maroon;
 }
-
-.login-signlog-u2f {}
 
 
 /* Assorted Fixes */
@@ -128,4 +164,19 @@ md-dialog-content {
 
 .md-dialog-content {
     width: 100%;
+}
+
+.demo-header {
+    text-align: center;
+    font-size: 24px;
+}
+
+.copyright {
+    position: absolute;
+    bottom: 0;
+}
+
+.vert-fix {
+    /* Provide a small unit to cancel out semantic thing */
+    left: 50% !important;
 }

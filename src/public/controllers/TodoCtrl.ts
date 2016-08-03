@@ -10,19 +10,32 @@ module todos {
         private logged: boolean = false;
 
         // State defined as a bunch of potential strings
-        private state: string = "signLog" || "deviceSelect" || "signup";
+        private state: string = "signLog" || "deviceSelect" || "signup" || "returnSignlog";
 
         // Skip past signup phases
         login() {
             this.state = "deviceSelect";
         }
 
+        // Go to actual todo app. For now, only redirects to todo app.
+        deviceSelect(device) {
+            this.logged = true;
+            console.log(device);
+        }
+
+        // Redirect to signup page
         signupRedirect() {
             this.state = "signup";
         }
 
-        signup() {
+        //Return back to login
+        returnSignlog() {
+            this.state = "signLog"
+        }
 
+        // Actual signup process
+        signup() {
+            this.state = "returnSignlog";
         }
 
         close() {

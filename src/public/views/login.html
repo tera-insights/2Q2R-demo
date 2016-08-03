@@ -1,3 +1,5 @@
+<!-- Make sure they know it's a demo -->
+<div class="demo-header">DEMO</div>
 <!-- Login or signup -->
 <div class="signlog" ng-if="ctrl.state == 'signLog'">
     <p class="login-text">Would you like to sign up or log in?</p>
@@ -5,6 +7,7 @@
     <div class="ui two column middle aligned very relaxed stackable grid form-wrapper">
         <div class="column">
             <form class="ui form" novalidate name="loginForm" ng-model="loginForm">
+                <!-- Line 1 -->
                 <div class="field">
                     <label>Username</label>
                     <div class="ui left icon input">
@@ -12,6 +15,7 @@
                         <i class="user icon"></i>
                     </div>
                 </div>
+                <!-- Line 2 -->
                 <div class="field">
                     <label>Password</label>
                     <div class="ui left icon input">
@@ -19,14 +23,15 @@
                         <i class="lock icon"></i>
                     </div>
                 </div>
-                <!-- Workaround to get an ng-disabled like effect -->
-                <div class="ui blue submit button" ng-class="{disabled: loginForm.$invalid}">Login</div>
+                <!-- Submit button -->
+                <button class="ui blue submit button" ng-disabled="loginForm.$invalid" ng-click="ctrl.login()">Login</button>
+                <!-- ngMessages form validation -->
                 <div class="field">
                     <ng-messages class="error-message" for="loginForm.username.$error">
                         <ng-message when="required">Invalid username.</ng-message>
                     </ng-messages>
-                    <br>
                     <!-- space that out -->
+                    <br>
                     <ng-messages class="error-message" for="loginForm.password.$error">
                         <ng-message when="required">Invalid password.</ng-message>
                         <ng-message when="maxlength">Password is longer than maximum.</ng-message>
@@ -34,7 +39,7 @@
                 </div>
             </form>
         </div>
-        <div class="ui vertical divider">
+        <div class="ui vertical divider vert-fix">
             Or
         </div>
         <div class="center aligned column">
@@ -43,19 +48,64 @@
             </div>
         </div>
     </div>
-    <!-- Signup -->
-    <div class="signup" ng-if="ctrl.state == 'signup'">
-        <button ng-click="ctrl.signup()">signup form</button>
-    </div>
-    <!-- Select your device during login-->
-    <div class="login-device" ng-if="ctrl.state == 'deviceSelect'">
-        <p class="login-text">Select the device you would like to use with the demo.</p>
-        <div class="login-icon-buttons">
-            <a class="login-icon-button" ng-click="ctrl.twoQtwoR()">
-                <img src="../img/2q2r-logo.svg"> 2Q2R App
-            </a>
-            <a class="login-icon-button" ng-click="ctrl.utwof()">
-                <img src="../img/u2f-icon2.svg"> U2F Device
-            </a>
+</div>
+<!-- Signup -->
+<div class="signup-wrapper" ng-if="ctrl.state == 'signup'">
+    <p class="signup-text">Enter a username and password for use with your account.
+        <br> Keep in mind that accounts not used within a week will be purged.
+        <br> Use a unique username for your account, as if another user uses the same username, the first username will be deleted from the system.</p>
+    <form class="ui form signup" novalidate name="signupForm" ng-model="signupForm">
+        <!-- Line 1 -->
+        <div class="field">
+            <label>Username</label>
+            <div class="ui left icon input">
+                <input type="text" placeholder="Username" ng-model="username" name="username" required>
+                <i class="user icon"></i>
+            </div>
         </div>
+        <!-- Line 2 -->
+        <div class="field">
+            <label>Password</label>
+            <div class="ui left icon input">
+                <input type="password" placeholder="Password" name="password" ng-model="password" required ng-maxlength="16">
+                <i class="lock icon"></i>
+            </div>
+        </div>
+        <!-- Submit button -->
+        <button class="ui blue submit button" ng-disabled="signupForm.$invalid" ng-click="ctrl.signup()">Login</button>
+        <!-- ngMessages form validation -->
+        <div class="field">
+            <ng-messages class="error-message" for="signupForm.username.$error">
+                <ng-message when="required">Please specify a username.</ng-message>
+            </ng-messages>
+            <!-- space that out -->
+            <br>
+            <ng-messages class="error-message" for="signupForm.password.$error">
+                <ng-message when="required">Please specify a password.</ng-message>
+                <ng-message when="maxlength">Password is longer than maximum.</ng-message>
+            </ng-messages>
+        </div>
+    </form>
+</div>
+<!-- Return to login redirection screen -->
+<div class="signup-return" ng-if="ctrl.state == 'returnSignlog'">
+    <div class="message">
+    <p>Return to the login page to start using your account.</p>
+    <button class="ui button" ng-click="ctrl.returnSignlog()">Return to login</button>
     </div>
+    
+</div>
+<!-- Select your device during login-->
+<div class="login-device" ng-if="ctrl.state == 'deviceSelect'">
+    <p class="login-text">Select the device you would like to use with the demo.</p>
+    <div class="login-icon-buttons">
+        <a class="login-icon-button" ng-click="ctrl.deviceSelect(two)">
+            <img src="../img/2q2r-logo.svg"> 2Q2R App
+        </a>
+        <a class="login-icon-button" ng-click="ctrl.deviceSelect(u)">
+            <img src="../img/u2f-icon2.svg"> U2F Device
+        </a>
+    </div>
+</div>
+<!-- So people know it's us -->
+<div class="copyright">&copy Tera Insights, LLC 2013-2016</div>

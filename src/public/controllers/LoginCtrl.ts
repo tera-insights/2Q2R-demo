@@ -3,6 +3,13 @@
 module todos {
     'use strict';
 
+
+    /**
+     * This controllers helps with logging into the system 
+     * 
+     * @export
+     * @class LoginCtrl
+     */
     export class LoginCtrl {
 
         static $inject = ['$mdDialog', 'email', 'device'];

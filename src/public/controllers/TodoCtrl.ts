@@ -1,4 +1,5 @@
 /// <reference path="../services/Todos.ts" />
+/// <reference path="../services/Auth.ts" />
 /// <reference path="../../typings/index.d.ts" />
 
 module todos {
@@ -7,52 +8,6 @@ module todos {
     export class TodoCtrl {
         private todos: ITodoItem[] = [];
         private newTodo: string = "";
-
-        // logged in or not
-        private logged: boolean = false;
-
-        // State defined as a bunch of potential strings
-        private state: string = "signLog" || "registerDeviceSelect" || "signup" || "returnSignlog";
-
-        // Skip past signup phases
-        login() {
-            this.state = "deviceSelect";
-        }
-
-        // Go to actual todo app. For now, only redirects to todo app.
-        deviceSelect(device: string) {
-            this.logged = true;
-            console.log(device);
-        }
-
-        // Redirect to signup page
-        signupRedirect() {
-            this.state = "signup";
-        }
-
-        //Return back to login
-        returnSignlog() {
-            this.state = "signLog"
-        }
-
-        // Actual signup process
-        signup() {
-            this.state = "registerDeviceSelect";
-        }
-
-        // Select the device you want to register with
-        registerDeviceSelect(device: string) {
-            // register device
-            this.state = "returnSignlog";
-        }
-
-        close() {
-            this.$mdDialog.hide();
-        }
-
-        accept() {
-            this.$mdDialog.hide();
-        }
 
         addTodo() {
             // TODO: push into service
@@ -80,10 +35,11 @@ module todos {
             });
         }
 
-        static $inject = ['$mdDialog'];
+        static $inject = ['$mdDialog', 'Auth'];
 
         constructor(
-            private $mdDialog: ng.material.IDialogService
+            private $mdDialog: ng.material.IDialogService,
+            private Auth: Auth
         ) { }
 
     }

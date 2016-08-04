@@ -8,12 +8,11 @@
     <link href="lib/semantic/dist/semantic.min.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 
-<body ng-controller="TodoCtrl as ctrl">
+<body ng-controller="MainCtrl as ctrl">
 	<div class="banner">
 		<img src="img/2q2r-logo-words.svg">
 	</div>
-	<div ng-if="!ctrl.logged" class="login" ng-include="'views/login.html'"></div>
-    <div ng-if="ctrl.logged" ng-include="'views/main.html'"></div>
+	<div ng-include="'views/main.html'"></div>
 </body>
 <!-- Libs -->
 <script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
@@ -29,6 +28,8 @@
 <script type="text/javascript" src="lib/angular-material/angular-material.js"></script>
 <!-- Our files -->
 <script src="services/Todos.js"></script>
+<script src="services/Auth.js"></script>
+<script src="controllers/MainCtrl.js"></script>
 <script src="controllers/TodoCtrl.js"></script>
 <script src="controllers/SignupCtrl.js"></script>
 <script src="controllers/LoginCtrl.js"></script>

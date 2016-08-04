@@ -1,8 +1,9 @@
 <!-- Make sure they know it's a demo 
 <div class="demo-header">DEMO</div> -->
-        <button class="ui blue submit button" ng-click="ctrl.signup()">TEST</button>
+<button class="ui blue submit button" ng-click="ctrl.signup()">TEST</button>
 
 <!-- Login or signup -->
+<p>{{ctrl.state}}</p>
 <div class="signlog" ng-if="ctrl.state == 'signLog'">
     <p class="message">Would you like to sign up or log in?</p>
     <!-- This monstrous code is from semantic, no choice because of divider, otherwise use flex -->
@@ -55,7 +56,8 @@
 <div class="signup-wrapper" ng-if="ctrl.state == 'signup'">
     <p class="signup-text">Enter a username and password for use with your account.
         <br> Keep in mind that accounts not used within a week will be purged.
-        <br> Use a unique username for your account, as if another user uses the same username, the first username will be deleted from the system.</p>
+        <br> Use a unique username for your account, as if another user uses the same username, the first username will be
+        deleted from the system.</p>
     <form class="ui form signup" novalidate name="signupForm" ng-model="signupForm">
         <!-- Line 1 -->
         <div class="field">
@@ -89,6 +91,20 @@
         </div>
     </form>
 </div>
+<div class="login-device" ng-if="ctrl.state == 'deviceSelect'">
+    <p class="message">Select the device you would like to use with your demo.
+        <br> The device can be changed, or more devices can be added once you are logged in.</p>
+    <div class="login-icon-buttons">
+        <a ng-repeat="(key,info) in ctrl.keys" class="login-icon-button" 
+            ng-click="ctrl.deviceSelect(key)">
+            <div ng-switch on="info.type">
+                <img ng-switch-when="2q2r" src="../img/2q2r-logo.svg">
+                <img ng-switch-when="u2f" src="../img/u2f-icon2.svg">
+            </div>
+            <p>{{info.name}}</p>
+        </a>
+    </div>
+</div>
 <!-- Return to login redirection screen -->
 <div class="signup-return" ng-if="ctrl.state == 'returnSignlog'">
     <div class="message return">
@@ -102,10 +118,12 @@
         <br> The device can be changed, or more devices can be added once you are logged in.</p>
     <div class="login-icon-buttons">
         <a class="login-icon-button" ng-click="ctrl.registerDeviceSelect('two')">
-            <img src="../img/2q2r-logo.svg"> <p>2Q2R App</p>
+            <img src="../img/2q2r-logo.svg">
+            <p>2Q2R App</p>
         </a>
         <a class="login-icon-button" ng-click="ctrl.registerDeviceSelect('u')">
-            <img src="../img/u2f-icon2.svg"> <p>U2F Device</p>
+            <img src="../img/u2f-icon2.svg">
+            <p>U2F Device</p>
         </a>
     </div>
 </div>

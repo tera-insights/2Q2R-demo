@@ -14,6 +14,15 @@ var config = require('../../config');
 
 var ChallengeStrategy = require('passport-challenge').Strategy;
 
+interface IKeyInfo {
+    type: "2q2r" | "u2f"; // key type
+    name: string; // displayable name 
+}
+
+// Maps from keyID => key description
+type IKeys =
+    { [keyID: string]: IKeyInfo };
+
 // Login challenge
 passport.use(new ChallengeStrategy({
     usernameField: 'email',
@@ -58,6 +67,25 @@ export function getChallenge(req: express.Request, res: express.Response) {
         appID: "weird",
         keyID: keyID,
         user: email
+    });
+};
+
+// POST: /prelogin
+// Validate user and provide set of available keys
+export function prelogin(req: express.Request, res: express.Response) {
+    var username = req.body.username;
+    var password = req.body.password;
+
+    // send fake answer
+    var keys: IKeys = {
+        "1875439uefriowrquwerp": { type: "2q2r", name: "Lg 3" },
+        "1875439uefrfdasfdasiowrquwerp": { type: "2q2r", name: "My IFone" },
+        "72943842904293419782341": { type: "u2f", name: "Yubikey" },
+        "7294384290419782341": { type: "u2f", name: "SecurityKey" }
+    };
+    res.send({
+        keys: keys,
+        token: 'fiquworieuqwoeruqopwiuroiqwureio'
     });
 };
 

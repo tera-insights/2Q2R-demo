@@ -51,6 +51,7 @@ app.use(express.static('public'));
 app.route('/').get(staticRoutes.index);
 app.route('/keys/:email').get(authRoutes.getKeys);
 app.route('/challenge').post(authRoutes.getChallenge);
+app.route('/prelogin').post(authRoutes.prelogin);
 app.route('/login').post(authRoutes.login);
 app.route('/logout').get(authRoutes.logout);
 

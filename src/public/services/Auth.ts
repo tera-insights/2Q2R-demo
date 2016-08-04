@@ -13,13 +13,12 @@ module todos {
 
     export interface IKeyInfo {
         name: string; // the device name
-        type: string; // the device type
+        type: "2q2r" | "u2f"; // the device type
     }
 
-    export interface IKeys {
-        user: string;
-        keys: { [keyID: string]: IKeyInfo }
-    }
+    // Maps from keyID => key description
+    export type IKeys =
+        { [keyID: string]: IKeyInfo };
 
     /**
      * Authentication service 
@@ -29,6 +28,7 @@ module todos {
      */
     export class Auth {
         private user: string; // username/email of current user
+        private preloginToken: string; // we need this to complete login
         public loggedIn: boolean = false;
 
         /**
@@ -36,13 +36,6 @@ module todos {
          */
         email() {
             return this.user;
-        }
-
-        getKeys(email: string) {
-            return this.$http.get('/keys/' + email)
-                .then((result) => {
-                    return <IKeys>result.data;
-                });
         }
 
         /**
@@ -59,6 +52,26 @@ module todos {
             }).then((response: any) => {
                 return <IChallengeResponse>response.data;
             });
+        }
+
+        /**
+         * Method to get a pre-session so we can complete the login with 2FA 
+         * 
+         * @param {string} email
+         * @param {string} password
+         * @returns Promise<IKeys>
+         */
+        preLogin(username: string, password: string) {
+            var self = this;
+            return self.$http.post('/prelogin', {
+                username: username,
+                password: password
+            }).then((reply: any) => {
+                var data: { token: string, keys: IKeys } = reply.data;
+                self.preloginToken = data.token;
+                return data.keys;
+            });
+
         }
 
         /**

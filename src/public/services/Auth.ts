@@ -75,7 +75,7 @@ module todos {
         }
 
         /**
-         * Main login. By now, we have selected a key and we have a chellenge.
+         * Main login. By now, we have selected a key and we have a challenge.
          * 
          * @param {string} email
          * @param {string} challenge

@@ -69,7 +69,7 @@ body {
 }
 
 .login-icon-button img {
-    width: inherit;
+    width: 10rem;
 }
 
 .signlog {
@@ -143,4 +143,18 @@ body {
 
 .return {
     margin-bottom: 24rem;
+}
+
+
+/* Debug styles */
+
+.debug-strip {
+    background-color: #e3e3e3;
+    margin-top: 1rem;
+    display: inline-block;
+}
+
+.debug-state {
+    font-size: 18px;
+    padding: 1rem;
 }

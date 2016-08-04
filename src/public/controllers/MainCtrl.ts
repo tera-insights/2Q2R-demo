@@ -6,9 +6,10 @@ module todos {
 
     export class MainCtrl {
         // State defined as a bunch of potential strings
-        private state: string = "signLog" || "registerDeviceSelect" || "signup" || "returnSignlog";
+        private state: string = "signLog" || "registerDeviceSelect" || "deviceSelectConfirm" || "signup" || "returnSignlog";
         private keys: IKeys; // the available keys
 
+        private debug: boolean = true;
         // Skip past signup phases
         login(username: string, password: string) {
             var self = this;
@@ -42,7 +43,7 @@ module todos {
         // Select the device you want to register with
         registerDeviceSelect(device: string) {
             // register device
-            this.state = "returnSignlog";
+            this.state = "deviceSelectConfirm";
         }
 
         static $inject = ['$mdDialog', 'Auth'];

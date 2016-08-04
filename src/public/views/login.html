@@ -1,9 +1,10 @@
 <!-- Make sure they know it's a demo 
 <div class="demo-header">DEMO</div> -->
-<button class="ui blue submit button" ng-click="ctrl.signup()">TEST</button>
-
+<!-- Something to make debugging a little bit easier -->
+<div class="debug-strip" ng-if="ctrl.debug">
+    <div class="debug-state">{{ctrl.state}}</div>
+</div>
 <!-- Login or signup -->
-<p>{{ctrl.state}}</p>
 <div class="signlog" ng-if="ctrl.state == 'signLog'">
     <p class="message">Would you like to sign up or log in?</p>
     <!-- This monstrous code is from semantic, no choice because of divider, otherwise use flex -->
@@ -56,8 +57,7 @@
 <div class="signup-wrapper" ng-if="ctrl.state == 'signup'">
     <p class="signup-text">Enter a username and password for use with your account.
         <br> Keep in mind that accounts not used within a week will be purged.
-        <br> Use a unique username for your account, as if another user uses the same username, the first username will be
-        deleted from the system.</p>
+        <br> Use a unique username for your account, because if another user uses the same username, the first username registered will be deleted from the system.</p>
     <form class="ui form signup" novalidate name="signupForm" ng-model="signupForm">
         <!-- Line 1 -->
         <div class="field">
@@ -92,11 +92,9 @@
     </form>
 </div>
 <div class="login-device" ng-if="ctrl.state == 'deviceSelect'">
-    <p class="message">Select the device you would like to use with your demo.
-        <br> The device can be changed, or more devices can be added once you are logged in.</p>
+    <p class="message">Select the device you would like to use with your demo.</p>
     <div class="login-icon-buttons">
-        <a ng-repeat="(key,info) in ctrl.keys" class="login-icon-button" 
-            ng-click="ctrl.deviceSelect(key)">
+        <a ng-repeat="(key,info) in ctrl.keys" class="login-icon-button" ng-click="ctrl.deviceSelect(key)">
             <div ng-switch on="info.type">
                 <img ng-switch-when="2q2r" src="../img/2q2r-logo.svg">
                 <img ng-switch-when="u2f" src="../img/u2f-icon2.svg">
@@ -128,10 +126,14 @@
     </div>
 </div>
 <!-- Are you sure? Device information page -->
-
-<!-- Name and identify your device -->
-<div class="name-device" ng-if="">
-
+<div class="device-info" ng-if="ctrl.state == 'deviceSelectConfirm'">
+	<div clas="message">are u sure this is pretty gr8</div>
+    <button class="ui button">
+        Cancel
+    </button>
+    <button class="ui positive button">
+        Confirm
+    </button>
 </div>
 <!-- So people know it's us -->
 <div class="copyright">&copy Tera Insights, LLC 2013-2016</div>

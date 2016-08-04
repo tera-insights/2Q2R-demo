@@ -1,8 +1,10 @@
-<!-- Make sure they know it's a demo -->
-<div class="demo-header">DEMO</div>
+<!-- Make sure they know it's a demo 
+<div class="demo-header">DEMO</div> -->
+        <button class="ui blue submit button" ng-click="ctrl.signup()">TEST</button>
+
 <!-- Login or signup -->
 <div class="signlog" ng-if="ctrl.state == 'signLog'">
-    <p class="login-text">Would you like to sign up or log in?</p>
+    <p class="message">Would you like to sign up or log in?</p>
     <!-- This monstrous code is from semantic, no choice because of divider, otherwise use flex -->
     <div class="ui two column middle aligned very relaxed stackable grid form-wrapper">
         <div class="column">
@@ -89,23 +91,29 @@
 </div>
 <!-- Return to login redirection screen -->
 <div class="signup-return" ng-if="ctrl.state == 'returnSignlog'">
-    <div class="message">
-    <p>Return to the login page to start using your account.</p>
-    <button class="ui button" ng-click="ctrl.returnSignlog()">Return to login</button>
+    <div class="message return">
+        <p>Return to the login page to start using your account.</p>
+        <button class="ui button" ng-click="ctrl.returnSignlog()">Return to login</button>
     </div>
-    
 </div>
-<!-- Select your device during login-->
-<div class="login-device" ng-if="ctrl.state == 'deviceSelect'">
-    <p class="login-text">Select the device you would like to use with the demo.</p>
+<!-- Select your device during register-->
+<div class="login-device" ng-if="ctrl.state == 'registerDeviceSelect'">
+    <p class="message">Select the device you would like to use with your demo.
+        <br> The device can be changed, or more devices can be added once you are logged in.</p>
     <div class="login-icon-buttons">
-        <a class="login-icon-button" ng-click="ctrl.deviceSelect(two)">
-            <img src="../img/2q2r-logo.svg"> 2Q2R App
+        <a class="login-icon-button" ng-click="ctrl.registerDeviceSelect('two')">
+            <img src="../img/2q2r-logo.svg"> <p>2Q2R App</p>
         </a>
-        <a class="login-icon-button" ng-click="ctrl.deviceSelect(u)">
-            <img src="../img/u2f-icon2.svg"> U2F Device
+        <a class="login-icon-button" ng-click="ctrl.registerDeviceSelect('u')">
+            <img src="../img/u2f-icon2.svg"> <p>U2F Device</p>
         </a>
     </div>
+</div>
+<!-- Are you sure? Device information page -->
+
+<!-- Name and identify your device -->
+<div class="name-device" ng-if="">
+
 </div>
 <!-- So people know it's us -->
 <div class="copyright">&copy Tera Insights, LLC 2013-2016</div>

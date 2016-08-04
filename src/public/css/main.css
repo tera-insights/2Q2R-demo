@@ -29,7 +29,7 @@ body {
 }
 
 .login-device {
-    height: 100%;
+    height: calc(100% - 8rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,20 +41,31 @@ body {
 }
 
 .login-icon-buttons {
+    width: 56rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    margin-bottom: 18rem;
 }
 
 .login-icon-button {
-    height: 200px;
-    width: 200px;
-    margin: 18rem;
+    /* a lot goes into this one, could be shortened down with shorthand */
+    width: 10rem;
+    margin: 0 2rem 0 2rem;
+    flex-grow: 1;
+    flex-shrink: 1;
     margin-top: 0;
     cursor: pointer;
     text-align: center;
     font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-icon-button p {
+    width: 10rem;
 }
 
 .login-icon-button img {
@@ -62,7 +73,7 @@ body {
 }
 
 .signlog {
-    height: calc(100% - 20rem);
+    height: calc(100% - 8rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -72,13 +83,12 @@ body {
 .form-wrapper {
     width: 56em;
     position: relative;
-    /* Gotta force important because of semantic */
-    margin-bottom: 12rem !important;
+    margin-bottom: 18rem !important;
 }
 
 .signup-wrapper {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 8rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -87,8 +97,7 @@ body {
 
 .signup {
     width: 24rem;
-    /* Gotta force important because of semantic */
-    margin-bottom: 24rem !important;
+    margin-bottom: 18rem !important;
 }
 
 .signup-text {
@@ -98,7 +107,7 @@ body {
 
 .signup-return {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 8rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -109,61 +118,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 24rem !important;
+    text-align: center;
     font-size: 20px;
 }
 
 .error-message {
     color: maroon;
-}
-
-
-/* Assorted Fixes */
-
-md-tabs-wrapper {}
-
-md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
-    color: rgba(0, 0, 0, 0.54) !important;
-}
-
-md-tabs .md-tab.md-active {
-    color: rgb(63, 81, 181) !important;
-}
-
-.md-list-item-inner {
-    padding: 0 !important;
-}
-
-
-/* Fix to perfectly center icon buttons with font awesome */
-
-.md-icon-button {
-    text-align: center;
-    line-height: 48px;
-    /* Or whatever the height of your icon-button is */
-}
-
-.md-icon-button i {
-    line-height: inherit;
-}
-
-md-dialog-actions {
-    order: 2 !important;
-    /* Sometimes, the modals have the actions before the dialog-content, which kind of make sense mechanically because somewhere,
-    order: 1; is set for the actions for no discernable reason. */
-}
-
-md-dialog {
-    max-width: 100vw;
-    max-height: 100vh;
-}
-
-md-dialog-content {
-    width: 100%;
-}
-
-.md-dialog-content {
-    width: 100%;
 }
 
 .demo-header {
@@ -179,4 +139,8 @@ md-dialog-content {
 .vert-fix {
     /* Provide a small unit to cancel out semantic thing */
     left: 50% !important;
+}
+
+.return {
+    margin-bottom: 24rem;
 }

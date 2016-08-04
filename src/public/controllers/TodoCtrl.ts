@@ -7,10 +7,12 @@ module todos {
     export class TodoCtrl {
         private todos: ITodoItem[] = [];
         private newTodo: string = "";
+
+        // logged in or not
         private logged: boolean = false;
 
         // State defined as a bunch of potential strings
-        private state: string = "signLog" || "deviceSelect" || "signup" || "returnSignlog";
+        private state: string = "signLog" || "registerDeviceSelect" || "signup" || "returnSignlog";
 
         // Skip past signup phases
         login() {
@@ -18,7 +20,7 @@ module todos {
         }
 
         // Go to actual todo app. For now, only redirects to todo app.
-        deviceSelect(device) {
+        deviceSelect(device: string) {
             this.logged = true;
             console.log(device);
         }
@@ -35,6 +37,12 @@ module todos {
 
         // Actual signup process
         signup() {
+            this.state = "registerDeviceSelect";
+        }
+
+        // Select the device you want to register with
+        registerDeviceSelect(device: string) {
+            // register device
             this.state = "returnSignlog";
         }
 

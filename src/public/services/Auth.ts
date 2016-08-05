@@ -44,10 +44,11 @@ module todos {
          * @param {string} keyID
          * @returns {Promise<challenge>}
          */
-        getChallenge(email: string, keyID: string) {
-            var that = this;
+        getChallenge(username: string, keyID: string) {
+            var self = this;
             return this.$http.post('/challenge', {
-                email: email,
+                username: username,
+                token: self.preloginToken,
                 keyID: keyID
             }).then((response: any) => {
                 return <IChallengeResponse>response.data;
@@ -82,10 +83,10 @@ module todos {
          * @param {string} keyID
          * @returns
          */
-        login(email: string, challenge: string, keyID: string) {
+        login(username: string, challenge: string, keyID: string) {
             var self = this;
             return self.$http.post('/login', {
-                email: email,
+                username: username,
                 challenge: challenge,
                 keyID: keyID
             }).then((data: Object) => {

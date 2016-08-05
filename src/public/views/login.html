@@ -1,44 +1,59 @@
-<!-- Make sure they know it's a demo 
-<div class="demo-header">DEMO</div> -->
 <!-- Something to make debugging a little bit easier -->
-<div class="debug-strip" ng-if="ctrl.debug">
+<!--<div class="debug-strip" ng-if="ctrl.debug">
     <div class="debug-state">{{ctrl.state}}</div>
-</div>
+    <ng-dropdown ng-model="testSelect" ng-option="ctrl.testDrop"></ng-dropdown>
+    {{ ctrl.testDrop.id }}
+</div>-->
 <!-- Login or signup -->
 <div class="signlog" ng-if="ctrl.state == 'signLog'">
-    <p class="message">Would you like to sign up or log in?</p>
+    <p class="message">
+        This is a demo for the 2Q2R two factor authenticator app.
+        <br>
+        <br> Two factor authentication (2FA) is a method of authentication that requires the user to provide multiple pieces of proof that they are who they say they are. 2Q2R specifically uses a QR code in combination with a mobile phone as a seperate authenticator. 2Q2R also supports Universal 2nd Factor (U2F) devices.
+    </p>
     <!-- This monstrous code is from semantic, no choice because of divider, otherwise use flex -->
     <div class="ui two column middle aligned very relaxed stackable grid form-wrapper">
         <div class="column">
-            <form class="ui form" novalidate name="loginForm" ng-model="loginForm">
+            <form class="ui form" novalidate name="signupForm" ng-model="signupForm">
                 <!-- Line 1 -->
                 <div class="field">
-                    <label>Username</label>
-                    <div class="ui left icon input">
+                    <label>Set a username</label>
+                    <div class="ui left icon input" data-tooltip="Set a username. Duplicate accounts are deleted.">
                         <input type="text" placeholder="Username" ng-model="username" name="username" required>
                         <i class="user icon"></i>
                     </div>
                 </div>
                 <!-- Line 2 -->
                 <div class="field">
-                    <label>Password</label>
-                    <div class="ui left icon input">
+                    <label>Set a password</label>
+                    <div class="ui left icon input" data-tooltip="Set a password between 1-16 characters.">
                         <input type="password" placeholder="Password" name="password" ng-model="password" required ng-maxlength="16">
                         <i class="lock icon"></i>
                     </div>
                 </div>
+                <!-- Line 3 -->
+                <div class="field">
+                    <label>Retype password</label>
+                    <div class="ui left icon input" data-tooltip="Retype your password.">
+                        <input type="password" placeholder="Retype" name="passwordRetype" ng-model="passwordRetype" data-match="signupForm.password" required ng-maxlength="16">
+                        <i class="lock icon"></i>
+                    </div>
+                </div>
                 <!-- Submit button -->
-                <button class="ui blue submit button" ng-disabled="loginForm.$invalid" ng-click="ctrl.login()">Login</button>
+                <button class="ui green submit button" ng-disabled="signupForm.$invalid && signupForm.password !== signupForm.passwordRetype" ng-click="ctrl.signup()">Sign Up</button>
                 <!-- ngMessages form validation -->
                 <div class="field">
-                    <ng-messages class="error-message" for="loginForm.username.$error">
+                    <ng-messages class="error-message" for="signupForm.username.$error">
                         <ng-message when="required">Invalid username.</ng-message>
                     </ng-messages>
                     <!-- space that out -->
-                    <br>
-                    <ng-messages class="error-message" for="loginForm.password.$error">
+                    <ng-messages class="error-message" for="signupForm.password.$error">
                         <ng-message when="required">Invalid password.</ng-message>
                         <ng-message when="maxlength">Password is longer than maximum.</ng-message>
+                    </ng-messages>
+                    <ng-messages class="error-message" for="signupForm.passwordRetype.$error">
+                        <ng-message when="required">Retype password.</ng-message>
+                        <ng-message when="match">Passwords do not match.</ng-message>
                     </ng-messages>
                 </div>
             </form>
@@ -47,18 +62,16 @@
             Or
         </div>
         <div class="center aligned column">
-            <div class="ui big green labeled icon button" ng-click="ctrl.signupRedirect()">
-                <i class="signup icon"></i> Sign Up
+            <div class="ui big blue labeled icon button" ng-click="ctrl.loginRedirect()">
+                <i class="sign in icon"></i> Log In
             </div>
         </div>
     </div>
 </div>
 <!-- Signup -->
-<div class="signup-wrapper" ng-if="ctrl.state == 'signup'">
-    <p class="signup-text">Enter a username and password for use with your account.
-        <br> Keep in mind that accounts not used within a week will be purged.
-        <br> Use a unique username for your account, because if another user uses the same username, the first username registered will be deleted from the system.</p>
-    <form class="ui form signup" novalidate name="signupForm" ng-model="signupForm">
+<div class="signup-wrapper" ng-if="ctrl.state == 'login'">
+    <p class="message">Log in to an existing account.</p>
+    <form class="ui form signup" novalidate name="loginForm" ng-model="loginForm">
         <!-- Line 1 -->
         <div class="field">
             <label>Username</label>
@@ -76,25 +89,24 @@
             </div>
         </div>
         <!-- Submit button -->
-        <button class="ui blue submit button" ng-disabled="signupForm.$invalid" ng-click="ctrl.signup()">Login</button>
+        <button class="ui blue submit button" ng-disabled="loginForm.$invalid" ng-click="ctrl.login()">Login</button>
         <!-- ngMessages form validation -->
         <div class="field">
-            <ng-messages class="error-message" for="signupForm.username.$error">
+            <ng-messages class="error-message" for="loginForm.username.$error">
                 <ng-message when="required">Please specify a username.</ng-message>
             </ng-messages>
-            <!-- space that out -->
-            <br>
-            <ng-messages class="error-message" for="signupForm.password.$error">
+            <ng-messages class="error-message" for="loginForm.password.$error">
                 <ng-message when="required">Please specify a password.</ng-message>
                 <ng-message when="maxlength">Password is longer than maximum.</ng-message>
             </ng-messages>
         </div>
     </form>
 </div>
+<!-- Display registered devices -->
 <div class="login-device" ng-if="ctrl.state == 'deviceSelect'">
     <p class="message">Select the device you would like to use with your demo.</p>
     <div class="login-icon-buttons">
-        <a ng-repeat="(key,info) in ctrl.keys" class="login-icon-button" ng-click="ctrl.deviceSelect(key)">
+        <a ng-repeat="(key,info) in ctrl.keys" class="login-icon-button" ng-click="ctrl.deviceSelect(keyId)">
             <div ng-switch on="info.type">
                 <img ng-switch-when="2q2r" src="../img/2q2r-logo.svg">
                 <img ng-switch-when="u2f" src="../img/u2f-icon2.svg">
@@ -111,23 +123,34 @@
     </div>
 </div>
 <!-- Select your device during register-->
-<div class="login-device" ng-if="ctrl.state == 'registerDeviceSelect'">
-    <p class="message">Select the device you would like to use with your demo.
-        <br> The device can be changed, or more devices can be added once you are logged in.</p>
-    <div class="login-icon-buttons">
-        <a class="login-icon-button" ng-click="ctrl.registerDeviceSelect('two')">
-            <img src="../img/2q2r-logo.svg">
-            <p>2Q2R App</p>
-        </a>
-        <a class="login-icon-button" ng-click="ctrl.registerDeviceSelect('u')">
-            <img src="../img/u2f-icon2.svg">
-            <p>U2F Device</p>
-        </a>
+<div class="signup-device" ng-if="ctrl.state == 'registerDeviceSelect'">
+    <p class="message">Select the type of device you would like to use with your demo.
+        <br> The device can be changed, or more devices can be added once you are logged in.
+    </p>
+    <div class="signup-device-form">
+        <form class="ui form">
+            <div class="field">
+                <ng-dropdown ng-model="ctrl.deviceSelecter" ng-option="ctrl.deviceDrop"></ng-dropdown>
+            </div>
+            <div class="field">
+                <button class="ui green button" ng-disabled="!ctrl.deviceSelecter" ng-click="ctrl.confirmDevice()">
+                    Confirm
+                </button>
+            </div>
+            <div class="field" ng-switch on="ctrl.deviceSelecter">
+                <div ng-switch-when="2q2r">
+                    <img src="../img/2q2r-logo.svg">
+                </div>
+                <div ng-switch-when="u2f">
+                    <img src="../img/u2f-icon2.svg">
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 <!-- Are you sure? Device information page -->
 <div class="device-info" ng-if="ctrl.state == 'deviceSelectConfirm'">
-	<div clas="message">are u sure this is pretty gr8</div>
+    <div clas="message">are u sure this is pretty gr8</div>
     <button class="ui button">
         Cancel
     </button>

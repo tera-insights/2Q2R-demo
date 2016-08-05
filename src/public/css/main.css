@@ -1,3 +1,5 @@
+/* Globals */
+
 html {
     background: #F2F2F2 !important;
 }
@@ -21,14 +23,77 @@ body {
     height: 7rem;
 }
 
-
-/* Login page */
-
-.login {
+.main-container {
     height: 100%;
 }
 
-.login-device {
+.demo-header {
+    text-align: center;
+    font-size: 24px;
+}
+
+.copyright {
+    position: absolute;
+    bottom: 0;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 17px;
+    max-width: 50rem;
+    margin-bottom: 3rem;
+}
+
+.error-message {
+    color: maroon;
+}
+
+.form-wrapper {
+    width: 56em;
+    position: relative;
+    margin-bottom: 28rem !important;
+}
+
+.error {
+    border-color: red;
+}
+
+ng-messages {
+    display: block;
+}
+
+
+/* Signlog */
+
+.signlog {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.signlog-form {
+    display: flex;
+    margin-bottom: 24rem;
+}
+
+.signlog-form .message {
+    max-width: 36rem;
+    margin-left: 2rem;
+}
+
+.signlog-form form {
+    width: 22rem;
+}
+
+
+/* Signup */
+
+.signup-wrapper {
+    width: 100%;
     height: calc(100% - 8rem);
     display: flex;
     flex-direction: column;
@@ -36,8 +101,50 @@ body {
     justify-content: center;
 }
 
-.login-text {
-    font-size: 24px;
+.signup {
+    width: 24rem;
+    margin-bottom: 28rem !important;
+}
+
+.signup-return {
+    width: 100%;
+    height: calc(100% - 8rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-device {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-device-form {
+    margin-bottom: 44rem;
+}
+
+.signup-device-form > form > .field {
+    display: flex;
+    justify-content: center;
+}
+
+
+/* Login */
+
+.login {
+    height: 100%;
+}
+
+.login-device {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .login-icon-buttons {
@@ -72,81 +179,8 @@ body {
     width: 10rem;
 }
 
-.signlog {
-    height: calc(100% - 8rem);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
 
-.form-wrapper {
-    width: 56em;
-    position: relative;
-    margin-bottom: 18rem !important;
-}
-
-.signup-wrapper {
-    width: 100%;
-    height: calc(100% - 8rem);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.signup {
-    width: 24rem;
-    margin-bottom: 18rem !important;
-}
-
-.signup-text {
-    font-size: 20px;
-    text-align: center;
-}
-
-.signup-return {
-    width: 100%;
-    height: calc(100% - 8rem);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.message {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    font-size: 20px;
-}
-
-.error-message {
-    color: maroon;
-}
-
-.demo-header {
-    text-align: center;
-    font-size: 24px;
-}
-
-.copyright {
-    position: absolute;
-    bottom: 0;
-}
-
-.vert-fix {
-    /* Provide a small unit to cancel out semantic thing */
-    left: 50% !important;
-}
-
-.return {
-    margin-bottom: 24rem;
-}
-
-
-/* Debug styles */
+/* Debug */
 
 .debug-strip {
     background-color: #e3e3e3;
@@ -157,4 +191,16 @@ body {
 .debug-state {
     font-size: 18px;
     padding: 1rem;
+}
+
+
+/* Fixes */
+
+.ui.search.selection.dropdown>input.search {
+    cursor: pointer;
+}
+
+.vert-fix {
+    /* Cancels out semantic style to center */
+    left: 50% !important;
 }

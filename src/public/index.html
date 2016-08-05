@@ -2,23 +2,24 @@
 <html ng-app="2Q2R">
 
 <head>
-	<link href="css/main.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/main.css" rel="stylesheet" type="text/css" media="all" />
     <link href="lib/angular-material/angular-material.min.css" rel="stylesheet" type="text/css" media="all" />
     <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
     <link href="lib/semantic/dist/semantic.min.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 
 <body ng-controller="MainCtrl as ctrl">
-	<div class="banner">
-		<img src="img/2q2r-logo-words.svg">
-	</div>
-	<div ng-include="'views/main.html'"></div>
+    <div class="banner">
+        <img src="img/2q2r-logo-words.svg">
+    </div>
+    <div class="main-container" ng-include="'views/main.html'"></div>
 </body>
 <!-- Libs -->
 <script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="lib/angularjs/angular.js"></script>
 <script type="text/javascript" src="lib/angular-resource/angular-resource.min.js"></script>
 <script type="text/javascript" src="lib/angular-messages/angular-messages.min.js"></script>
+<script type="text/javascript" src="lib/angular-validation-match/dist/angular-validation-match.min.js"></script>
 <script type="text/javascript" src="lib/qrcode/lib/qrcode.min.js"></script>
 <script type="text/javascript" src="lib/angular-qr/angular-qr.min.js"></script>
 <script type="text/javascript" src="lib/semantic/dist/semantic.min.js"></script>

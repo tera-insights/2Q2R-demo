@@ -1,4 +1,6 @@
 <div class="" style="height: 100%;">
-	<div ng-if="!ctrl.Auth.loggedIn" class="login" ng-include="'views/login.html'"></div>
-    <div ng-if="ctrl.Auth.loggedIn" ng-include="'views/todo.html'"></div>
+    <!-- Spaces top a bit -->
+    <div class="spacer"></div>
+    <div ng-if="!ctrl.Auth.loggedIn" class="login" ng-include="'views/login.html'"></div>
+    <div class="todo-container" ng-if="ctrl.Auth.loggedIn" ng-include="'views/todo.html'"></div>
 </div>

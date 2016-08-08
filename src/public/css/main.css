@@ -10,6 +10,10 @@ body {
     overflow: hidden;
 }
 
+.spacer {
+    height: 4rem;
+}
+
 .banner {
     width: 100%;
     height: 8rem;
@@ -53,7 +57,6 @@ body {
 .form-wrapper {
     width: 56em;
     position: relative;
-    margin-bottom: 28rem !important;
 }
 
 .error {
@@ -72,7 +75,6 @@ ng-messages {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 .signlog-form {
@@ -98,12 +100,10 @@ ng-messages {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 .signup {
     width: 24rem;
-    margin-bottom: 28rem !important;
 }
 
 .signup-return {
@@ -112,7 +112,6 @@ ng-messages {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 .signup-device {
@@ -120,14 +119,31 @@ ng-messages {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.signup-device-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.device-info {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
-.signup-device-form {
-    margin-bottom: 44rem;
+.device-info img {
+    height: 8rem;
 }
 
-.signup-device-form > form > .field {
+.device-info p {
+    font-size: 18px;
+    max-width: 65rem;
+}
+
+.device-button {
     display: flex;
     justify-content: center;
 }
@@ -144,7 +160,6 @@ ng-messages {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 .login-icon-buttons {
@@ -153,7 +168,6 @@ ng-messages {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-bottom: 18rem;
 }
 
 .login-icon-button {
@@ -180,17 +194,42 @@ ng-messages {
 }
 
 
-/* Debug */
+/* Todo */
 
-.debug-strip {
-    background-color: #e3e3e3;
-    margin-top: 1rem;
-    display: inline-block;
+.todo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.debug-state {
-    font-size: 18px;
-    padding: 1rem;
+.todo {
+    width: 40rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.todo-actions {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.todo-actions .input {
+    width: 80%;
+}
+
+.todo-list {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 53rem;
+}
+
+.todo-name {
+    width: 412px;
+    max-width: 412px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
@@ -203,4 +242,8 @@ ng-messages {
 .vert-fix {
     /* Cancels out semantic style to center */
     left: 50% !important;
+}
+
+.dropdown > .icon {
+    margin: 0 !important;
 }

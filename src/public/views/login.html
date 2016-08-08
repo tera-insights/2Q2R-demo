@@ -1,9 +1,3 @@
-<!-- Something to make debugging a little bit easier -->
-<!--<div class="debug-strip" ng-if="ctrl.debug">
-    <div class="debug-state">{{ctrl.state}}</div>
-    <ng-dropdown ng-model="testSelect" ng-option="ctrl.testDrop"></ng-dropdown>
-    {{ ctrl.testDrop.id }}
-</div>-->
 <!-- Login or signup -->
 <div class="signlog" ng-if="ctrl.state == 'signLog'">
     <p class="message">
@@ -132,18 +126,24 @@
             <div class="field">
                 <ng-dropdown ng-model="ctrl.deviceSelecter" ng-option="ctrl.deviceDrop"></ng-dropdown>
             </div>
-            <div class="field">
+            <div class="field" ng-switch on="ctrl.deviceSelecter">
+                <div class="device-info" ng-switch-when="2q2r">
+                    <img src="../img/2q2r-logo.svg">
+                    <h2 class="ui header">2Q2R App</h2>
+                    <p>2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam commodo dolor ac euismod interdum. Sed tortor dolor, volutpat ut tincidunt id, auctor ac est. Sed ut tellus id neque efficitur convallis. Morbi feugiat euismod ante vel semper. Etiam id auctor ipsum, commodo tincidunt magna. Nullam molestie, lorem nec malesuada malesuada, sem ipsum scelerisque mi, non accumsan sem est vitae tellus. Curabitur luctus tempus mi. Pellentesque ut luctus elit. Nullam ac felis metus. Nam porta malesuada eros eu luctus. Etiam ut dolor eget felis imperdiet tristique quis maximus augue. Sed condimentum nec ipsum non fringilla. Praesent in nisi ut felis condimentum efficitur. Morbi turpis mauris, vestibulum quis elit sed, imperdiet consequat lectus. Fusce at lacus lacus. Vivamus ultrices malesuada mi, id dictum velit tempus ac.
+                    </p>
+                </div>
+                <div class="device-info" ng-switch-when="u2f">
+                    <img src="../img/u2f-icon2.svg">
+                    <h2 class="ui header">U2F Device</h2>
+                    <p>uLorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam commodo dolor ac euismod interdum. Sed tortor dolor, volutpat ut tincidunt id, auctor ac est. Sed ut tellus id neque efficitur convallis. Morbi feugiat euismod ante vel semper. Etiam id auctor ipsum, commodo tincidunt magna. Nullam molestie, lorem nec malesuada malesuada, sem ipsum scelerisque mi, non accumsan sem est vitae tellus. Curabitur luctus tempus mi. Pellentesque ut luctus elit. Nullam ac felis metus. Nam porta malesuada eros eu luctus. Etiam ut dolor eget felis imperdiet tristique quis maximus augue. Sed condimentum nec ipsum non fringilla. Praesent in nisi ut felis condimentum efficitur. Morbi turpis mauris, vestibulum quis elit sed, imperdiet consequat lectus. Fusce at lacus lacus. Vivamus ultrices malesuada mi, id dictum velit tempus ac.
+                    </p>
+                </div>
+            </div>
+            <div class="field device-button">
                 <button class="ui green button" ng-disabled="!ctrl.deviceSelecter" ng-click="ctrl.confirmDevice()">
                     Confirm
                 </button>
-            </div>
-            <div class="field" ng-switch on="ctrl.deviceSelecter">
-                <div ng-switch-when="2q2r">
-                    <img src="../img/2q2r-logo.svg">
-                </div>
-                <div ng-switch-when="u2f">
-                    <img src="../img/u2f-icon2.svg">
-                </div>
             </div>
         </form>
     </div>

@@ -1,4 +1,4 @@
-<div class="todo-wrap">
+<!--<div class="todo-wrap">
     <h1 class="todo-title">TODO</h1>
     <div class="todo md-whiteframe-1dp" ng-controller="TodoCtrl as ctrl">
         <div class="todo-list">
@@ -40,3 +40,62 @@
         </div>
     </div>
 </div>
+-->
+<div class="todo" ng-controller="TodoCtrl as ctrl">
+    <div class="todo-actions">
+        <button class="ui icon dropdown button">
+            <i class="setting icon"></i>
+            <div class="menu">
+                <div class="item" ng-click="ctrl.accountDeleteDialog()">
+                    Add Device
+                </div>
+                <div class="item">
+                    Delete Device
+                </div>
+                <div class="divider"></div>
+                <div class="item">
+                    Delete Account
+                </div>
+            </div>
+        </button>
+        <div class="ui action input">
+            <input type="text" placeholder="Write a todo..." ng-model="ctrl.newTodo" autofocus>
+            <button class="ui button" ng-click="ctrl.addTodo()">Add</button>
+        </div>
+    </div>
+    <div class="todo-list">
+        <h2 class="ui sub header">
+          Active Todos
+        </h2>
+        <md-list>
+            <md-list-item ng-repeat="todo in ctrl.todos | filter:{completed:false}" md-no-ink>
+                <md-checkbox aria-label="Checkbox 1" ng-model="todo.completed" class="check-fix">
+                </md-checkbox>
+                <p class="todo-name">{{ todo.title }}</p>
+                <md-button class="md-icon-button todo-button" ng-click="ctrl.removeTodo($index)" aria-label="Add">
+                    <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                </md-button>
+            </md-list-item>
+        </md-list>
+        <h2 class="ui sub header">
+          Completed
+        </h2>
+        <md-list>
+            <md-list-item ng-repeat="todo in ctrl.todos | filter:{completed:true}" md-no-ink>
+                <md-checkbox aria-label="Checkbox 1" ng-model="todo.completed" class="check-fix">
+                </md-checkbox>
+                <p class="todo-completed todo-name">{{ todo.title }}</p>
+                <md-button class="md-icon-button todo-button" ng-click="ctrl.removeTodo($index)" aria-label="Add">
+                    <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                </md-button>
+            </md-list-item>
+        </md-list>
+    </div>
+</div>
+<!-- Initialize top dropdown -->
+<script>
+$(document).ready(function() {
+    $('.ui.dropdown')
+        .dropdown();
+});
+</script>

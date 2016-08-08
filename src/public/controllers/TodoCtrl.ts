@@ -9,6 +9,14 @@ module todos {
         private todos: ITodoItem[] = [];
         private newTodo: string = "";
 
+        accountDeleteDialog() {
+            this.$mdDialog.show({
+                controller: 'AddDeviceModal',
+                templateUrl: '../views/delete-account-modal.html',
+                clickOutsideToClose: true
+            })
+        }
+
         addTodo() {
             // TODO: push into service
             if (!this.newTodo.length) {

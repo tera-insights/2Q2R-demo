@@ -2,8 +2,8 @@
 /// <reference path="services/Todos.ts" />
 /// <reference path="controllers/MainCtrl.ts" />
 /// <reference path="controllers/TodoCtrl.ts" />
-/// <reference path="controllers/SignupCtrl.ts" />
 /// <reference path="controllers/LoginCtrl.ts" />
+/// <reference path="controllers/AddDeviceModal.ts" />
 
 /**
  * The main file for Todo application.
@@ -19,7 +19,7 @@ module todos {
         .service('Auth', Auth)
         .controller('MainCtrl', MainCtrl)
         .controller('TodoCtrl', TodoCtrl)
-        .controller('SignupCtrl', SignupCtrl)
         .controller('LoginCtrl', LoginCtrl)
+        .controller('AddDeviceModal', AddDeviceModal)
         ;
 }

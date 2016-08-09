@@ -10,6 +10,10 @@ body {
     overflow: hidden;
 }
 
+.flex-extender {
+    flex-grow: 1;
+}
+
 .spacer {
     height: 4rem;
 }
@@ -149,6 +153,67 @@ ng-messages {
 }
 
 
+/* Add device modal */
+
+.add-device-modal {}
+
+.add-device-content {
+    width: 56rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.add-device-content > ng-dropdown {
+    margin-bottom: 0.5rem;
+}
+
+.add-device-dropdown {
+    margin-top: 1rem !important;
+}
+
+.add-device-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 17px;
+    margin: 1rem;
+}
+
+.add-device-info img {
+    height: 8rem;
+}
+
+.qr-generate {
+    width: 32rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.qr-generate qr > canvas {
+    height: 200px;
+    width: 200px;
+    margin: 2rem 0 2rem 0;
+}
+
+.device-success {
+    height: 8rem;
+    width: 24rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.device-success p {
+    margin: 1rem;
+}
+
+
 /* Login */
 
 .login {
@@ -246,4 +311,19 @@ ng-messages {
 
 .dropdown > .icon {
     margin: 0 !important;
+}
+
+md-dialog-actions {
+    order: 2;
+    display: flex;
+    margin: 0.5rem 0.2rem 0.5rem 0;
+}
+
+md-dialog-actions button {
+    margin-right: 0.5rem !important;
+}
+
+ng-dropdown > .dropdown > i {
+    top: 0 !important;
+    padding: 12px 0 12px 0 !important;
 }

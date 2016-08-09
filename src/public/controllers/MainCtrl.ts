@@ -19,7 +19,7 @@ module todos {
         ];
 
         // set 2q2r as default value for select
-        private deviceSelecter = "2q2f";
+        private deviceSelecter = "2q2r";
 
         // Skip past signup phases
         login(username: string, password: string) {

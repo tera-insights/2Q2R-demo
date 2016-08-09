@@ -1,17 +1,37 @@
-<md-dialog ng-cloak>
+<md-dialog class="add-device-modal" ng-cloak>
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <h2>Delete Account</h2>
+            <h2>Add Device</h2>
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="cancel()">
-                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-            </md-button>
         </div>
     </md-toolbar>
-    <md-dialog-content>
-        heyo
+    <md-dialog-content class="add-device-content" ng-if="!cmod.generating">
+        <ng-dropdown class="add-device-dropdown" ng-model="cmod.addDeviceSelector" ng-option="cmod.addDeviceDrop"></ng-dropdown>
+        <div ng-switch on="cmod.addDeviceSelector">
+            <div class="add-device-info" ng-switch-when="2q2r">
+                <img src="../img/2q2r-logo.svg">
+                <h2 class="ui header">2Q2R App</h2>
+                <p>2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam commodo dolor ac euismod interdum. Sed tortor dolor, volutpat ut tincidunt id, auctor ac est. Sed ut tellus id neque efficitur convallis. Morbi feugiat euismod ante vel semper. Etiam id auctor ipsum, commodo tincidunt magna. Nullam molestie, lorem nec malesuada malesuada, sem ipsum scelerisque mi, non accumsan sem est vitae tellus. Curabitur luctus tempus mi. Pellentesque ut luctus elit. Nullam ac felis metus. Nam porta malesuada eros eu luctus. Etiam ut dolor eget felis imperdiet tristique quis maximus augue. Sed condimentum nec ipsum non fringilla. Praesent in nisi ut felis condimentum efficitur. Morbi turpis mauris, vestibulum quis elit sed, imperdiet consequat lectus. Fusce at lacus lacus. Vivamus ultrices malesuada mi, id dictum velit tempus ac.
+                </p>
+            </div>
+            <div class="add-device-info" ng-switch-when="u2f">
+                <img src="../img/u2f-icon2.svg">
+                <h2 class="ui header">U2F Device</h2>
+                <p>uLorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam commodo dolor ac euismod interdum. Sed tortor dolor, volutpat ut tincidunt id, auctor ac est. Sed ut tellus id neque efficitur convallis. Morbi feugiat euismod ante vel semper. Etiam id auctor ipsum, commodo tincidunt magna. Nullam molestie, lorem nec malesuada malesuada, sem ipsum scelerisque mi, non accumsan sem est vitae tellus. Curabitur luctus tempus mi. Pellentesque ut luctus elit. Nullam ac felis metus. Nam porta malesuada eros eu luctus. Etiam ut dolor eget felis imperdiet tristique quis maximus augue. Sed condimentum nec ipsum non fringilla. Praesent in nisi ut felis condimentum efficitur. Morbi turpis mauris, vestibulum quis elit sed, imperdiet consequat lectus. Fusce at lacus lacus. Vivamus ultrices malesuada mi, id dictum velit tempus ac.
+                </p>
+            </div>
+        </div>
     </md-dialog-content>
-    <md-dialog-actions>
-    no no no
+    <md-dialog-content class="qr-generate" ng-if="cmod.qrGen">
+        <qr text="cmod.qrString"></qr>
+        <p>Please scan the QR Code with the 2Q2R App</p>
+    </md-dialog-content>
+    <md-dialog-content class="device-success" ng-if="cmod.finished">
+        <p>Registration of device successful.</p>
+    </md-dialog-content>
+    <md-dialog-actions class="add-device-actions" ng-if="!cmod.finished">
+        <div class="flex-extender"></div>
+        <button class="ui red button" ng-click="cmod.cancel()">Cancel</button>
+        <button class="ui green button" ng-click="cmod.accept()">Accept</button>
     </md-dialog-actions>
 </md-dialog>

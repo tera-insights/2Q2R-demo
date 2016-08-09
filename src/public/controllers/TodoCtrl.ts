@@ -9,12 +9,22 @@ module todos {
         private todos: ITodoItem[] = [];
         private newTodo: string = "";
 
-        accountDeleteDialog() {
+        addDeviceDialog() {
             this.$mdDialog.show({
-                controller: 'AddDeviceModal',
-                templateUrl: '../views/delete-account-modal.html',
+                controller: 'AddDeviceCtrl',
+                templateUrl: '../views/add-device-modal.html',
+                controllerAs: 'cmod',
                 clickOutsideToClose: true
-            })
+            });
+        }
+
+        deleteAccountDialog() {
+            this.$mdDialog.confirm()
+                .title('Would you like to delete your debt?')
+                .textContent('All of the banks have agreed to forgive you your debts.')
+                .ariaLabel('Lucky day')
+                .ok('Please do it!')
+                .cancel('Sounds like a scam');
         }
 
         addTodo() {

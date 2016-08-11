@@ -1,32 +1,17 @@
 /// <reference path="../../typings/index.d.ts" />
 
-import * as mongoose from 'mongoose';
+import * as Sequelize from 'sequelize';
 
-interface ITodoItem {
+export interface ITodo {
+    id: string;
+    userid: string;
     title: string;
     completed: boolean;
 }
 
-interface ITodos extends mongoose.Document {
-    /**
-     * Userid/email of user owning the todos 
-     * 
-     * @type {string}
-     */
-    email: string;
-    /**
-     * The displayable name of the todos 
-     * 
-     * @type {string}
-     */
-    name: string;
+export interface ITodoInstance
+    extends Sequelize.Instance<ITodoInstance, ITodo>, ITodo { }
 
-    /**
-     * List of todos. 
-     * 
-     * @type {ITodoItem[]}
-     */
-    items: ITodoItem[];
-}
 
-export = ITodos;
+export interface ITodoModel
+    extends Sequelize.Model<ITodoInstance, ITodo> { }

@@ -1,0 +1,15 @@
+{
+    "port": 3030,
+    "database": {
+        "db": "2Q2R-web",
+        "username": null,
+        "password": null,
+        "options": {
+            "logging": true,
+            "dialect": "sqlite",
+            "storage": "store.db"
+        }
+    },
+    "2FAserver": "http://localhost:3040",
+    "2FAtoken": "fake_token"
+}

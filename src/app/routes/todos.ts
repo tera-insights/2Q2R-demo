@@ -5,56 +5,60 @@
  */
 
 import * as express from 'express';
-
-import Todos = require('../models/Todos');
-import ITodos = require('../interfaces/ITodos');
+import {Todos} from '../models';
 
 // GET: /todos
 export function get(req: express.Request, res: express.Response) {
-    // injected by passport
-    // DEACTIVATED var email = req.user;
-    var email = req.query.email; // TODO: go back to authenticated route
-
-    if (!email)
-        res.status(401).send("User not logged in");
-    else {
-        Todos.findOne({
-            email: email
-        }, (err, todos: ITodos) => {
-            if (err) {
-                res.status(404).send("Todos not initialized.");
-            } else {
-                res.json(todos);
-            }
-        })
-    }
-
+    Todos.get(req.user.userid).then(
+        (todos) => {
+            res.json(todos);
+        }, (err) => {
+            res.status(404).send(err);
+        }
+    );
 }
 
 // POST: /todos
 export function create(req: express.Request, res: express.Response) {
-    // injected by passport
-    // DEACTIVATED var email = req.user;
-    var email = req.query.email; // TODO: go back to authenticated route
+    Todos.create(
+        req.user.userid,
+        req.body.title,
+        req.body.completed
+    ).then(
+        (todo) => {
+            res.json(todo);
+        }, (err) => {
+            res.status(404).send(err);
+        }
+        );
+}
 
-    var todos = new Todos(req.body);
-    todos.email = email;
+// PUT: /todos/:id
+export function update(req: express.Request, res: express.Response) {
+    Todos.update(
+        req.user.userid,
+        req.params.id,
+        req.body.title,
+        req.body.completed
+    ).then(
+        (todo) => {
+            res.json(todo);
+        }, (err) => {
+            res.status(404).send(err);
+        }
+        );
+}
 
-    if (!email)
-        res.status(401).send("User not logged in");
-    else {
-        Todos.findOne({
-            email: email
-        }, (t: ITodos) => {
-            if (t._id)
-                todos._id = t._id;
-            todos.save(err => {
-                if (err)
-                    res.status(400).send(err);
-                else
-                    res.json(todos);
-            });
-        });
-    }
-
+// DELETE: /todos
+export function remove(req: express.Request, res: express.Response) {
+    Todos.delete(
+        req.user.userid,
+        req.params.id
+    ).then(
+        () => {
+            res.status(200).send("OK");
+        }, (err) => {
+            res.status(404).send(err);
+        }
+        )
 }

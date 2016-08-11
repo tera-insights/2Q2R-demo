@@ -10,7 +10,7 @@ import * as mongoose from 'mongoose';
 import * as staticRoutes from './routes/static';
 import * as authRoutes from './routes/auth';
 import * as todosRoutes from './routes/todos';
-
+import * as keysRoutes from './routes/keys';
 
 // Local config file.
 var config = require('../config.js');
@@ -19,7 +19,13 @@ var config = require('../config.js');
 var app = express();
 var server = require('http').createServer(app);
 
-/*var MongoStore = require('connect-mongo')(session);*/
+function loggedIn(req: express.Request, res: express.Response, next: Function) {
+    if (req.user) { // passport filled in the user
+        next();
+    } else {
+        res.status(401).send("Must be logged in to use this route.");
+    }
+}
 
 app.use(session({
     saveUninitialized: true,
@@ -49,16 +55,21 @@ app.use(express.static('public'));
 
 // Express static routesv
 app.route('/').get(staticRoutes.index);
-app.route('/keys/:email').get(authRoutes.getKeys);
+app.route('/keys/:email').get(loggedIn, authRoutes.getKeys);
 app.route('/challenge').post(authRoutes.getChallenge);
 app.route('/prelogin').post(authRoutes.prelogin);
-app.route('/login').post(authRoutes.login);
-app.route('/logout').get(authRoutes.logout);
+app.route('/login').post(loggedIn, authRoutes.login);
+app.route('/logout').get(loggedIn, authRoutes.logout);
 
-// Todos routes. Require correct session
-app.route('/todos').get(todosRoutes.get);
-app.route('/todos').post(todosRoutes.create);
+// Device Routes
+app.route('/keys/').get(loggedIn, keysRoutes.get);
+app.route('/keys/:keyID').delete(loggedIn, keysRoutes.deleteK);
 
+// Todos CRUD routes. Require correct session
+app.route('/todo').get(loggedIn, todosRoutes.get); // all of user's todos
+app.route('/todo').post(loggedIn, todosRoutes.create);
+app.route('/todo/:ID').put(loggedIn, todosRoutes.update);
+app.route('/todo/:ID').delete(loggedIn, todosRoutes.remove);
 // Listen on desired port
 server.listen(config.port);
 

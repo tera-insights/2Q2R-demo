@@ -8,11 +8,12 @@
 import * as express from 'express';
 import * as path from 'path';
 import * as passport from 'passport';
+import {Strategy as LocalStrategy} from "passport-local";
 
 var unirest = require('unirest');
-var config = require('../../config');
 
-var ChallengeStrategy = require('passport-challenge').Strategy;
+import {Users} from '../models';
+import * as server2Q2R from './2Q2R-server';
 
 interface IKeyInfo {
     type: "2q2r" | "u2f"; // key type
@@ -24,29 +25,20 @@ type IKeys =
     { [keyID: string]: IKeyInfo };
 
 // Login challenge
-passport.use(new ChallengeStrategy({
-    usernameField: 'email',
-    challengeField: 'challenge',
-    signatureField: 'keyID'
-}, function(username, challenge, keyID, done) {
-    unirest.post(config.backendUrl)
-        .headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' })
-        .send({
-            email: username,
-            challenge: challenge,
-            keyID: keyID,
-            appID: config.appID,
-            apiKey: config.apiKey
-        })
-        .end(function(response) {
-            console.log(response);
-            if (response.error) {
-                done(null, false, { message: 'SubmissionFailed' });
-            } else {
-                done(null, response.body);
+passport.use(new LocalStrategy(
+    (username: string, password: string, done: Function) => {
+        Users.checkPasswd(username, password).then(
+            () => { // good password, ask for the keys of this user 
+                return server2Q2R.post("/keys/list/" + username, {
+                }).then((reply) => {
+                    done(null, reply);
+                    // TODO: add chellenge
+                }, (error) => {
+                    done(null, false, { message: error });
+                });
             }
-        });
-}));
+        );
+    }));
 
 // GET: /keys/email
 export function getKeys(req: express.Request, res: express.Response) {

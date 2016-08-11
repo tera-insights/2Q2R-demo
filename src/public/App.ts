@@ -4,6 +4,8 @@
 /// <reference path="controllers/TodoCtrl.ts" />
 /// <reference path="controllers/LoginCtrl.ts" />
 /// <reference path="controllers/AddDeviceCtrl.ts" />
+/// <reference path="controllers/DeleteDeviceCtrl.ts" />
+/// <reference path="controllers/DeleteAccountCtrl.ts" />
 
 /**
  * The main file for Todo application.
@@ -21,5 +23,7 @@ module todos {
         .controller('TodoCtrl', TodoCtrl)
         .controller('LoginCtrl', LoginCtrl)
         .controller('AddDeviceCtrl', AddDeviceCtrl)
+        .controller('DeleteDeviceCtrl', DeleteDeviceCtrl)
+        .controller('DeleteAccountCtrl', DeleteAccountCtrl)
         ;
 }

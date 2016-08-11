@@ -9,6 +9,9 @@ module todos {
         private todos: ITodoItem[] = [];
         private newTodo: string = "";
 
+        //define an empty variable
+        private alertman: any;
+
         addDeviceDialog() {
             this.$mdDialog.show({
                 controller: 'AddDeviceCtrl',
@@ -18,13 +21,22 @@ module todos {
             });
         }
 
+        deleteDeviceDialog() {
+            this.$mdDialog.show({
+                controller: 'DeleteDeviceCtrl',
+                templateUrl: '../views/delete-device-modal.html',
+                controllerAs: 'cmod',
+                clickOutsideToClose: true
+            });
+        }
+
         deleteAccountDialog() {
-            this.$mdDialog.confirm()
-                .title('Would you like to delete your debt?')
-                .textContent('All of the banks have agreed to forgive you your debts.')
-                .ariaLabel('Lucky day')
-                .ok('Please do it!')
-                .cancel('Sounds like a scam');
+            this.$mdDialog.show({
+                controller: 'DeleteAccountCtrl',
+                templateUrl: '../views/delete-account-modal.html',
+                controllerAs: 'cmod',
+                clickOutsideToClose: true
+            });
         }
 
         addTodo() {

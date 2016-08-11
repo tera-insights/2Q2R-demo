@@ -2,7 +2,6 @@
 <div class="signlog" ng-if="ctrl.state == 'signLog'">
     <p class="message">
         This is a demo for the 2Q2R two factor authenticator app.
-        <br>
         <br> Two factor authentication (2FA) is a method of authentication that requires the user to provide multiple pieces of proof that they are who they say they are. 2Q2R specifically uses a QR code in combination with a mobile phone as a seperate authenticator. 2Q2R also supports Universal 2nd Factor (U2F) devices.
     </p>
     <!-- This monstrous code is from semantic, no choice because of divider, otherwise use flex -->
@@ -141,22 +140,24 @@
                 </div>
             </div>
             <div class="field device-button">
-                <button class="ui green button" ng-disabled="!ctrl.deviceSelecter" ng-click="ctrl.confirmDevice()">
+                <button class="ui blue button" ng-disabled="!ctrl.deviceSelecter" ng-click="ctrl.acceptDeviceRegistration()">
                     Confirm
                 </button>
             </div>
         </form>
     </div>
 </div>
-<!-- Are you sure? Device information page -->
-<div class="device-info" ng-if="ctrl.state == 'deviceSelectConfirm'">
-    <div clas="message">are u sure this is pretty gr8</div>
-    <button class="ui button">
-        Cancel
-    </button>
-    <button class="ui positive button">
-        Confirm
-    </button>
+<!-- The device registration process, AKA actual activation -->
+<div class="device-register" ng-switch on="ctrl.deviceSelecter" ng-if="ctrl.state == 'deviceRegister'">
+    <div class="device-register-2q2r" ng-switch-when="2q2r">
+        <div class="stage-1-2q2r">
+            <qr text="ctrl.qrString"></qr>
+            <p>Please scan this QR Code with the 2Q2R app.</p>
+        </div>
+    </div>
+    <div class="device-register-u2f" ng-switch-when="u2f">
+        u2f device
+    </div>
 </div>
 <!-- So people know it's us -->
 <div class="copyright">&copy Tera Insights, LLC 2013-2016</div>

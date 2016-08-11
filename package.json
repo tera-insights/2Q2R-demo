@@ -19,10 +19,12 @@
   },
   "homepage": "https://github.com/alinVD/2Q2R-demo#readme",
   "devDependencies": {
+    "connect-livereload": "^0.5.4",
     "faker": "^3.0.1",
     "forever": "^0.15.1",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
+    "gulp-livereload": "^3.8.1",
     "gulp-nodemon": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
     "typescript": "^1.5.3"

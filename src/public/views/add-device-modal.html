@@ -31,7 +31,7 @@
     </md-dialog-content>
     <md-dialog-actions class="add-device-actions" ng-if="!cmod.finished">
         <div class="flex-extender"></div>
-        <button class="ui red button" ng-click="cmod.cancel()">Cancel</button>
-        <button class="ui green button" ng-click="cmod.accept()">Accept</button>
+        <button class="ui button" ng-click="cmod.cancel()">Cancel</button>
+        <button class="ui blue button" ng-click="cmod.accept()" ng-disabled="cmod.qrGen">Accept</button>
     </md-dialog-actions>
 </md-dialog>

@@ -2,6 +2,7 @@
 
 html {
     background: #F2F2F2 !important;
+    overflow-y: auto !important;
 }
 
 body {
@@ -153,6 +154,39 @@ ng-messages {
 }
 
 
+/* The actual registration process */
+
+.device-register {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.device-register-2q2r {
+    width: 32rem;
+}
+
+.stage-1-2q2r {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 17px;
+}
+
+.stage-1-2q2r qr > canvas {
+    height: 200px;
+    width: 200px;
+    padding: 5px;
+}
+
+.device-register-u2f {
+    width: 32rem;
+    background: blue;
+}
+
+
 /* Add device modal */
 
 .add-device-modal {}
@@ -211,6 +245,28 @@ ng-messages {
 
 .device-success p {
     margin: 1rem;
+}
+
+
+/*Delete device modal */
+
+
+/* Delete account modal */
+
+.delete-account {
+    width: 32rem;
+    height: 16rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.delete-account-content {
+    flex-grow: 1;
+    font-size: 17px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 

@@ -6,7 +6,7 @@ module todos {
 
     export class MainCtrl {
         // State defined as a bunch of potential strings
-        private state: string = "signLog" || "registerDeviceSelect" || "deviceSelectConfirm" || "login" || "returnSignlog";
+        private state: string = "signLog" || "registerDeviceSelect" || "deviceSelectConfirm" || "deviceRegister" || "login" || "returnSignlog";
         private keys: IKeys; // the available keys
 
         // enables some debug stuff
@@ -21,6 +21,9 @@ module todos {
         // set 2q2r as default value for select
         private deviceSelecter = "2q2r";
 
+        // set a temporary qr code, empty
+        private qrString = "";
+
         // Skip past signup phases
         login(username: string, password: string) {
             var self = this;
@@ -29,9 +32,19 @@ module todos {
                     self.keys = keys;
                     self.state = "deviceSelect";
                 });
+
+            this.$mdToast.show(
+                this.$mdToast.simple()
+                    .textContent('Login Successful')
+                    .hideDelay(3000)
+            );
         }
 
-        // Go to actual todo app. For now, only redirects to todo app.
+        test() {
+            console.log(this.keys);
+        }
+
+        // Go to actual todo app with device selected, for now only redirects
         deviceSelect(keyID: string) {
             console.log(keyID, this.keys[keyID]);
             this.Auth.loggedIn = true;
@@ -45,6 +58,12 @@ module todos {
         //Return back to login
         returnSignlog() {
             this.state = "signLog"
+
+            this.$mdToast.show(
+                this.$mdToast.simple()
+                    .textContent('Signup successful')
+                    .hideDelay(3000)
+            );
         }
 
         // Actual signup process
@@ -52,9 +71,35 @@ module todos {
             this.state = "registerDeviceSelect";
         }
 
-        // Confirm device
-        confirmDevice() {
-            console.log(this.deviceDrop);
+        // Accept button on the device registration throughout the entire process
+        acceptDeviceRegistration() {
+            var that = this;
+
+            this.state = "deviceRegister";
+
+            switch (this.deviceSelecter) {
+                // if app
+                case '2q2r':
+                    // set the qrString
+                    this.qrString = "set to what you want"
+
+                    this.$timeout(2000)
+                        .then(() => {
+                            that.state = "returnSignlog";
+
+                            this.$mdToast.show(
+                                this.$mdToast.simple()
+                                    .textContent('Scan successful')
+                                    .hideDelay(3000)
+                            );
+                        });
+                    break;
+
+                // if u2f device    
+                case 'u2f':
+                    console.log('WOOORKIN ON IT');
+                    break;
+            }
         }
 
         // Select the device you want to register with
@@ -63,11 +108,13 @@ module todos {
             this.state = "deviceSelectConfirm";
         }
 
-        static $inject = ['$mdDialog', 'Auth'];
+        static $inject = ['$mdDialog', '$mdToast', 'Auth', '$timeout'];
 
         constructor(
             private $mdDialog: ng.material.IDialogService,
-            private Auth: Auth
+            private $mdToast: ng.material.IToastService,
+            private Auth: Auth,
+            private $timeout: ng.ITimeoutService
         ) {
             this.state = "signLog";
         }

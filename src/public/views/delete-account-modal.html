@@ -1,0 +1,17 @@
+<md-dialog class="delete-account" ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Delete Account</h2>
+            <span flex></span>
+        </div>
+    </md-toolbar>
+    <md-dialog-content class="delete-account-content">
+        Do you really want to delete your account? <br>
+        All devices registered and todos will be lost forever.
+    </md-dialog-content>
+    <md-dialog-actions class="delete-account-actions">
+        <div class="flex-extender"></div>
+        <button class="ui button" ng-click="cmod.cancel()">Cancel</button>
+        <button class="ui red button" ng-click="cmod.deleteAccount()">Delete Account</button>
+    </md-dialog-actions>
+</md-dialog>

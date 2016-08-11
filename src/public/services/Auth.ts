@@ -32,7 +32,7 @@ module todos {
         public loggedIn: boolean = false;
 
         /**
-         * Get user emaile
+         * Get user email
          */
         email() {
             return this.user;
@@ -114,7 +114,6 @@ module todos {
         constructor(private $http: ng.IHttpService) {
 
         }
-
 
     }
 

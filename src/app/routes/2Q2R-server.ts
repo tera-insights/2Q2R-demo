@@ -55,7 +55,7 @@ export function get(subroute: string) {
                 if (response.error) {
                     reject(response.error);
                 } else {
-                    resolve(response.boty);
+                    resolve(response.body);
                 }
             });
     });

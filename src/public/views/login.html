@@ -33,7 +33,8 @@
                     </div>
                 </div>
                 <!-- Submit button -->
-                <button class="ui green submit button" ng-disabled="signupForm.$invalid && signupForm.password !== signupForm.passwordRetype" ng-click="ctrl.signup()">Sign Up</button>
+                <button class="ui green submit button" ng-disabled="signupForm.$invalid && signupForm.password !== signupForm.passwordRetype" 
+                ng-click="ctrl.signup(username, password)">Sign Up</button>
                 <!-- ngMessages form validation -->
                 <div class="field">
                     <ng-messages class="error-message" for="signupForm.username.$error">

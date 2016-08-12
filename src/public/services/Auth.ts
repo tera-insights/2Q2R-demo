@@ -109,6 +109,21 @@ module todos {
                 });
         }
 
+        register(username: string, password: string) {
+            var that = this;
+            this.user = username;
+            return this.$http.post('/register',
+                {
+                    userid: username,
+                    password: password
+                }).then(
+                (rep: any) => {
+                    that.preloginToken = rep.data.preloginToken
+                    return "User " + that.user + " registerred";
+                }
+                )
+        }
+
         static $inject = ['$http'];
 
         constructor(private $http: ng.IHttpService) {

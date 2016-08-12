@@ -11,7 +11,7 @@ import { KeysSchema } from './Keys';
 
 var configDB: any = config.get("database");
 
-var sequelize = new Sequelize(configDB.db, configDB.username,
+export var sequelize = new Sequelize(configDB.db, configDB.username,
     configDB.password, configDB.options);
 
 // Export classes and instances of used schemas

@@ -3,7 +3,6 @@
 import * as Sequelize from 'sequelize';
 
 export interface IUser {
-    id: string;
     userid: string;
     password: string;
 }

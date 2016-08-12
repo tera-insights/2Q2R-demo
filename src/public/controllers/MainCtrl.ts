@@ -67,8 +67,14 @@ module todos {
         }
 
         // Actual signup process
-        signup() {
-            this.state = "registerDeviceSelect";
+        signup(username: string, password: string) {
+            var that = this;
+            this.Auth.register(username, password)
+                .then(() => {
+                    that.state = "registerDeviceSelect";
+                }, (err) => {
+                    console.log("Signap failed: ", err);
+                });
         }
 
         // Accept button on the device registration throughout the entire process

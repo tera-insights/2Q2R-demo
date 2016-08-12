@@ -42,10 +42,8 @@ export class UsersSchema {
      * @returns {Promise<IUser>}
      */
     register(userid: string, password: string) {
-        let id = uuid.v4();
         let hashPwd = hashSync(password);
         return this.schema.create({
-            id: id,
             userid: userid,
             password: hashPwd
         });
@@ -70,15 +68,11 @@ export class UsersSchema {
     }
 
     constructor(private db: Sequelize.Connection) {
-        this.schema = db.define<IUser.IUserInstance, IUser.IUser>("Todo", {
-            "id": {
-                "type": Sequelize.UUID,
-                "allowNull": false,
-                "primaryKey": true
-            },
+        this.schema = db.define<IUser.IUserInstance, IUser.IUser>("User", {
             "userid": {
                 "type": Sequelize.STRING(64),
-                "allowNull": false
+                "allowNull": false,
+                "primaryKey": true
             },
             "password": {
                 "type": Sequelize.STRING(128),

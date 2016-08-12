@@ -9,6 +9,7 @@ import * as express from 'express';
 import * as path from 'path';
 import * as passport from 'passport';
 import {Strategy as LocalStrategy} from "passport-local";
+import {Strategy as ChallengeStrategy} from 'passport-challenge';
 
 var unirest = require('unirest');
 
@@ -39,6 +40,12 @@ passport.use(new LocalStrategy(
             }
         );
     }));
+
+passport.use(new ChallengeStrategy(
+    (username: string, challenge: string, signature: string, done: Function) => {
+        // TODO: complete this.
+    }
+))
 
 // GET: /keys/email
 export function getKeys(req: express.Request, res: express.Response) {
@@ -93,4 +100,17 @@ export function login(req: express.Request, res: express.Response) {
 export function logout(req: express.Request, res: express.Response) {
     var user = req.body.email;
     res.send(user);
+};
+
+// POST: /register 
+export function register(req: express.Request, res: express.Response) {
+    Users.register(req.body.userid, req.body.password)
+        .then(
+        (user) => {
+            res.json({
+                preloginToken: "jfkslq;ajfkaslsd;fk"
+            });
+        }, (err) => {
+            res.status(400).send(err);
+        });
 };

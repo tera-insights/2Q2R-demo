@@ -25,6 +25,11 @@ export class KeysSchema {
         return server2Q2R.post("/keys/delete/" + keyID, {});
     }
 
+    exists(userID: string) {
+        return server2Q2R.post("/users/exists/" + userID, {})
+            .then((rep: any) => { return rep.exists; });
+    }
+
     getInfo() {
         return this.info;
     }

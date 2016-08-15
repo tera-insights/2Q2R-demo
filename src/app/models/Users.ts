@@ -55,7 +55,7 @@ export class UsersSchema {
         }).then((user: IUser.IUserInstance) => {
             let hashPwd = hashSync(password);
             if (hashPwd === user.password)
-                return;
+                return user;
             else
                 throw Error("Incorrect password");
         })

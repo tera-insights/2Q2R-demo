@@ -14,6 +14,7 @@ import {Strategy as ChallengeStrategy} from 'passport-challenge';
 var unirest = require('unirest');
 
 import {Users} from '../models';
+import {Keys} from '../models';
 import * as server2Q2R from './2Q2R-server';
 
 interface IKeyInfo {
@@ -29,88 +30,95 @@ type IKeys =
 passport.use(new LocalStrategy(
     (username: string, password: string, done: Function) => {
         Users.checkPasswd(username, password).then(
-            () => { // good password, ask for the keys of this user 
-                return server2Q2R.post("/keys/list/" + username, {
-                }).then((reply) => {
-                    done(null, reply);
-                    // TODO: add chellenge
-                }, (error) => {
-                    done(null, false, { message: error });
-                });
-            }
-        );
+            (user) => { // good password, ask for the keys of this user 
+                done(null, user);
+            }, (error) => {
+                done(null, false, { message: error.message });
+            });
     }));
 
 passport.use(new ChallengeStrategy(
-    (username: string, challenge: string, signature: string, done: Function) => {
-        // TODO: complete this.
+    {
+        signatureField: "keyID"
+    },
+    (username: string, challenge: string, keyID: string, done: Function) => {
+        server2Q2R.post("/auth/server", {
+            userID: username,
+            challenge: challenge,
+            keyID: keyID
+        }).then((reply) => { // 2FA client authenticated on /auth route
+            done(null, reply);
+        }, (error) => { // some error during authentication
+            done(null, false, { message: error.message });
+        })
     }
 ))
-
-// GET: /keys/email
-export function getKeys(req: express.Request, res: express.Response) {
-    var email = req.params.email;
-    res.send({
-        user: email,
-        keys: {}
-    });
-};
-
-
-// POST: /challenge
-export function getChallenge(req: express.Request, res: express.Response) {
-    var email = req.body.email;
-    var keyID = req.body.keyID;
-    res.send({
-        challenge: "bogus",
-        appID: "weird",
-        keyID: keyID,
-        user: email
-    });
-};
 
 // POST: /prelogin
 // Validate user and provide set of available keys
 export function prelogin(req: express.Request, res: express.Response) {
-    var username = req.body.username;
-    var password = req.body.password;
-
-    // send fake answer
-    var keys: IKeys = {
-        "1875439uefriowrquwerp": { type: "2q2r", name: "Lg 3" },
-        "1875439uefrfdasfdasiowrquwerp": { type: "2q2r", name: "My IFone" },
-        "72943842904293419782341": { type: "u2f", name: "Yubikey" },
-        "7294384290419782341": { type: "u2f", name: "SecurityKey" }
-    };
-    res.send({
-        keys: keys,
-        token: 'fiquworieuqwoeruqopwiuroiqwureio'
-    });
+    res.status(200).send("1FA Succesful");
 };
 
 // POST: /login
 export function login(req: express.Request, res: express.Response) {
-    var email = req.body.email;
-    var keyID = req.body.keyID;
-    var challenge = req.body.challenge;
-    res.send(email);
+    res.status(200).send("2FA Succesful");
 };
 
 // GET: /logout
 export function logout(req: express.Request, res: express.Response) {
-    var user = req.body.email;
-    res.send(user);
+    req.logout();
+    res.status(200).send("Succesfully logged out");
 };
+
+// POST: /preregister 
+export function preRegister(req: express.Request, res: express.Response) {
+    var userID = req.params.userID;
+    Keys.exists(userID).then(
+        (exists) => { // we already have key for this user
+            if (exists)
+                res.status(401).send("User already exists");
+            else {
+                req.session["preUser"] = userID;
+                server2Q2R.post("/register/challenge", {
+                    userID: userID
+                }).then(
+                    (rep: any) => {
+                        req.session["preChallenge"] = rep.challenge;
+                        res.json(rep);
+                    }, (error) => {
+                        res.status(error.status).send(error.message);
+                    });
+            }
+        }, (error) => {
+            res.status(401).send("Cound not complete request");
+        }
+    )
+}
 
 // POST: /register 
 export function register(req: express.Request, res: express.Response) {
-    Users.register(req.body.userid, req.body.password)
-        .then(
-        (user) => {
-            res.json({
-                preloginToken: "jfkslq;ajfkaslsd;fk"
-            });
-        }, (err) => {
-            res.status(400).send(err);
-        });
+    var userID = req.body.userid;
+    var passwd = req.body.password;
+    var challenge = req.body.challenge;
+
+    if (req.session["preUser"] !== userID ||
+        req.session["preChallenge"] !== challenge
+    )
+        res.status(401).send("Pre-register not called or incorrect info");
+    else
+        server2Q2R.post("/register/server", {
+            userID: userID,
+            challenge: challenge
+        }).then((rep: any) => {
+            Users.register(userID, passwd)
+                .then(
+                (user) => {
+                    res.status(200).send("Registration succesful");
+                }, (err) => {
+                    res.status(400).send(err);
+                });
+        }, (error) => {
+            res.status(500).send(error);
+        })
 };

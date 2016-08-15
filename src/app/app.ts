@@ -18,13 +18,23 @@ import {sequelize} from './models';
 var app = express();
 var server = require('http').createServer(app);
 
-function loggedIn(req: express.Request, res: express.Response, next: Function) {
+function primaryFactorIn(req: express.Request, res: express.Response, next: Function) {
     if (req.user) { // passport filled in the user
         next();
     } else {
         res.status(401).send("Must be logged in to use this route.");
     }
 }
+
+
+function secondFactorIn(req: express.Request, res: express.Response, next: Function) {
+    if (req.session["secondFactor"] === '2Q2R'){
+        next();
+    } else {
+        res.status(401).send("This route requires second factor authentication");
+    }
+}
+
 
 var sessionCookie: any = config.get("sessionCookie");
 
@@ -54,24 +64,27 @@ app.use(morgan('dev'));
 // All other routes are static
 app.use(express.static('public'));
 
-// Express static routesv
+// Express static routes
 app.route('/').get(staticRoutes.index);
-app.route('/keys/:email').get(loggedIn, authRoutes.getKeys);
-app.route('/challenge').post(authRoutes.getChallenge);
-app.route('/prelogin').post(authRoutes.prelogin);
-app.route('/login').post(passport.authenticate('local'), authRoutes.login);
-app.route('/logout').get(loggedIn, authRoutes.logout);
+app.route('/keys/').get(primaryFactorIn, keysRoutes.get);
+app.route('/challenge').post(primaryFactorIn, keysRoutes.getChallenge);
+app.route('/prelogin').post(passport.authenticate('local'), authRoutes.prelogin);
+app.route('/login').post(passport.authenticate('clallenge'), authRoutes.login);
+app.route('/logout').get(primaryFactorIn, authRoutes.logout);
+app.route('/preregister/:userID').post(authRoutes.register);
 app.route('/register').post(authRoutes.register);
 
 // Device Routes
-app.route('/keys/').get(loggedIn, keysRoutes.get);
-app.route('/keys/:keyID').delete(loggedIn, keysRoutes.deleteK);
+// we need to be able to get the key list just with the firts factor
+app.route('/keys/').get(primaryFactorIn, keysRoutes.get);
+// can only delete if we have both factors
+app.route('/keys/:keyID').delete(primaryFactorIn, secondFactorIn, keysRoutes.deleteK);
 
-// Todos CRUD routes. Require correct session
-app.route('/todo').get(loggedIn, todosRoutes.get); // all of user's todos
-app.route('/todo').post(loggedIn, todosRoutes.create);
-app.route('/todo/:ID').put(loggedIn, todosRoutes.update);
-app.route('/todo/:ID').delete(loggedIn, todosRoutes.remove);
+// Todos CRUD routes. Require full session
+app.route('/todo').get(primaryFactorIn, secondFactorIn, todosRoutes.get); // all of user's todos
+app.route('/todo').post(primaryFactorIn, secondFactorIn, todosRoutes.create);
+app.route('/todo/:ID').put(primaryFactorIn, secondFactorIn,todosRoutes.update);
+app.route('/todo/:ID').delete(primaryFactorIn, secondFactorIn,todosRoutes.remove);
 
 // This is critical. Without it, the schema is not created
 sequelize.sync();

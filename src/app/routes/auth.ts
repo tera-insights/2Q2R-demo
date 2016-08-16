@@ -17,6 +17,8 @@ import {Users} from '../models';
 import {Keys} from '../models';
 import * as server2Q2R from './2Q2R-server';
 
+var pending: { [challenge: string]: string } = {}
+
 interface IKeyInfo {
     type: "2q2r" | "u2f"; // key type
     name: string; // displayable name 
@@ -29,6 +31,7 @@ type IKeys =
 // Login challenge
 passport.use(new LocalStrategy(
     (username: string, password: string, done: Function) => {
+        console.log("Login: ", username, password);
         Users.checkPasswd(username, password).then(
             (user) => { // good password, ask for the keys of this user 
                 done(null, user);
@@ -36,6 +39,14 @@ passport.use(new LocalStrategy(
                 done(null, false, { message: error.message });
             });
     }));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 passport.use(new ChallengeStrategy(
     {
@@ -76,21 +87,22 @@ export function preRegister(req: express.Request, res: express.Response) {
     var userID = req.params.userID;
     Keys.exists(userID).then(
         (exists) => { // we already have key for this user
+            console.log("Exists:", exists);
             if (exists)
                 res.status(401).send("User already exists");
             else {
-                req.session["preUser"] = userID;
                 server2Q2R.post("/register/challenge", {
                     userID: userID
                 }).then(
                     (rep: any) => {
-                        req.session["preChallenge"] = rep.challenge;
+                        pending[rep.challenge] = userID;
                         res.json(rep);
                     }, (error) => {
                         res.status(error.status).send(error.message);
                     });
             }
         }, (error) => {
+            console.log(error);
             res.status(401).send("Cound not complete request");
         }
     )
@@ -98,13 +110,16 @@ export function preRegister(req: express.Request, res: express.Response) {
 
 // POST: /register 
 export function register(req: express.Request, res: express.Response) {
-    var userID = req.body.userid;
+    var userID = req.body.userID;
     var passwd = req.body.password;
     var challenge = req.body.challenge;
 
-    if (req.session["preUser"] !== userID ||
-        req.session["preChallenge"] !== challenge
-    )
+    console.log("User: ", userID, " Challenge:", challenge);
+    console.log("Session: ", req.session);
+
+    var pendignUser = pending[challenge];
+
+    if ( pending[challenge] !== userID)
         res.status(401).send("Pre-register not called or incorrect info");
     else
         server2Q2R.post("/register/server", {

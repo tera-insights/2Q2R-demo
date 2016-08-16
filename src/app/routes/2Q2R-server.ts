@@ -11,6 +11,7 @@ import * as Promise from "bluebird";
 
 var server2FA = config.get("2FAserver");
 var token2FA = config.get("2FAtoken");
+var appID = config.get("appID");
 
 /**
  * Function to send a message to the 2Q2R sever 
@@ -23,10 +24,11 @@ var token2FA = config.get("2FAtoken");
 export function post(subroute: string, obj: any) {
     return new Promise((resolve, reject) => {
         // inject the authentication in the Object
-        if (obj.token) // token cannot be a member of Object    
-            reject("token cannot be a member of the object");
+        if (obj.token || obj.appID) // token cannot be a member of Object    
+            reject("token or appID cannot be a member of the object");
         else {
             obj.token = token2FA;
+            obj.appID = appID;
             unirest.post(server2FA + subroute)
                 .headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' })
                 .send(obj)
@@ -34,7 +36,7 @@ export function post(subroute: string, obj: any) {
                     if (response.error) {
                         reject(response.error);
                     } else {
-                        resolve(response.boty);
+                        resolve(response.body);
                     }
                 });
         }

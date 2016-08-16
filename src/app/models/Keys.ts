@@ -26,8 +26,11 @@ export class KeysSchema {
     }
 
     exists(userID: string) {
-        return server2Q2R.post("/users/exists/" + userID, {})
-            .then((rep: any) => { return rep.exists; });
+        return server2Q2R.post("/users/exists", {
+            userID: userID
+        }).then((rep: any) => {
+            return rep.exists;
+        });
     }
 
     getInfo() {

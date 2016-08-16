@@ -4,7 +4,7 @@
 import * as Sequelize from 'sequelize';
 import * as Promise from "bluebird";
 import * as uuid from "node-uuid";
-import {hashSync} from "bcryptjs";
+import {hashSync, compareSync} from "bcryptjs";
 
 import * as IUser from '../interfaces/IUser';
 
@@ -53,8 +53,7 @@ export class UsersSchema {
         return this.schema.find({
             where: { userid: userid }
         }).then((user: IUser.IUserInstance) => {
-            let hashPwd = hashSync(password);
-            if (hashPwd === user.password)
+            if (compareSync(password, user.password))
                 return user;
             else
                 throw Error("Incorrect password");

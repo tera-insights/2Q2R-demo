@@ -12,7 +12,7 @@ var tsProject = ts.createProject({
     sourceMap: true
 });
 
-gulp.task('typescript server', ['prettify'], function() {
+gulp.task('typescript server', [/*'prettify'*/], function() {
     var result = gulp.src('src/app/**/*.ts')
             .pipe(sourcemaps.init())
             .pipe(ts(tsProject));

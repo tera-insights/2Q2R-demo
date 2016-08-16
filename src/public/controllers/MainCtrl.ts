@@ -8,6 +8,7 @@ module todos {
         // State defined as a bunch of potential strings
         private state: string = "signLog" || "registerDeviceSelect" || "deviceSelectConfirm" || "deviceRegister" || "login" || "returnSignlog";
         private keys: IKeys; // the available keys
+        private challengeInfo: any;
 
         // enables some debug stuff
         private debug: boolean = true;
@@ -28,9 +29,12 @@ module todos {
         login(username: string, password: string) {
             var self = this;
             this.Auth.preLogin(username, password)
-                .then((keys: IKeys) => {
-                    self.keys = keys;
-                    self.state = "deviceSelect";
+                .then(() => {
+                    self.Auth.getKeys()
+                    .then((keys: IKeys) => {
+                        self.keys = keys;
+                        self.state = "deviceSelect";
+                    })
                 });
 
             this.$mdToast.show(
@@ -69,8 +73,9 @@ module todos {
         // Actual signup process
         signup(username: string, password: string) {
             var that = this;
-            this.Auth.register(username, password)
-                .then(() => {
+            this.Auth.preRegister(username, password)
+                .then((rep: any) => {
+                    that.challengeInfo = rep;
                     that.state = "registerDeviceSelect";
                 }, (err) => {
                     console.log("Signap failed: ", err);
@@ -80,16 +85,27 @@ module todos {
         // Accept button on the device registration throughout the entire process
         acceptDeviceRegistration() {
             var that = this;
-
             this.state = "deviceRegister";
 
             switch (this.deviceSelecter) {
                 // if app
                 case '2q2r':
                     // set the qrString
-                    this.qrString = "set to what you want"
+                    this.qrString = "R " + that.challengeInfo.challenge + " " +
+                        that.challengeInfo.baseURL + "/info " + that.Auth.getUser();
 
-                    this.$timeout(2000)
+                    this.Auth.register()
+                        .then(() => {
+                            that.state = "returnSignlog";
+
+                            this.$mdToast.show(
+                                this.$mdToast.simple()
+                                    .textContent('Registration Succesful')
+                                    .hideDelay(3000)
+                            );
+                        });
+
+/*                    this.$timeout(2000)
                         .then(() => {
                             that.state = "returnSignlog";
 
@@ -99,7 +115,7 @@ module todos {
                                     .hideDelay(3000)
                             );
                         });
-                    break;
+ */                   break;
 
                 // if u2f device    
                 case 'u2f':

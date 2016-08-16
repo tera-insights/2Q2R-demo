@@ -2,7 +2,9 @@
 <div class="signlog" ng-if="ctrl.state == 'signLog'">
     <p class="message">
         This is a demo for the 2Q2R two factor authenticator app.
-        <br> Two factor authentication (2FA) is a method of authentication that requires the user to provide multiple pieces of proof that they are who they say they are. 2Q2R specifically uses a QR code in combination with a mobile phone as a seperate authenticator. 2Q2R also supports Universal 2nd Factor (U2F) devices.
+        <br> Two factor authentication (2FA) is a method of authentication that requires the user to provide multiple pieces
+        of proof that they are who they say they are. 2Q2R specifically uses a QR code in combination with a mobile phone
+        as a seperate authenticator. 2Q2R also supports Universal 2nd Factor (U2F) devices.
     </p>
     <!-- This monstrous code is from semantic, no choice because of divider, otherwise use flex -->
     <div class="ui two column middle aligned very relaxed stackable grid form-wrapper">
@@ -28,13 +30,14 @@
                 <div class="field">
                     <label>Retype password</label>
                     <div class="ui left icon input" data-tooltip="Retype your password.">
-                        <input type="password" placeholder="Retype" name="passwordRetype" ng-model="passwordRetype" data-match="signupForm.password" required ng-maxlength="16">
+                        <input type="password" placeholder="Retype" name="passwordRetype" ng-model="passwordRetype" data-match="signupForm.password"
+                            required ng-maxlength="16">
                         <i class="lock icon"></i>
                     </div>
                 </div>
                 <!-- Submit button -->
-                <button class="ui green submit button" ng-disabled="signupForm.$invalid && signupForm.password !== signupForm.passwordRetype" 
-                ng-click="ctrl.signup(username, password)">Sign Up</button>
+                <button class="ui green submit button" ng-disabled="signupForm.$invalid && signupForm.password !== signupForm.passwordRetype"
+                    ng-click="ctrl.signup(username, password)">Sign Up</button>
                 <!-- ngMessages form validation -->
                 <div class="field">
                     <ng-messages class="error-message" for="signupForm.username.$error">
@@ -83,7 +86,7 @@
             </div>
         </div>
         <!-- Submit button -->
-        <button class="ui blue submit button" ng-disabled="loginForm.$invalid" ng-click="ctrl.login()">Login</button>
+        <button class="ui blue submit button" ng-disabled="loginForm.$invalid" ng-click="ctrl.login(username, password)">Login</button>
         <!-- ngMessages form validation -->
         <div class="field">
             <ng-messages class="error-message" for="loginForm.username.$error">
@@ -119,7 +122,7 @@
 <!-- Select your device during register-->
 <div class="signup-device" ng-if="ctrl.state == 'registerDeviceSelect'">
     <p class="message">Select the type of device you would like to use with your demo.
-        <br> The device can be changed, or more devices can be added once you are logged in.
+        <br> Devices can be added and removed once you are logged in.
     </p>
     <div class="signup-device-form">
         <form class="ui form">
@@ -130,19 +133,27 @@
                 <div class="device-info" ng-switch-when="2q2r">
                     <img src="../img/2q2r-logo.svg">
                     <h2 class="ui header">2Q2R App</h2>
-                    <p>2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam commodo dolor ac euismod interdum. Sed tortor dolor, volutpat ut tincidunt id, auctor ac est. Sed ut tellus id neque efficitur convallis. Morbi feugiat euismod ante vel semper. Etiam id auctor ipsum, commodo tincidunt magna. Nullam molestie, lorem nec malesuada malesuada, sem ipsum scelerisque mi, non accumsan sem est vitae tellus. Curabitur luctus tempus mi. Pellentesque ut luctus elit. Nullam ac felis metus. Nam porta malesuada eros eu luctus. Etiam ut dolor eget felis imperdiet tristique quis maximus augue. Sed condimentum nec ipsum non fringilla. Praesent in nisi ut felis condimentum efficitur. Morbi turpis mauris, vestibulum quis elit sed, imperdiet consequat lectus. Fusce at lacus lacus. Vivamus ultrices malesuada mi, id dictum velit tempus ac.
+                    <p>
+                        The 2Q2R app allows you to use your phone as the second factor authenticator.
+                        The app uses <i> eliptic curve digital signature algorithm</i> 
+                        based on the NIST P-256 curve to securely authenticate. In essence, 
+                        the private key generated on the phone (and not extractable), is used to 
+                        digitally sign challenges generated and latter verified by the server.  
+                    </p>
+                    <p>
+                        To use the 2Q2R app, you need to install it from the Play or Apple store.
                     </p>
                 </div>
                 <div class="device-info" ng-switch-when="u2f">
                     <img src="../img/u2f-icon2.svg">
                     <h2 class="ui header">U2F Device</h2>
-                    <p>uLorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam commodo dolor ac euismod interdum. Sed tortor dolor, volutpat ut tincidunt id, auctor ac est. Sed ut tellus id neque efficitur convallis. Morbi feugiat euismod ante vel semper. Etiam id auctor ipsum, commodo tincidunt magna. Nullam molestie, lorem nec malesuada malesuada, sem ipsum scelerisque mi, non accumsan sem est vitae tellus. Curabitur luctus tempus mi. Pellentesque ut luctus elit. Nullam ac felis metus. Nam porta malesuada eros eu luctus. Etiam ut dolor eget felis imperdiet tristique quis maximus augue. Sed condimentum nec ipsum non fringilla. Praesent in nisi ut felis condimentum efficitur. Morbi turpis mauris, vestibulum quis elit sed, imperdiet consequat lectus. Fusce at lacus lacus. Vivamus ultrices malesuada mi, id dictum velit tempus ac.
+                    <p>
                     </p>
                 </div>
             </div>
             <div class="field device-button">
                 <button class="ui blue button" ng-disabled="!ctrl.deviceSelecter" ng-click="ctrl.acceptDeviceRegistration()">
-                    Confirm
+                    Continue
                 </button>
             </div>
         </form>

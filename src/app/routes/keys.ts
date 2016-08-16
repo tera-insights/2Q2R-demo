@@ -5,7 +5,9 @@ import { Keys } from '../models';
 
 // GET: /keys/
 export function get(req: express.Request, res: express.Response) {
-    Keys.get(req.body.username).then(
+    console.log("User: ", req.user);
+    var userid = req.user.userid;
+    Keys.get(userid).then(
         (keys) => {
             res.json(keys);
         }, (error) => {

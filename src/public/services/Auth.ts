@@ -28,14 +28,24 @@ module todos {
      */
     export class Auth {
         private user: string; // username/email of current user
-        private preloginToken: string; // we need this to complete login
+        private challenge: string; // last challenge
+        private regPasswd: string; // last password; deleted when no longer needed
         public loggedIn: boolean = false;
 
         /**
          * Get user email
          */
-        email() {
+        getUser() {
             return this.user;
+        }
+
+        /**
+         * Get the available user keys. Only works if we are preLoggedin 
+         * 
+         * @returns
+         */
+        getKeys(){
+            return this.$http.get('/keys');
         }
 
         /**
@@ -48,7 +58,6 @@ module todos {
             var self = this;
             return this.$http.post('/challenge', {
                 username: username,
-                token: self.preloginToken,
                 keyID: keyID
             }).then((response: any) => {
                 return <IChallengeResponse>response.data;
@@ -69,7 +78,6 @@ module todos {
                 password: password
             }).then((reply: any) => {
                 var data: { token: string, keys: IKeys } = reply.data;
-                self.preloginToken = data.token;
                 return data.keys;
             });
 
@@ -109,16 +117,35 @@ module todos {
                 });
         }
 
-        register(username: string, password: string) {
+        /**
+         * Method to start the registration process. To make is less confusing,
+         * we remember in Auth all the parts we need 
+         * 
+         * @param {string} username
+         * @param {string} password
+         */
+        preRegister(username: string, password: string) {
             var that = this;
+            this.regPasswd = password;
             this.user = username;
+            return this.$http.get('/preregister/' + username)
+                .then((rep: any) => {
+                    var reply = rep.data;
+                    that.challenge = reply.challenge;
+                    return reply;
+                });
+        }
+
+        register() {
+            var that = this;
+            console.log("State: ", that);
             return this.$http.post('/register',
                 {
-                    userid: username,
-                    password: password
+                    userID: that.user,
+                    password: that.regPasswd,
+                    challenge: that.challenge
                 }).then(
                 (rep: any) => {
-                    that.preloginToken = rep.data.preloginToken
                     return "User " + that.user + " registerred";
                 }
                 )

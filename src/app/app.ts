@@ -28,7 +28,7 @@ function primaryFactorIn(req: express.Request, res: express.Response, next: Func
 
 
 function secondFactorIn(req: express.Request, res: express.Response, next: Function) {
-    if (req.session["secondFactor"] === '2Q2R'){
+    if (req.session["secondFactor"] === '2Q2R') {
         next();
     } else {
         res.status(401).send("This route requires second factor authentication");
@@ -71,7 +71,7 @@ app.route('/challenge').post(primaryFactorIn, keysRoutes.getChallenge);
 app.route('/prelogin').post(passport.authenticate('local'), authRoutes.prelogin);
 app.route('/login').post(passport.authenticate('clallenge'), authRoutes.login);
 app.route('/logout').get(primaryFactorIn, authRoutes.logout);
-app.route('/preregister/:userID').post(authRoutes.register);
+app.route('/preregister/:userID').get(authRoutes.preRegister);
 app.route('/register').post(authRoutes.register);
 
 // Device Routes
@@ -83,8 +83,8 @@ app.route('/keys/:keyID').delete(primaryFactorIn, secondFactorIn, keysRoutes.del
 // Todos CRUD routes. Require full session
 app.route('/todo').get(primaryFactorIn, secondFactorIn, todosRoutes.get); // all of user's todos
 app.route('/todo').post(primaryFactorIn, secondFactorIn, todosRoutes.create);
-app.route('/todo/:ID').put(primaryFactorIn, secondFactorIn,todosRoutes.update);
-app.route('/todo/:ID').delete(primaryFactorIn, secondFactorIn,todosRoutes.remove);
+app.route('/todo/:ID').put(primaryFactorIn, secondFactorIn, todosRoutes.update);
+app.route('/todo/:ID').delete(primaryFactorIn, secondFactorIn, todosRoutes.remove);
 
 // This is critical. Without it, the schema is not created
 sequelize.sync();

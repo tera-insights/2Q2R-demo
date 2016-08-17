@@ -14,11 +14,8 @@ module todos {
     export interface IKeyInfo {
         name: string; // the device name
         type: "2q2r" | "u2f"; // the device type
+        keyID: string;
     }
-
-    // Maps from keyID => key description
-    export type IKeys =
-        { [keyID: string]: IKeyInfo };
 
     /**
      * Authentication service 
@@ -44,8 +41,9 @@ module todos {
          * 
          * @returns
          */
-        getKeys(){
-            return this.$http.get('/keys');
+        getKeys() {
+            return this.$http.get('/keys')
+                .then((rep: any) => { return rep.data; });
         }
 
         /**
@@ -54,12 +52,9 @@ module todos {
          * @param {string} keyID
          * @returns {Promise<challenge>}
          */
-        getChallenge(username: string, keyID: string) {
+        getChallenge(keyID: string) {
             var self = this;
-            return this.$http.post('/challenge', {
-                username: username,
-                keyID: keyID
-            }).then((response: any) => {
+            return this.$http.get('/challenge/'+keyID).then((response: any) => {
                 return <IChallengeResponse>response.data;
             });
         }
@@ -69,16 +64,16 @@ module todos {
          * 
          * @param {string} email
          * @param {string} password
-         * @returns Promise<IKeys>
+         * @returns Promise<string>
          */
         preLogin(username: string, password: string) {
             var self = this;
+            this.user = username;
             return self.$http.post('/prelogin', {
                 username: username,
                 password: password
             }).then((reply: any) => {
-                var data: { token: string, keys: IKeys } = reply.data;
-                return data.keys;
+                return reply;
             });
 
         }
@@ -91,10 +86,10 @@ module todos {
          * @param {string} keyID
          * @returns
          */
-        login(username: string, challenge: string, keyID: string) {
+        login(challenge: string, keyID: string) {
             var self = this;
             return self.$http.post('/login', {
-                username: username,
+                username: self.user,
                 challenge: challenge,
                 keyID: keyID
             }).then((data: Object) => {

@@ -7,7 +7,7 @@ module todos {
     export class MainCtrl {
         // State defined as a bunch of potential strings
         private state: string = "signLog" || "registerDeviceSelect" || "deviceSelectConfirm" || "deviceRegister" || "login" || "returnSignlog";
-        private keys: IKeys; // the available keys
+        private keys: IKeyInfo[]; // the available keys
         private challengeInfo: any;
 
         // enables some debug stuff
@@ -31,10 +31,10 @@ module todos {
             this.Auth.preLogin(username, password)
                 .then(() => {
                     self.Auth.getKeys()
-                    .then((keys: IKeys) => {
-                        self.keys = keys;
-                        self.state = "deviceSelect";
-                    })
+                        .then((keys: IKeyInfo[]) => {
+                            self.keys = keys;
+                            self.state = "deviceSelect";
+                        })
                 });
 
             this.$mdToast.show(
@@ -49,9 +49,30 @@ module todos {
         }
 
         // Go to actual todo app with device selected, for now only redirects
-        deviceSelect(keyID: string) {
-            console.log(keyID, this.keys[keyID]);
-            this.Auth.loggedIn = true;
+        deviceSelect(key: IKeyInfo) {
+            var that = this;
+            console.log(key);
+            this.Auth.getChallenge(key.keyID)
+                .then((rep) => {
+                    switch (key.type) {
+                        case '2q2r':
+                            // set the qrString
+                            that.qrString = "A " + rep.appID + " " + rep.challenge + " "
+                                + key.keyID;
+
+                            that.state = 'deviceLogin';
+                            break;
+
+                        case 'u2f':
+                            console.log('WOOORKIN ON IT');
+                            break;
+                    }
+
+                    this.Auth.login(rep.challenge, key.keyID)
+                        .then(() => {
+                            this.Auth.loggedIn = true;
+                        })
+                });
         }
 
         // Redirect to signup page
@@ -105,17 +126,7 @@ module todos {
                             );
                         });
 
-/*                    this.$timeout(2000)
-                        .then(() => {
-                            that.state = "returnSignlog";
-
-                            this.$mdToast.show(
-                                this.$mdToast.simple()
-                                    .textContent('Scan successful')
-                                    .hideDelay(3000)
-                            );
-                        });
- */                   break;
+                    break;
 
                 // if u2f device    
                 case 'u2f':

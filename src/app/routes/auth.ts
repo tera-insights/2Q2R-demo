@@ -34,6 +34,7 @@ passport.use(new LocalStrategy(
         console.log("Login: ", username, password);
         Users.checkPasswd(username, password).then(
             (user) => { // good password, ask for the keys of this user 
+                console.log("User: ", user);
                 done(null, user);
             }, (error) => {
                 done(null, false, { message: error.message });
@@ -41,11 +42,11 @@ passport.use(new LocalStrategy(
     }));
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+    done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
-  done(null, user);
+    done(null, user);
 });
 
 passport.use(new ChallengeStrategy(
@@ -119,7 +120,7 @@ export function register(req: express.Request, res: express.Response) {
 
     var pendignUser = pending[challenge];
 
-    if ( pending[challenge] !== userID)
+    if (pending[challenge] !== userID)
         res.status(401).send("Pre-register not called or incorrect info");
     else
         server2Q2R.post("/register/server", {
@@ -136,4 +137,17 @@ export function register(req: express.Request, res: express.Response) {
         }, (error) => {
             res.status(500).send(error);
         })
+};
+
+// GET: /challenge/:keyID
+export function getChallenge(req: express.Request, res: express.Response) {
+    var keyID = req.params.keyID;
+    var userID = req.user.userid;
+
+    server2Q2R.post('/auth/challenge', {
+        userID: userID,
+        keyID: keyID
+    }).then( (rep: any) => {
+        res.json(rep);
+    });
 };

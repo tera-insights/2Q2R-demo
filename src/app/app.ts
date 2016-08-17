@@ -19,6 +19,7 @@ var app = express();
 var server = require('http').createServer(app);
 
 function primaryFactorIn(req: express.Request, res: express.Response, next: Function) {
+    console.log("Request: ", req.user);
     if (req.user) { // passport filled in the user
         next();
     } else {
@@ -67,9 +68,9 @@ app.use(express.static('public'));
 // Express static routes
 app.route('/').get(staticRoutes.index);
 app.route('/keys/').get(primaryFactorIn, keysRoutes.get);
-app.route('/challenge').post(primaryFactorIn, keysRoutes.getChallenge);
+app.route('/challenge/:keyID').get(primaryFactorIn, authRoutes.getChallenge);
 app.route('/prelogin').post(passport.authenticate('local'), authRoutes.prelogin);
-app.route('/login').post(passport.authenticate('clallenge'), authRoutes.login);
+app.route('/login').post(passport.authenticate('challenge'), authRoutes.login);
 app.route('/logout').get(primaryFactorIn, authRoutes.logout);
 app.route('/preregister/:userID').get(authRoutes.preRegister);
 app.route('/register').post(authRoutes.register);

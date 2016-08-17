@@ -11,7 +11,7 @@ module todos {
      * @class DeleteDeviceCtrl
      */
     export class DeleteDeviceCtrl {
-        private keys: IKeys; // the available keys gotten from Auth
+        private keys: IKeyInfo[]; // the available keys gotten from Auth
 
         deleteDevice(keyID: string) {
             console.log(keyID, this.keys[keyID]);

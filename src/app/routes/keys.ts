@@ -26,15 +26,3 @@ export function deleteK(req: express.Request, res: express.Response) {
         }
     );
 }
-
-// POST: /challenge
-export function getChallenge(req: express.Request, res: express.Response) {
-    var email = req.body.email;
-    var keyID = req.body.keyID;
-    res.send({
-        challenge: "bogus",
-        appID: "weird",
-        keyID: keyID,
-        user: email
-    });
-};

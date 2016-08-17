@@ -65,6 +65,10 @@ module todos {
             });
         }
 
+        logout() {
+            this.Auth.logout();
+        }
+
         static $inject = ['$mdDialog', 'Auth'];
 
         constructor(

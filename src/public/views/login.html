@@ -103,14 +103,18 @@
 <div class="login-device" ng-if="ctrl.state == 'deviceSelect'">
     <p class="message">Select the device you would like to use with your demo.</p>
     <div class="login-icon-buttons">
-        <a ng-repeat="(key,info) in ctrl.keys" class="login-icon-button" ng-click="ctrl.deviceSelect(keyId)">
-            <div ng-switch on="info.type">
+        <a ng-repeat="key in ctrl.keys" class="login-icon-button" ng-click="ctrl.deviceSelect(key)">
+            <div ng-switch on="key.type">
                 <img ng-switch-when="2q2r" src="../img/2q2r-logo.svg">
                 <img ng-switch-when="u2f" src="../img/u2f-icon2.svg">
             </div>
             <p>{{info.name}}</p>
         </a>
     </div>
+</div>
+<!-- Display the registration QR !-->
+<div class="device-login" ng-if="ctrl.state === 'deviceLogin'">
+        <qr text="ctrl.qrString"></qr>
 </div>
 <!-- Return to login redirection screen -->
 <div class="signup-return" ng-if="ctrl.state == 'returnSignlog'">

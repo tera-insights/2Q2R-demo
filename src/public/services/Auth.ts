@@ -54,7 +54,7 @@ module todos {
          */
         getChallenge(keyID: string) {
             var self = this;
-            return this.$http.get('/challenge/'+keyID).then((response: any) => {
+            return this.$http.get('/challenge/' + keyID).then((response: any) => {
                 return <IChallengeResponse>response.data;
             });
         }

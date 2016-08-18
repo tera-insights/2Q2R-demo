@@ -283,6 +283,13 @@ ng-messages {
     align-items: center;
 }
 
+.device-login {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .login-icon-buttons {
     width: 56rem;
     display: flex;

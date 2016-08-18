@@ -1,0 +1,10 @@
+{
+    "2FAtoken": "748312907487203129347q97",
+    "appID": "_T-wi0wzr7GCi4vsfsXsUuKOfmiWLiHBVbmJJPidvhA",
+    "sessionSecret": "skajfdlk;asjfla",
+    "sessionCookie": {
+        "maxAge": 3600000,
+        "httpOnly": true,
+        "secure": false
+    }
+}

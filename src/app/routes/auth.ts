@@ -147,7 +147,7 @@ export function getChallenge(req: express.Request, res: express.Response) {
     server2Q2R.post('/auth/challenge', {
         userID: userID,
         keyID: keyID
-    }).then( (rep: any) => {
+    }).then((rep: any) => {
         res.json(rep);
     });
 };

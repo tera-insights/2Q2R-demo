@@ -115,6 +115,7 @@
 <!-- Display the registration QR !-->
 <div class="device-login" ng-if="ctrl.state === 'deviceLogin'">
         <qr text="ctrl.qrString"></qr>
+        <p class="message">If the automatic request did not work or is slow, please scan this QR code to complete the autehntication</p>
 </div>
 <!-- Return to login redirection screen -->
 <div class="signup-return" ng-if="ctrl.state == 'returnSignlog'">

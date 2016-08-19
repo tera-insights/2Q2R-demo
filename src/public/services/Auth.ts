@@ -8,6 +8,7 @@ module todos {
         challenge: string; // the challenge
         appID: string; // authentication server ID
         keyID: string; // the keyID for this challenge
+        counter: number; // the counter value in the request
     }
 
 

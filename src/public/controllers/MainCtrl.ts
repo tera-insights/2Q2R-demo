@@ -58,7 +58,7 @@ module todos {
                         case '2q2r':
                             // set the qrString
                             that.qrString = "A " + rep.appID + " " + rep.challenge + " "
-                                + key.keyID;
+                                + key.keyID + " " + rep.counter;
 
                             that.state = 'deviceLogin';
                             break;

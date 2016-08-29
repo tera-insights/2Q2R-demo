@@ -11,7 +11,8 @@ module todos {
         "2q2rRegister" || // iframe register page
         "login" || // login main page
         "2q2rLogin" || // iframe login page  
-        "returnSignlog"; // return to signin
+        "returnSignlog" || // return to signin
+        "todos";
 
         private keys: IKeyInfo[]; // the available keys
         private challengeInfo: any;
@@ -34,21 +35,23 @@ module todos {
 
         // Skip past signup phases
         login(username: string, password: string) {
-            var self = this;
+            var that = this;
             this.Auth.preLogin(username, password)
-                .then(() => {
-                    self.Auth.getKeys()
-                        .then((keys: IKeyInfo[]) => {
-                            self.keys = keys;
-                            self.state = "2q2rLogin";
-                        })
+                .then((rep) => {
+                    that.URL = that.$sce.trustAsResourceUrl(rep.authUrl);
+                    console.log("Signup: ", rep);
+                    that.state = "2q2rLogin";
+                    that.Auth.login()
+                        .then(() => {
+                            console.log("Logged in");
+                            that.state = "todos";
+                            this.$mdToast.show(
+                                this.$mdToast.simple()
+                                    .textContent('Login Successful')
+                                    .hideDelay(3000)
+                            );
+                        });
                 });
-
-            this.$mdToast.show(
-                this.$mdToast.simple()
-                    .textContent('Login Successful')
-                    .hideDelay(3000)
-            );
         }
 
         test() {
@@ -80,26 +83,25 @@ module todos {
                     that.URL = that.$sce.trustAsResourceUrl(rep.registerUrl);
                     console.log("Signup: ", rep);
                     that.state = "2q2rRegister";
-                    that.Auth.waitPreRegister()
-                        .then(() => {
-                            // finish the registration
-                            this.Auth.register()
-                                .then(() => {
-                                    that.state = "returnSignlog";
 
-                                    this.$mdToast.show(
-                                        this.$mdToast.simple()
-                                            .textContent('Registration Succesful')
-                                            .hideDelay(3000)
-                                    );
-                                });
-                        }, (err) => {
+                    // finish the registration
+                    this.Auth.register()
+                        .then(() => {
+                            that.state = "returnSignlog";
+
+                            this.$mdToast.show(
+                                this.$mdToast.simple()
+                                    .textContent('Registration Succesful')
+                                    .hideDelay(3000)
+                            );
+                        }, () => {
                             that.state = "signLog";
                             this.$mdToast.show(
                                 this.$mdToast.simple()
                                     .textContent('Registration Failed')
                                     .hideDelay(3000)
                             );
+
                         });
                 }, (err) => {
                     console.log("Sigup failed: ", err);

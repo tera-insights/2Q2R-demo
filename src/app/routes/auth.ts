@@ -9,8 +9,8 @@ import * as express from 'express';
 import * as path from 'path';
 import * as passport from 'passport';
 import {Strategy as LocalStrategy} from "passport-local";
-import {Strategy as ChallengeStrategy} from 'passport-challenge';
 
+var APIStrategy = require('passport-localapikey').Strategy;
 var unirest = require('unirest');
 
 import {Users} from '../models';
@@ -34,9 +34,11 @@ passport.use(new LocalStrategy(
         console.log("Login: ", username, password);
         Users.checkPasswd(username, password).then(
             (user) => { // good password, ask for the keys of this user 
-                console.log("User: ", user);
+//                console.log("User: ", user);
+
                 done(null, user);
             }, (error) => {
+                console.log("Error: ", error);
                 done(null, false, { message: error.message });
             });
     }));
@@ -49,27 +51,31 @@ passport.deserializeUser(function(user, done) {
     done(null, user);
 });
 
-passport.use(new ChallengeStrategy(
-    {
-        signatureField: "keyID"
-    },
-    (username: string, challenge: string, keyID: string, done: Function) => {
-        server2Q2R.post("/auth/server", {
-            userID: username,
-            challenge: challenge,
-            keyID: keyID
-        }).then((reply) => { // 2FA client authenticated on /auth route
+passport.use(new APIStrategy({
+    apiKeyField: "request"
+}, (id: string, done: Function) => {
+    server2Q2R.get("/v1/auth/" + id + "/wait")
+        .then((reply) => { // 2FA client authenticated on /auth route
             done(null, reply);
         }, (error) => { // some error during authentication
             done(null, false, { message: error.message });
         })
-    }
+}
 ))
 
 // POST: /prelogin
 // Validate user and provide set of available keys
 export function prelogin(req: express.Request, res: express.Response) {
-    res.status(200).send("1FA Succesful");
+    var userID = req.params.username;
+    server2Q2R.post("/v1/auth/request", {
+        userID: userID
+    }).then((rep: any) => {
+        pending[rep.id] = userID;
+        res.json(rep);
+    }, (error) => {
+        console.log("Error: ", error);
+        res.status(401).send(error);
+    });
 };
 
 // POST: /login
@@ -123,30 +129,17 @@ export function register(req: express.Request, res: express.Response) {
     if (pending[requestID] !== userID)
         res.status(401).send("Pre-register not called or incorrect info");
     else
-        server2Q2R.get("/v1/register/"+requestID+"/wait")
-        .then((rep: any) => {
-            console.log("Register: ", rep);
-            Users.register(userID, passwd)
-                .then(
-                (user) => {
-                    res.status(200).send("Registration succesful");
-                }, (err) => {
-                    res.status(400).send(err);
-                });
-        }, (error) => {
-            res.status(500).send(error);
-        })
-};
-
-// GET: /challenge/:keyID
-export function getChallenge(req: express.Request, res: express.Response) {
-    var keyID = req.params.keyID;
-    var userID = req.user.userid;
-
-    server2Q2R.post('/auth/challenge', {
-        userID: userID,
-        keyID: keyID
-    }).then((rep: any) => {
-        res.json(rep);
-    });
+        server2Q2R.get("/v1/register/" + requestID + "/wait")
+            .then((rep: any) => {
+                console.log("Register: ", rep);
+                Users.register(userID, passwd)
+                    .then(
+                    (user) => {
+                        res.status(200).send("Registration succesful");
+                    }, (err) => {
+                        res.status(400).send(err);
+                    });
+            }, (error) => {
+                res.status(500).send(error);
+            })
 };

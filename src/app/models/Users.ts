@@ -53,6 +53,7 @@ export class UsersSchema {
         return this.schema.find({
             where: { userid: userid }
         }).then((user: IUser.IUserInstance) => {
+            // console.log("User: ", user);
             if (compareSync(password, user.password))
                 return user;
             else

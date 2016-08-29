@@ -68,9 +68,8 @@ app.use(express.static('public'));
 // Express static routes
 app.route('/').get(staticRoutes.index);
 app.route('/keys/').get(primaryFactorIn, keysRoutes.get);
-app.route('/challenge/:keyID').get(primaryFactorIn, authRoutes.getChallenge);
 app.route('/prelogin').post(passport.authenticate('local'), authRoutes.prelogin);
-app.route('/login').post(passport.authenticate('challenge'), authRoutes.login);
+app.route('/login').post(primaryFactorIn, passport.authenticate('localapikey', { session: false }), authRoutes.login);
 app.route('/logout').get(primaryFactorIn, authRoutes.logout);
 app.route('/preregister/:userID').get(authRoutes.preRegister);
 app.route('/register').post(authRoutes.register);

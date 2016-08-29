@@ -49,19 +49,6 @@ module todos {
         }
 
         /**
-         * Method to get a challenge for a specific key 
-         * 
-         * @param {string} keyID
-         * @returns {Promise<challenge>}
-         */
-        getChallenge(keyID: string) {
-            var self = this;
-            return this.$http.get('/challenge/' + keyID).then((response: any) => {
-                return <IChallengeResponse>response.data;
-            });
-        }
-
-        /**
          * Method to get a pre-session so we can complete the login with 2FA 
          * 
          * @param {string} email
@@ -75,7 +62,8 @@ module todos {
                 username: username,
                 password: password
             }).then((reply: any) => {
-                return reply;
+                self.request = reply.data.id;
+                return reply.data;
             });
 
         }
@@ -88,12 +76,11 @@ module todos {
          * @param {string} keyID
          * @returns
          */
-        login(challenge: string, keyID: string) {
+        login() {
             var self = this;
             return self.$http.post('/login', {
                 username: self.user,
-                challenge: challenge,
-                keyID: keyID
+                request: self.request
             }).then((data: Object) => {
                 self.user = <string>data['data'];
                 self.loggedIn = true;
@@ -129,14 +116,9 @@ module todos {
                 .then((rep: any) => {
                     var reply = rep.data;
                     that.request = reply.id;
-                    that.waitUrl = reply. waitUrl;
+                    that.waitUrl = reply.waitUrl;
                     return reply;
                 });
-        }
-
-        waitPreRegister(){
-            var that = this;
-            return this.$http.get(this.waitUrl);
         }
 
         register() {

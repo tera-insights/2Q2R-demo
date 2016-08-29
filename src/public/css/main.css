@@ -11,6 +11,12 @@ body {
     overflow: hidden;
 }
 
+iframe {
+    width: 640px;
+    height: 330px;
+    border: 1px solid black;
+}
+
 .flex-extender {
     flex-grow: 1;
 }

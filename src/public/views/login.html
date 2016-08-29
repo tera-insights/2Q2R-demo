@@ -99,24 +99,7 @@
         </div>
     </form>
 </div>
-<!-- Display registered devices -->
-<div class="login-device" ng-if="ctrl.state == 'deviceSelect'">
-    <p class="message">Select the device you would like to use with your demo.</p>
-    <div class="login-icon-buttons">
-        <a ng-repeat="key in ctrl.keys" class="login-icon-button" ng-click="ctrl.deviceSelect(key)">
-            <div ng-switch on="key.type">
-                <img ng-switch-when="2q2r" src="../img/2q2r-logo.svg">
-                <img ng-switch-when="u2f" src="../img/u2f-icon2.svg">
-            </div>
-            <p>{{info.name}}</p>
-        </a>
-    </div>
-</div>
-<!-- Display the registration QR !-->
-<div class="device-login" ng-if="ctrl.state === 'deviceLogin'">
-        <qr text="ctrl.qrString"></qr>
-        <p class="message">If the automatic request did not work or is slow, please scan this QR code to complete the autehntication</p>
-</div>
+
 <!-- Return to login redirection screen -->
 <div class="signup-return" ng-if="ctrl.state == 'returnSignlog'">
     <div class="message return">
@@ -125,56 +108,9 @@
     </div>
 </div>
 <!-- Select your device during register-->
-<div class="signup-device" ng-if="ctrl.state == 'registerDeviceSelect'">
-    <p class="message">Select the type of device you would like to use with your demo.
-        <br> Devices can be added and removed once you are logged in.
-    </p>
-    <div class="signup-device-form">
-        <form class="ui form">
-            <div class="field">
-                <ng-dropdown ng-model="ctrl.deviceSelecter" ng-option="ctrl.deviceDrop"></ng-dropdown>
-            </div>
-            <div class="field" ng-switch on="ctrl.deviceSelecter">
-                <div class="device-info" ng-switch-when="2q2r">
-                    <img src="../img/2q2r-logo.svg">
-                    <h2 class="ui header">2Q2R App</h2>
-                    <p>
-                        The 2Q2R app allows you to use your phone as the second factor authenticator.
-                        The app uses <i> eliptic curve digital signature algorithm</i> 
-                        based on the NIST P-256 curve to securely authenticate. In essence, 
-                        the private key generated on the phone (and not extractable), is used to 
-                        digitally sign challenges generated and latter verified by the server.  
-                    </p>
-                    <p>
-                        To use the 2Q2R app, you need to install it from the Play or Apple store.
-                    </p>
-                </div>
-                <div class="device-info" ng-switch-when="u2f">
-                    <img src="../img/u2f-icon2.svg">
-                    <h2 class="ui header">U2F Device</h2>
-                    <p>
-                    </p>
-                </div>
-            </div>
-            <div class="field device-button">
-                <button class="ui blue button" ng-disabled="!ctrl.deviceSelecter" ng-click="ctrl.acceptDeviceRegistration()">
-                    Continue
-                </button>
-            </div>
-        </form>
-    </div>
+<div class="signup-device" ng-if="ctrl.state == '2q2rRegister' || ctrl.state == '2q2rLogin'">
+    <iframe ng-src="{{ctrl.URL}}"></iframe>
 </div>
-<!-- The device registration process, AKA actual activation -->
-<div class="device-register" ng-switch on="ctrl.deviceSelecter" ng-if="ctrl.state == 'deviceRegister'">
-    <div class="device-register-2q2r" ng-switch-when="2q2r">
-        <div class="stage-1-2q2r">
-            <qr text="ctrl.qrString"></qr>
-            <p>Please scan this QR Code with the 2Q2R app.</p>
-        </div>
-    </div>
-    <div class="device-register-u2f" ng-switch-when="u2f">
-        u2f device
-    </div>
-</div>
+
 <!-- So people know it's us -->
 <div class="copyright">&copy Tera Insights, LLC 2013-2016</div>

@@ -26,7 +26,8 @@ module todos {
      */
     export class Auth {
         private user: string; // username/email of current user
-        private challenge: string; // last challenge
+        private request: string; // last request ID
+        private waitUrl: string; // the url to wait for a confirmation of last request
         private regPasswd: string; // last password; deleted when no longer needed
         public loggedIn: boolean = false;
 
@@ -127,9 +128,15 @@ module todos {
             return this.$http.get('/preregister/' + username)
                 .then((rep: any) => {
                     var reply = rep.data;
-                    that.challenge = reply.challenge;
+                    that.request = reply.id;
+                    that.waitUrl = reply. waitUrl;
                     return reply;
                 });
+        }
+
+        waitPreRegister(){
+            var that = this;
+            return this.$http.get(this.waitUrl);
         }
 
         register() {
@@ -139,7 +146,7 @@ module todos {
                 {
                     userID: that.user,
                     password: that.regPasswd,
-                    challenge: that.challenge
+                    request: that.request
                 }).then(
                 (rep: any) => {
                     return "User " + that.user + " registerred";

@@ -92,11 +92,11 @@ export function preRegister(req: express.Request, res: express.Response) {
             if (exists)
                 res.status(401).send("User already exists");
             else {
-                server2Q2R.post("/register/challenge", {
+                server2Q2R.post("/v1/register/request", {
                     userID: userID
                 }).then(
                     (rep: any) => {
-                        pending[rep.challenge] = userID;
+                        pending[rep.id] = userID;
                         res.json(rep);
                     }, (error) => {
                         res.status(error.status).send(error.message);
@@ -113,20 +113,19 @@ export function preRegister(req: express.Request, res: express.Response) {
 export function register(req: express.Request, res: express.Response) {
     var userID = req.body.userID;
     var passwd = req.body.password;
-    var challenge = req.body.challenge;
+    var requestID = req.body.request;
 
-    console.log("User: ", userID, " Challenge:", challenge);
+    console.log("User: ", userID, " RequestID:", requestID);
     console.log("Session: ", req.session);
 
-    var pendignUser = pending[challenge];
+    var pendingUser = pending[requestID];
 
-    if (pending[challenge] !== userID)
+    if (pending[requestID] !== userID)
         res.status(401).send("Pre-register not called or incorrect info");
     else
-        server2Q2R.post("/register/server", {
-            userID: userID,
-            challenge: challenge
-        }).then((rep: any) => {
+        server2Q2R.get("/v1/register/"+requestID+"/wait")
+        .then((rep: any) => {
+            console.log("Register: ", rep);
             Users.register(userID, passwd)
                 .then(
                 (user) => {

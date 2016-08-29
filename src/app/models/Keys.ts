@@ -18,15 +18,15 @@ export class KeysSchema {
     private info: any; // info object from the server 
 
     get(userID: string) {
-        return server2Q2R.post("/keys/list/" + userID, {});
+        return server2Q2R.post("/v1/keys/list/" + userID, {});
     }
 
     delete(keyID: string) {
-        return server2Q2R.post("/keys/delete/" + keyID, {});
+        return server2Q2R.post("/v1/keys/delete/" + keyID, {});
     }
 
     exists(userID: string) {
-        return server2Q2R.post("/users/exists", {
+        return server2Q2R.post("/v1/users/exists", {
             userID: userID
         }).then((rep: any) => {
             return rep.exists;
@@ -39,7 +39,7 @@ export class KeysSchema {
 
     constructor() {
         var that = this;
-        server2Q2R.get("/info/" + appID).then((reply) => {
+        server2Q2R.get("/v1/info/" + appID).then((reply) => {
             that.info = reply;
             console.log("INFO: ", reply);
         });

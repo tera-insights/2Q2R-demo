@@ -6,9 +6,16 @@ module todos {
 
     export class MainCtrl {
         // State defined as a bunch of potential strings
-        private state: string = "signLog" || "registerDeviceSelect" || "deviceSelectConfirm" || "deviceRegister" || "login" || "returnSignlog";
+        private state: string =
+        "signLog" || // main register page
+        "2q2rRegister" || // iframe register page
+        "login" || // login main page
+        "2q2rLogin" || // iframe login page  
+        "returnSignlog"; // return to signin
+
         private keys: IKeyInfo[]; // the available keys
         private challengeInfo: any;
+        private URL: string; // the URL we need to render in iframes
 
         // enables some debug stuff
         private debug: boolean = true;
@@ -33,7 +40,7 @@ module todos {
                     self.Auth.getKeys()
                         .then((keys: IKeyInfo[]) => {
                             self.keys = keys;
-                            self.state = "deviceSelect";
+                            self.state = "2q2rLogin";
                         })
                 });
 
@@ -46,33 +53,6 @@ module todos {
 
         test() {
             console.log(this.keys);
-        }
-
-        // Go to actual todo app with device selected, for now only redirects
-        deviceSelect(key: IKeyInfo) {
-            var that = this;
-            console.log(key);
-            this.Auth.getChallenge(key.keyID)
-                .then((rep) => {
-                    switch (key.type) {
-                        case '2q2r':
-                            // set the qrString
-                            that.qrString = "A " + rep.appID + " " + rep.challenge + " "
-                                + key.keyID + " " + rep.counter;
-
-                            that.state = 'deviceLogin';
-                            break;
-
-                        case 'u2f':
-                            console.log('WOOORKIN ON IT');
-                            break;
-                    }
-
-                    this.Auth.login(rep.challenge, key.keyID)
-                        .then(() => {
-                            this.Auth.loggedIn = true;
-                        })
-                });
         }
 
         // Redirect to signup page
@@ -97,53 +77,39 @@ module todos {
             this.Auth.preRegister(username, password)
                 .then((rep: any) => {
                     that.challengeInfo = rep;
-                    that.state = "registerDeviceSelect";
-                }, (err) => {
-                    console.log("Signap failed: ", err);
-                });
-        }
-
-        // Accept button on the device registration throughout the entire process
-        acceptDeviceRegistration() {
-            var that = this;
-            this.state = "deviceRegister";
-
-            switch (this.deviceSelecter) {
-                // if app
-                case '2q2r':
-                    // set the qrString
-                    this.qrString = "R " + that.challengeInfo.challenge + " " +
-                        that.challengeInfo.baseURL + "/info " + that.Auth.getUser();
-
-                    this.Auth.register()
+                    that.URL = that.$sce.trustAsResourceUrl(rep.registerUrl);
+                    console.log("Signup: ", rep);
+                    that.state = "2q2rRegister";
+                    that.Auth.waitPreRegister()
                         .then(() => {
-                            that.state = "returnSignlog";
+                            // finish the registration
+                            this.Auth.register()
+                                .then(() => {
+                                    that.state = "returnSignlog";
 
+                                    this.$mdToast.show(
+                                        this.$mdToast.simple()
+                                            .textContent('Registration Succesful')
+                                            .hideDelay(3000)
+                                    );
+                                });
+                        }, (err) => {
+                            that.state = "signLog";
                             this.$mdToast.show(
                                 this.$mdToast.simple()
-                                    .textContent('Registration Succesful')
+                                    .textContent('Registration Failed')
                                     .hideDelay(3000)
                             );
                         });
-
-                    break;
-
-                // if u2f device    
-                case 'u2f':
-                    console.log('WOOORKIN ON IT');
-                    break;
-            }
+                }, (err) => {
+                    console.log("Sigup failed: ", err);
+                });
         }
 
-        // Select the device you want to register with
-        registerDeviceSelect(device: string) {
-            // register device
-            this.state = "deviceSelectConfirm";
-        }
-
-        static $inject = ['$mdDialog', '$mdToast', 'Auth', '$timeout'];
+        static $inject = ['$sce', '$mdDialog', '$mdToast', 'Auth', '$timeout'];
 
         constructor(
+            private $sce: ng.ISCEService,
             private $mdDialog: ng.material.IDialogService,
             private $mdToast: ng.material.IToastService,
             private Auth: Auth,

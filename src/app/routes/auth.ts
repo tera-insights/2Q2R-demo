@@ -34,7 +34,7 @@ passport.use(new LocalStrategy(
         console.log("Login: ", username, password);
         Users.checkPasswd(username, password).then(
             (user) => { // good password, ask for the keys of this user 
-//                console.log("User: ", user);
+                //                console.log("User: ", user);
 
                 done(null, user);
             }, (error) => {
@@ -66,7 +66,7 @@ passport.use(new APIStrategy({
 // POST: /prelogin
 // Validate user and provide set of available keys
 export function prelogin(req: express.Request, res: express.Response) {
-    var userID = req.params.username;
+    var userID = req.body.username;
     server2Q2R.post("/v1/auth/request", {
         userID: userID
     }).then((rep: any) => {

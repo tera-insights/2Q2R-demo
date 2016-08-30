@@ -11,24 +11,37 @@ module todos {
      * @class DeleteDeviceCtrl
      */
     export class DeleteDeviceCtrl {
-        private keys: IKeyInfo[]; // the available keys gotten from Auth
+        private URL: string;
 
-        deleteDevice(keyID: string) {
-            console.log(keyID, this.keys[keyID]);
-            console.log('mission success (maybe)');
+        // flip a switch to setup
+        accept() {
+            this.$mdDialog.hide();
         }
 
-        test() {
-            console.log(this.keys);
+        cancel() {
+            this.$mdDialog.cancel();
         }
 
-        static $inject = ['$mdDialog', 'Auth'];
+        static $inject = ['$mdDialog', '$timeout', '$http', '$sce'];
 
         constructor(
             private $mdDialog: ng.material.IDialogService,
+            private $timeout: ng.ITimeoutService,
+            private $http: ng.IHttpService,
+            private $sce: ng.ISCEService,
             private Auth: Auth
         ) {
+            var that = this;
+            this.$http.get('/device/delete')
+                .then((rep: any) => {
+                    console.log("Reply:", rep);
+                    that.URL = that.$sce.trustAsResourceUrl(rep.data.deleteUrl);
 
+                    // todo: wait for the message from iframe
+                    /*that.$http.get(rep.data.waitUrl)
+                        .then(() => { that.accept(); },
+                        () => { that.cancel() })*/
+                });
         }
     }
 }

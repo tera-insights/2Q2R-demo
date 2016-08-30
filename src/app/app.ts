@@ -11,7 +11,7 @@ import * as config from 'config';
 import * as staticRoutes from './routes/static';
 import * as authRoutes from './routes/auth';
 import * as todosRoutes from './routes/todos';
-import * as keysRoutes from './routes/keys';
+import * as deviceRoutes from './routes/devices';
 import {sequelize} from './models';
 
 // Set up express and Socket.IO
@@ -67,18 +67,15 @@ app.use(express.static('public'));
 
 // Express static routes
 app.route('/').get(staticRoutes.index);
-app.route('/keys/').get(primaryFactorIn, keysRoutes.get);
+
 app.route('/prelogin').post(passport.authenticate('local'), authRoutes.prelogin);
 app.route('/login').post(primaryFactorIn, passport.authenticate('localapikey', { session: false }), authRoutes.login);
 app.route('/logout').get(primaryFactorIn, authRoutes.logout);
 app.route('/preregister/:userID').get(authRoutes.preRegister);
 app.route('/register').post(authRoutes.register);
 
-// Device Routes
-// we need to be able to get the key list just with the firts factor
-app.route('/keys/').get(primaryFactorIn, keysRoutes.get);
-// can only delete if we have both factors
-app.route('/keys/:keyID').delete(primaryFactorIn, secondFactorIn, keysRoutes.deleteK);
+app.route('/device/add').get(primaryFactorIn, secondFactorIn, deviceRoutes.addDevice);
+app.route('/device/delete').get(primaryFactorIn, secondFactorIn, deviceRoutes.removeDevice);
 
 // Todos CRUD routes. Require full session
 app.route('/todo').get(primaryFactorIn, secondFactorIn, todosRoutes.get); // all of user's todos

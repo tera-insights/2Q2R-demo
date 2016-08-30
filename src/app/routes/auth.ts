@@ -80,6 +80,7 @@ export function prelogin(req: express.Request, res: express.Response) {
 
 // POST: /login
 export function login(req: express.Request, res: express.Response) {
+    req.session["secondFactor"] = "2Q2R";
     res.status(200).send("2FA Succesful");
 };
 

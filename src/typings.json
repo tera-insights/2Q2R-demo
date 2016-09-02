@@ -4,6 +4,7 @@
     "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#a6ff9f6e195a334afd89e4b721d05e9520eee4c0",
     "angular-material": "github:DefinitelyTyped/DefinitelyTyped/angular-material/angular-material.d.ts#a6ff9f6e195a334afd89e4b721d05e9520eee4c0",
     "angular-resource": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular-resource.d.ts#af5b8275d1f2b92738b93fddabc461fc20c553a1",
+    "angular-ui-router": "registry:dt/angular-ui-router#1.1.5+20160810191828",
     "bcryptjs": "registry:dt/bcryptjs#2.3.0+20151217030501",
     "body-parser": "github:DefinitelyTyped/DefinitelyTyped/body-parser/body-parser.d.ts#ebc69904eb78f94030d5d517b42db20867f679c0",
     "config": "registry:dt/config#0.0.0+20160317120654",
@@ -22,6 +23,7 @@
     "passport-http-bearer": "registry:dt/passport-http-bearer#1.0.1+20160316155526",
     "passport-local": "registry:dt/passport-local#0.0.0+20160316155526",
     "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#001ca36ba58cef903c4c063555afb07bbc36bb58",
+    "ui-router-extras": "registry:dt/ui-router-extras#0.0.14+20160628180949",
     "validator": "github:DefinitelyTyped/DefinitelyTyped/validator/validator.d.ts#30387ec3dd6eb426cc48522fd3aef09ada83aa48"
   },
   "dependencies": {

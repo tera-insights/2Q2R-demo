@@ -1,73 +1,7 @@
-<!-- Login or signup -->
-<div class="signlog" ng-if="ctrl.state == 'signLog'">
-    <p class="message">
-        This is a demo for the 2Q2R two factor authenticator app.
-        <br> Two factor authentication (2FA) is a method of authentication that requires the user to provide multiple pieces
-        of proof that they are who they say they are. 2Q2R specifically uses a QR code in combination with a mobile phone
-        as a seperate authenticator. 2Q2R also supports Universal 2nd Factor (U2F) devices.
-    </p>
-    <!-- This monstrous code is from semantic, no choice because of divider, otherwise use flex -->
-    <div class="ui two column middle aligned very relaxed stackable grid form-wrapper">
-        <div class="column">
-            <form class="ui form" novalidate name="signupForm" ng-model="signupForm">
-                <!-- Line 1 -->
-                <div class="field">
-                    <label>Set a username</label>
-                    <div class="ui left icon input" data-tooltip="Set a username. Duplicate accounts are deleted.">
-                        <input type="text" placeholder="Username" ng-model="username" name="username" required>
-                        <i class="user icon"></i>
-                    </div>
-                </div>
-                <!-- Line 2 -->
-                <div class="field">
-                    <label>Set a password</label>
-                    <div class="ui left icon input" data-tooltip="Set a password between 1-16 characters.">
-                        <input type="password" placeholder="Password" name="password" ng-model="password" required ng-maxlength="16">
-                        <i class="lock icon"></i>
-                    </div>
-                </div>
-                <!-- Line 3 -->
-                <div class="field">
-                    <label>Retype password</label>
-                    <div class="ui left icon input" data-tooltip="Retype your password.">
-                        <input type="password" placeholder="Retype" name="passwordRetype" ng-model="passwordRetype" data-match="signupForm.password"
-                            required ng-maxlength="16">
-                        <i class="lock icon"></i>
-                    </div>
-                </div>
-                <!-- Submit button -->
-                <button class="ui green submit button" ng-disabled="signupForm.$invalid && signupForm.password !== signupForm.passwordRetype"
-                    ng-click="ctrl.signup(username, password)">Sign Up</button>
-                <!-- ngMessages form validation -->
-                <div class="field">
-                    <ng-messages class="error-message" for="signupForm.username.$error">
-                        <ng-message when="required">Invalid username.</ng-message>
-                    </ng-messages>
-                    <!-- space that out -->
-                    <ng-messages class="error-message" for="signupForm.password.$error">
-                        <ng-message when="required">Invalid password.</ng-message>
-                        <ng-message when="maxlength">Password is longer than maximum.</ng-message>
-                    </ng-messages>
-                    <ng-messages class="error-message" for="signupForm.passwordRetype.$error">
-                        <ng-message when="required">Retype password.</ng-message>
-                        <ng-message when="match">Passwords do not match.</ng-message>
-                    </ng-messages>
-                </div>
-            </form>
-        </div>
-        <div class="ui vertical divider vert-fix">
-            Or
-        </div>
-        <div class="center aligned column">
-            <div class="ui big blue labeled icon button" ng-click="ctrl.loginRedirect()">
-                <i class="sign in icon"></i> Log In
-            </div>
-        </div>
-    </div>
-</div>
+
 <!-- Signup -->
-<div class="signup-wrapper" ng-if="ctrl.state == 'login'">
-    <p class="message">Log in to an existing account.</p>
+<div class="signup-wrapper">
+    <p class="message">Login to an existing account.</p>
     <form class="ui form signup" novalidate name="loginForm" ng-model="loginForm">
         <!-- Line 1 -->
         <div class="field">
@@ -87,6 +21,7 @@
         </div>
         <!-- Submit button -->
         <button class="ui blue submit button" ng-disabled="loginForm.$invalid" ng-click="ctrl.login(username, password)">Login</button>
+        <button class="ui blue submit button" ng-click="ctrl.login(username, password)">Cancel</button>
         <!-- ngMessages form validation -->
         <div class="field">
             <ng-messages class="error-message" for="loginForm.username.$error">
@@ -100,17 +35,4 @@
     </form>
 </div>
 
-<!-- Return to login redirection screen -->
-<div class="signup-return" ng-if="ctrl.state == 'returnSignlog'">
-    <div class="message return">
-        <p>Return to the login page to start using your account.</p>
-        <button class="ui button" ng-click="ctrl.returnSignlog()">Return to login</button>
-    </div>
-</div>
-<!-- Select your device during register-->
-<div class="signup-device" ng-if="ctrl.state == '2q2rRegister' || ctrl.state == '2q2rLogin'">
-    <iframe ng-src="{{ctrl.URL}}"></iframe>
-</div>
 
-<!-- So people know it's us -->
-<div class="copyright">&copy Tera Insights, LLC 2013-2016</div>

@@ -65,7 +65,6 @@ module todos {
                 self.request = reply.data.id;
                 return reply.data;
             });
-
         }
 
         /**

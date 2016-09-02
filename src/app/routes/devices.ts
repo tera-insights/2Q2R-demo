@@ -18,7 +18,7 @@ export function addDevice(req: express.Request, res: express.Response) {
 }
 
 export function removeDevice(req: express.Request, res: express.Response) {
-   console.log("User: ", req.user);
+    console.log("User: ", req.user);
     var userID = req.user.userid;
 
     server2Q2R.post("/v1/key/request", {

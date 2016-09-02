@@ -3,17 +3,20 @@
 
 <head>
     <link href="css/main.css" rel="stylesheet" type="text/css" media="all" />
-    <link rel="shortcut icon" type="image/png" href="img/favicon.ico"/>
+    <link rel="shortcut icon" type="image/png" href="img/favicon.ico" />
     <link href="lib/angular-material/angular-material.min.css" rel="stylesheet" type="text/css" media="all" />
     <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
     <link href="lib/semantic/dist/semantic.min.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 
-<body ng-controller="MainCtrl as ctrl">
+<body>
     <div class="banner">
         <img src="img/2q2r-logo-words.svg">
     </div>
-    <div class="main-container" ng-include="'views/main.html'"></div>
+    <ui-view></ui-view>
+
+    <!-- So people know it's us -->
+    <div class="copyright">&copy Tera Insights, LLC 2013-2016</div>
 </body>
 <!-- Libs -->
 <script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
@@ -28,10 +31,14 @@
 <script type="text/javascript" src="lib/angular-aria/angular-aria.js"></script>
 <script type="text/javascript" src="lib/angular-animate/angular-animate.js"></script>
 <script type="text/javascript" src="lib/angular-material/angular-material.js"></script>
+<script type="text/javascript" src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="lib/ui-router-extras/release/ct-ui-router-extras.min.js"></script>
+
 <!-- Our files -->
 <script src="services/Todos.js"></script>
 <script src="services/Auth.js"></script>
-<script src="controllers/MainCtrl.js"></script>
+<script src="services/Notify.js"></script>
+<script src="controllers/RegisterCtrl.js"></script>
 <script src="controllers/TodoCtrl.js"></script>
 <script src="controllers/AddDeviceCtrl.js"></script>
 <script src="controllers/DeleteDeviceCtrl.js"></script>

@@ -67,14 +67,19 @@ module todos {
 
         logout() {
             this.Auth.logout();
+            this.$state.go("login.main");
         }
 
-        static $inject = ['$mdDialog', 'Auth'];
+        static $inject = ['$mdDialog', 'Auth', '$state'];
 
         constructor(
             private $mdDialog: ng.material.IDialogService,
-            private Auth: Auth
-        ) { }
+            private Auth: Auth,
+            private $state: angular.ui.IStateService
+        ) {
+            if (!this.Auth.loggedIn)
+                this.$state.go("login.main");
+        }
 
     }
 }

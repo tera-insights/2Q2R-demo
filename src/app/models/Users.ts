@@ -54,6 +54,9 @@ export class UsersSchema {
             where: { userid: userid }
         }).then((user: IUser.IUserInstance) => {
             // console.log("User: ", user);
+            if (!user)
+                throw Error("User not found");
+
             if (compareSync(password, user.password))
                 return user;
             else

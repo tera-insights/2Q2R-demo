@@ -63,8 +63,8 @@ module todos {
                     controllerAs: "ctrl",
                     deepStateRedirect: {
                         default: { state: 'login.main' },
-                        fn: ($dsr$) => { 
-                            return { state: 'login.main' }; 
+                        fn: ($dsr$) => {
+                            return { state: 'login.main' };
                         }
                     }
                 })

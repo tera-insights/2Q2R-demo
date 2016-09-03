@@ -29,6 +29,7 @@ module todos {
                         });
                 }, (err) => {
                     console.log("Sigup failed: ", err);
+                    that.Notify.error("Registration Failed. "+err.data);
                 });
         }
         static $inject = ['$sce', '$mdDialog', 'Notify', 'Auth', '$state'];

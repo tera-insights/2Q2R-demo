@@ -19,9 +19,8 @@
                 <i class="lock icon"></i>
             </div>
         </div>
-        <!-- Submit button -->
+        <button class="ui submit button" ng-click="">Cancel</button>
         <button class="ui blue submit button" ng-disabled="loginForm.$invalid" ng-click="ctrl.login(username, password)">Login</button>
-        <button class="ui blue submit button" ng-click="ctrl.login(username, password)">Cancel</button>
         <!-- ngMessages form validation -->
         <div class="field">
             <ng-messages class="error-message" for="loginForm.username.$error">

@@ -41,7 +41,7 @@ module todos {
             private Auth: Auth,
             private $state: angular.ui.IStateService
         ) {
-            // this.$state.go('register.main');
+            this.$state.go('register.main');
         }
 
     }

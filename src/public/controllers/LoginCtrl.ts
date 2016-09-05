@@ -44,6 +44,8 @@ module todos {
             private Notify: Notify,
             private Auth: Auth,
             private $state: angular.ui.IStateService
-        ) { }
+        ) {
+            this.$state.go('login.main');
+        }
     }
 }

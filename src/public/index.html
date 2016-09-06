@@ -2,6 +2,34 @@
 <html ng-app="2Q2R">
 
 <head>
+    <style type="text/css">
+        /* splash styles */
+        
+        #splash h2 {
+            font-size: 2.1em;
+            font-weight: 500;
+        }
+        
+        #splash-logo {
+            width: 60vw;
+            height: 60vh;
+            display: block;
+            margin-top: 10vh;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        #splash-loading {
+            margin: 0 auto;
+            display: block;
+        }
+        
+        #splash {
+            margin: 0 auto;
+        }
+    </style>
+
+
     <link href="css/main.css" rel="stylesheet" type="text/css" media="all" />
     <link rel="shortcut icon" type="image/png" href="img/favicon.ico" />
     <link href="lib/angular-material/angular-material.min.css" rel="stylesheet" type="text/css" media="all" />
@@ -10,7 +38,12 @@
 </head>
 
 <body>
-    <div class="banner">
+    <div id="splash" ng-hide="true">
+        <img id="splash-logo" src="img/2q2r-logo-words.svg">
+        <img id="splash-loading" src="img/logo-load.gif">
+    </div>
+
+    <div class="banner" ui-sref="register" ng-cloak="">
         <img src="img/2q2r-logo-words.svg">
     </div>
     <div class="spacer"></div>

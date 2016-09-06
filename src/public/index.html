@@ -2,34 +2,6 @@
 <html ng-app="2Q2R">
 
 <head>
-    <style type="text/css">
-        /* splash styles */
-        
-        #splash h2 {
-            font-size: 2.1em;
-            font-weight: 500;
-        }
-        
-        #splash-logo {
-            width: 60vw;
-            height: 60vh;
-            display: block;
-            margin-top: 10vh;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        #splash-loading {
-            margin: 0 auto;
-            display: block;
-        }
-        
-        #splash {
-            margin: 0 auto;
-        }
-    </style>
-
-
     <link href="css/main.css" rel="stylesheet" type="text/css" media="all" />
     <link rel="shortcut icon" type="image/png" href="img/favicon.ico" />
     <link href="lib/angular-material/angular-material.min.css" rel="stylesheet" type="text/css" media="all" />
@@ -38,17 +10,16 @@
 </head>
 
 <body>
+    <div class="loader-ing">
+        <div class="banner" ui-sref="register" ng-cloak>
+            <img src="img/2q2r-logo-words.svg">
+        </div>
+        <div class="spacer"></div>
+        <ui-view></ui-view>
+    </div>
     <div id="splash" ng-hide="true">
         <img id="splash-logo" src="img/2q2r-logo-words.svg">
-        <img id="splash-loading" src="img/logo-load.gif">
     </div>
-
-    <div class="banner" ui-sref="register" ng-cloak="">
-        <img src="img/2q2r-logo-words.svg">
-    </div>
-    <div class="spacer"></div>
-    <ui-view></ui-view>
-
     <!-- So people know it's us -->
     <div class="copyright">&copy Tera Insights, LLC 2013-2016</div>
 </body>
@@ -67,7 +38,6 @@
 <script type="text/javascript" src="lib/angular-material/angular-material.js"></script>
 <script type="text/javascript" src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script type="text/javascript" src="lib/ui-router-extras/release/ct-ui-router-extras.min.js"></script>
-
 <!-- Our files -->
 <script src="services/Todos.js"></script>
 <script src="services/Auth.js"></script>
@@ -78,7 +48,6 @@
 <script src="controllers/DeleteDeviceCtrl.js"></script>
 <script src="controllers/DeleteAccountCtrl.js"></script>
 <script src="controllers/LoginCtrl.js"></script>
-
 <!-- LAST SCRIPT IS APP.JS -->
 <script src="App.js"></script>
 

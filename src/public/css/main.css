@@ -66,6 +66,9 @@ iframe {
     bottom: 0;
 }
 
+
+/* ngMessages stuff */
+
 .message {
     display: flex;
     flex-direction: column;
@@ -90,6 +93,33 @@ iframe {
 
 ng-messages {
     display: block;
+}
+
+
+/* splash styles */
+
+#splash h2 {
+    font-size: 2.1em;
+    font-weight: 500;
+}
+
+#splash-logo {
+    width: 60vw;
+    height: 60vh;
+    display: block;
+    margin-top: 10vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#splash-loading {
+    width: 60vw;
+    margin: 0 auto;
+    display: block;
+}
+
+#splash {
+    margin: 0 auto;
 }
 
 

@@ -29,6 +29,10 @@ module todos {
                             console.log("Logged in");
                             that.$state.go("todos");
                             that.Notify.info('Login Successful');
+                        }, (error) => {
+                            console.log("Logged failed: ", error);
+                            that.$state.go("login");
+                            that.Notify.error('Login Failed. '+error.statusText);
                         });
                 }, (error) => {
                     console.log(error);

@@ -81,13 +81,13 @@ export function prelogin(req: express.Request, res: express.Response) {
 // POST: /login
 export function login(req: express.Request, res: express.Response) {
     req.session["secondFactor"] = "2Q2R";
-    res.status(200).send("2FA Succesful");
+    res.status(200).send("2FA Successful");
 };
 
 // GET: /logout
 export function logout(req: express.Request, res: express.Response) {
     req.logout();
-    res.status(200).send("Succesfully logged out");
+    res.status(200).send("Successfully logged out");
 };
 
 // POST: /preregister 
@@ -111,7 +111,7 @@ export function preRegister(req: express.Request, res: express.Response) {
             }
         }, (error) => {
             console.log(error);
-            res.status(401).send("Cound not complete request");
+            res.status(401).send("Could not complete request");
         }
     )
 }
@@ -136,7 +136,7 @@ export function register(req: express.Request, res: express.Response) {
                 Users.register(userID, passwd)
                     .then(
                     (user) => {
-                        res.status(200).send("Registration succesful");
+                        res.status(200).send("Registration successful");
                     }, (err) => {
                         res.status(400).send(err);
                     });

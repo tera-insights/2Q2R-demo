@@ -15,28 +15,9 @@
     "tests"
   ],
   "dependencies": {
-    "angular-animate": "~1.4.7",
-    "angular-aria": "~1.4.7",
-    "angular-material": "^1.0.9",
-    "angular-resource": "~1.4.7",
-    "angularjs": "~1.4.8",
-    "d3": "~3.5.6",
-    "font-awesome": "^4.6.3",
-    "jquery": "~2.1.4",
-    "js-xlsx": "~0.8.0",
-    "lodash": "~3.10.1",
-    "angular-material-icons": "~0.6.0",
-    "angular-messages": "^1.5.7",
     "angular-qr": "^0.2.0",
-    "semantic": "semantic-ui#^2.2.2",
     "ng.dropdown": "semanticUI.ngDropdown#^1.0.3",
     "angular-validation-match": "^1.9.0",
-    "angular-ui-router": "^0.3.1",
     "ui-router-extras": "^0.1.2"
-  },
-  "resolutions": {
-    "angular": "1.5.8",
-    "angular-material": "^1.0.9",
-    "angular-ui-router": "^0.3.1"
   }
 }

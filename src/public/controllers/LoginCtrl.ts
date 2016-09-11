@@ -32,7 +32,7 @@ module todos {
                         }, (error) => {
                             console.log("Logged failed: ", error);
                             that.$state.go("login");
-                            that.Notify.error('Login Failed. '+error.statusText);
+                            that.Notify.error('Login Failed. ' + error.statusText);
                         });
                 }, (error) => {
                     console.log(error);

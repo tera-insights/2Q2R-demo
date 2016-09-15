@@ -8,9 +8,10 @@
 var unirest = require('unirest');
 import * as config from 'config';
 import * as Promise from "bluebird";
+import * as crypto from "crypto";
 
 var server2FA = config.get("2FAserver");
-var token2FA = config.get("2FAtoken");
+var token2FA = <string>config.get("2FAtoken");
 var appID = config.get("appID");
 
 /**
@@ -24,22 +25,26 @@ var appID = config.get("appID");
 export function post(subroute: string, obj: any) {
     return new Promise((resolve, reject) => {
         // inject the authentication in the Object
-        if (obj.token || obj.appID) // token cannot be a member of Object    
-            reject("token or appID cannot be a member of the object");
-        else {
-            obj.token = token2FA;
-            obj.appID = appID;
-            unirest.post(server2FA + subroute)
-                .headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' })
-                .send(obj)
-                .end((response) => {
-                    if (response.error) {
-                        reject(response.error);
-                    } else {
-                        resolve(response.body);
-                    }
-                });
-        }
+        var objStr = JSON.stringify(obj);
+
+        var hmac = crypto.createHmac('sha256', token2FA);
+        hmac.update(subroute);
+        hmac.update(objStr);
+
+        unirest.post(server2FA + subroute)
+            .headers({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authentication': appID + ':' + hmac.digest('base64')
+            })
+            .send(objStr)
+            .end((response) => {
+                if (response.error) {
+                    reject(response.error);
+                } else {
+                    resolve(response.body);
+                }
+            });
     });
 }
 
@@ -52,7 +57,13 @@ export function post(subroute: string, obj: any) {
  */
 export function get(subroute: string) {
     return new Promise((resolve, reject) => {
+        var hmac = crypto.createHmac('sha256', token2FA);
+        hmac.update(subroute);
+        
         unirest.get(server2FA + subroute)
+            .headers({
+                'Authentication': appID + ':' + hmac.digest('base64')
+            })
             .end((response) => {
                 if (response.error) {
                     reject(response.error);

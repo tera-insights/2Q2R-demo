@@ -67,9 +67,7 @@ passport.use(new APIStrategy({
 // Validate user and provide set of available keys
 export function prelogin(req: express.Request, res: express.Response) {
     var userID = req.body.username;
-    server2Q2R.post("/v1/auth/request", {
-        userID: userID
-    }).then((rep: any) => {
+    server2Q2R.get("/v1/auth/request/"+userID).then((rep: any) => {
         pending[rep.id] = userID;
         res.json(rep);
     }, (error) => {
@@ -99,9 +97,7 @@ export function preRegister(req: express.Request, res: express.Response) {
             if (exists)
                 res.status(401).send("User already exists");
             else {
-                server2Q2R.post("/v1/register/request", {
-                    userID: userID
-                }).then(
+                server2Q2R.get("/v1/register/request/"+userID).then(
                     (rep: any) => {
                         pending[rep.id] = userID;
                         res.json(rep);

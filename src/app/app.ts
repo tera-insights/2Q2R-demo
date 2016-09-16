@@ -68,11 +68,12 @@ app.use(express.static('public'));
 // Express static routes
 app.route('/').get(staticRoutes.index);
 
+app.route('/preregister/:userID').get(authRoutes.preRegister);
+app.route('/register').post(authRoutes.register);
+
 app.route('/prelogin').post(passport.authenticate('local'), authRoutes.prelogin);
 app.route('/login').post(primaryFactorIn, passport.authenticate('localapikey', { session: false }), authRoutes.login);
 app.route('/logout').get(primaryFactorIn, authRoutes.logout);
-app.route('/preregister/:userID').get(authRoutes.preRegister);
-app.route('/register').post(authRoutes.register);
 
 app.route('/device/add').get(primaryFactorIn, secondFactorIn, deviceRoutes.addDevice);
 app.route('/device/delete').get(primaryFactorIn, secondFactorIn, deviceRoutes.removeDevice);

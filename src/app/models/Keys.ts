@@ -16,21 +16,18 @@ export type IKeys =
 
 export class KeysSchema {
     private info: any; // info object from the server 
-
-    get(userID: string) {
-        return server2Q2R.post("/v1/keys/list/" + userID, {});
-    }
-
-    delete(keyID: string) {
-        return server2Q2R.post("/v1/keys/delete/" + keyID, {});
-    }
+  
+    // for infividual key manipulation, use sever iframes
 
     exists(userID: string) {
-        return server2Q2R.post("/v1/users/exists", {
-            userID: userID
-        }).then((rep: any) => {
+        return server2Q2R.get("/v1/users/"+userID)
+        .then((rep: any) => {
             return rep.exists;
         });
+    }
+
+    deleteAll(userID: string){
+        return server2Q2R._delete("/v1/users/"+userID)
     }
 
     getInfo() {

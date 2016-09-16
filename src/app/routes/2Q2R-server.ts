@@ -73,3 +73,31 @@ export function get(subroute: string) {
             });
     });
 }
+
+/**
+ * Function to perform a delete request from the server 
+ * 
+ * @export
+ * @param {string} subroute
+ * @returns
+ */
+export function _delete(subroute: string) {
+    return new Promise((resolve, reject) => {
+        var hmac = crypto.createHmac('sha256', token2FA);
+        hmac.update(subroute);
+        
+        unirest.delete(server2FA + subroute)
+            .headers({
+                'Authentication': appID + ':' + hmac.digest('base64')
+            })
+            .end((response) => {
+                if (response.error) {
+                    reject(response.error);
+                } else {
+                    resolve(response.body);
+                }
+            });
+    });
+}
+
+

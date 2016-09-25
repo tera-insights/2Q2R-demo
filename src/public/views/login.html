@@ -1,28 +1,27 @@
 <!-- Signup -->
-<div class="signup-wrapper">
+<div class="login-wrapper">
     <p class="message">Login to an existing account.</p>
-    <form class="ui form signup" novalidate name="loginForm" ng-model="loginForm">
+    <form class="login" novalidate name="loginForm" ng-model="loginForm">
         <!-- Line 1 -->
-        <div class="field">
-            <label>Username</label>
-            <div class="ui left icon input">
-                <input type="text" placeholder="Username" ng-model="username" name="username" required>
-                <i class="user icon"></i>
+        <div class="row">
+            <div class="input-field">
+                <input type="text" ng-model="username" id="username" name="username" required>
+                <label for="username">Username</label>
             </div>
         </div>
         <!-- Line 2 -->
-        <div class="field">
-            <label>Password</label>
-            <div class="ui left icon input">
-                <input type="password" placeholder="Password" name="password" ng-model="password" required ng-maxlength="16">
-                <i class="lock icon"></i>
+        <div class="row">
+            <div class="input-field">
+                <input type="password" ng-model="password" id="password" name="password" required ng-maxlength="16">
+                <label for="password">Password</label>
             </div>
         </div>
-        <button class="ui blue submit button" ng-disabled="loginForm.$invalid" ng-click="ctrl.login(username, password)">Login</button>
-        <button class="ui button" ui-sref="register">Cancel</button>
-
+        <div>
+            <a class="waves-effect waves-light btn" type="submit" ng-disabled="loginForm.$invalid" ng-click="ctrl.login(username, password)">Login</a>
+            <a class="waves-effect waves-light red btn" ui-sref="register">Cancel</a>
+        </div>
         <!-- ngMessages form validation -->
-        <div class="field">
+        <div class="row">
             <ng-messages class="error-message" for="loginForm.username.$error">
                 <ng-message when="required">Please specify a username.</ng-message>
             </ng-messages>

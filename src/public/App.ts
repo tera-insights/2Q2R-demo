@@ -16,7 +16,7 @@
 module todos {
     'use strict';
 
-    var todos = angular.module('2Q2R', ['ngAria', 'ngMaterial',
+    var todos = angular.module('2Q2R', ['ngAria', 'ngMaterial', 'ui.materialize',
         'ngResource', 'ui.router', 'ct.ui.router.extras',
         'ngMessages', 'validation.match', 'ngDropdown', 'ja.qr'])
         .service('TodoLists', TodoLists)

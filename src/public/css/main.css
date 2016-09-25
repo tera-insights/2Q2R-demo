@@ -12,6 +12,7 @@ body {
 }
 
 ui-view {
+    width: 100%;
     display: flex;
     justify-content: center;
 }
@@ -36,7 +37,7 @@ iframe {
 }
 
 .spacer {
-    height: 4rem;
+    height: 1rem;
 }
 
 .banner {
@@ -82,11 +83,6 @@ iframe {
     color: maroon;
 }
 
-.form-wrapper {
-    width: 56em;
-    position: relative;
-}
-
 .error {
     border-color: red;
 }
@@ -123,31 +119,44 @@ ng-messages {
 }
 
 
-/* Signlog */
+/* Login */
 
-.signlog {
+.login-wrapper {
+    width: 28rem;
+    height: calc(100% - 8rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.login > .row {
+    width: 100%;
+}
+
+.login-re-btn {
+    width: 55%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Signup */
+
+.signup {
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.signlog-form {
-    display: flex;
-    margin-bottom: 24rem;
-}
 
-.signlog-form .message {
-    max-width: 36rem;
-    margin-left: 2rem;
-}
-
-.signlog-form form {
-    width: 22rem;
-}
-
-
-/* Signup */
+/* height is because of the top branding */
 
 .signup-wrapper {
     width: 100%;
@@ -157,8 +166,13 @@ ng-messages {
     align-items: center;
 }
 
-.signup {
-    width: 24rem;
+.signup-form-wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.signup-form {
+    width: 45%;
 }
 
 .signup-return {
@@ -173,66 +187,6 @@ ng-messages {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.signup-device-form form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.device-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.device-info img {
-    height: 8rem;
-}
-
-.device-info p {
-    font-size: 18px;
-    max-width: 65rem;
-}
-
-.device-button {
-    display: flex;
-    justify-content: center;
-}
-
-
-/* The actual registration process */
-
-.device-register {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.device-register-2q2r {
-    width: 32rem;
-}
-
-.stage-1-2q2r {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 17px;
-}
-
-.stage-1-2q2r qr > canvas {
-    height: 200px;
-    width: 200px;
-    padding: 5px;
-}
-
-.device-register-u2f {
-    width: 32rem;
-    background: blue;
 }
 
 
@@ -297,9 +251,6 @@ ng-messages {
 }
 
 
-/*Delete device modal */
-
-
 /* Delete account modal */
 
 .delete-account {
@@ -316,58 +267,6 @@ ng-messages {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-
-/* Login */
-
-.login {
-    height: 100%;
-}
-
-.login-device {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.device-login {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.login-icon-buttons {
-    width: 56rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.login-icon-button {
-    /* a lot goes into this one, could be shortened down with shorthand */
-    width: 10rem;
-    margin: 0 2rem 0 2rem;
-    flex-grow: 1;
-    flex-shrink: 1;
-    margin-top: 0;
-    cursor: pointer;
-    text-align: center;
-    font-size: 18px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.login-icon-button p {
-    width: 10rem;
-}
-
-.login-icon-button img {
-    width: 10rem;
 }
 
 
@@ -389,11 +288,30 @@ ng-messages {
 .todo-actions {
     display: flex;
     justify-content: center;
-    margin-bottom: 1rem;
+    align-items: center;
 }
 
-.todo-actions .input {
-    width: 80%;
+.todo-actions > .input-field {
+    width: 24rem;
+    margin: 0 1rem;
+}
+
+#actions {
+    width: 12rem !important;
+}
+
+.todo-actions > .input-field > input {
+    margin: 0;
+}
+
+.icon-button {
+    height: 36px;
+    width: 36px;
+}    
+
+.icon-button i {
+    font-size: 36px;
+    color: #555;
 }
 
 .todo-list {
@@ -409,6 +327,31 @@ ng-messages {
     text-overflow: ellipsis;
 }
 
+/* List */
+.material-list {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.material-item {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+}
+
+.material-item > a {
+    height: 36px;
+    width: 36px;
+    color: #555;
+    margin-left: auto;
+    margin-right: 16px;
+}
+
+.material-item > a > i {
+    font-size: 36px;
+}
 
 /* Fixes */
 
@@ -438,4 +381,18 @@ md-dialog-actions button {
 ng-dropdown > .dropdown > i {
     top: 0 !important;
     padding: 12px 0 12px 0 !important;
+}
+
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    opacity: 1;
+    position: static;
+    left: initial;
+}
+
+[type="checkbox"]+label:before, [type="checkbox"]:not(.filled-in)+label:after {
+    margin-top: 3px !important;
+}
+
+label {
+    color: rgba(0 ,0 ,0 ,0.87) !important;
 }

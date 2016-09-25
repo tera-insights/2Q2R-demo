@@ -1,66 +1,52 @@
-<div class="signlog">
+<div class="signup">
     <p class="message">
         This is a demo for the 2Q2R two factor authenticator app.
-        <br> Two factor authentication (2FA) is a method of authentication that requires the user to provide multiple pieces
-        of proof that they are who they say they are. 2Q2R specifically uses a QR code in combination with a mobile phone
-        as a seperate authenticator. 2Q2R also supports Universal 2nd Factor (U2F) devices.
+        <br> Two factor authentication (2FA) is a method of authentication that requires the user to provide multiple pieces of proof that they are who they say they are. 2Q2R specifically uses a QR code in combination with a mobile phone as a seperate authenticator. 2Q2R also supports Universal 2nd Factor (U2F) devices.
     </p>
-    <!-- This monstrous code is from semantic, no choice because of divider, otherwise use flex -->
-    <div class="ui two column middle aligned very relaxed stackable grid form-wrapper">
-        <div class="column">
-            <form class="ui form" novalidate name="signupForm" ng-model="signupForm">
-                <!-- Line 1 -->
-                <div class="field">
-                    <label>Set a username</label>
-                    <div class="ui left icon input" data-tooltip="Set a username. Duplicate accounts are deleted.">
-                        <input type="text" placeholder="Username" ng-model="username" name="username" required>
-                        <i class="user icon"></i>
-                    </div>
+    <div class="signup-form-wrapper">
+        <form class="signup-form" novalidate name="signupForm" ng-model="signupForm">
+            <!-- Line 1 -->
+            <div class="row">
+                <div class="input-field">
+                    <input type="text" ng-model="username" id="username" name="username" required>
+                    <label for="username">Username</label>
                 </div>
-                <!-- Line 2 -->
-                <div class="field">
-                    <label>Set a password</label>
-                    <div class="ui left icon input" data-tooltip="Set a password between 1-16 characters.">
-                        <input type="password" placeholder="Password" name="password" ng-model="password" required ng-maxlength="16">
-                        <i class="lock icon"></i>
-                    </div>
-                </div>
-                <!-- Line 3 -->
-                <div class="field">
-                    <label>Retype password</label>
-                    <div class="ui left icon input" data-tooltip="Retype your password.">
-                        <input type="password" placeholder="Retype" name="passwordRetype" ng-model="passwordRetype" data-match="signupForm.password"
-                            required ng-maxlength="16">
-                        <i class="lock icon"></i>
-                    </div>
-                </div>
-                <!-- Submit button -->
-                <button class="ui green submit button" ng-disabled="signupForm.$invalid && signupForm.password !== signupForm.passwordRetype"
-                    ng-click="ctrl.signup(username, password)">Sign Up</button>
-                <!-- ngMessages form validation -->
-                <div class="field">
-                    <ng-messages class="error-message" for="signupForm.username.$error">
-                        <ng-message when="required">Invalid username.</ng-message>
-                    </ng-messages>
-                    <!-- space that out -->
-                    <ng-messages class="error-message" for="signupForm.password.$error">
-                        <ng-message when="required">Invalid password.</ng-message>
-                        <ng-message when="maxlength">Password is longer than maximum.</ng-message>
-                    </ng-messages>
-                    <ng-messages class="error-message" for="signupForm.passwordRetype.$error">
-                        <ng-message when="required">Retype password.</ng-message>
-                        <ng-message when="match">Passwords do not match.</ng-message>
-                    </ng-messages>
-                </div>
-            </form>
-        </div>
-        <div class="ui vertical divider vert-fix">
-            Or
-        </div>
-        <div class="center aligned column">
-            <div class="ui big blue labeled icon button" ui-sref="login">
-                <i class="sign in icon"></i> Log In
             </div>
+            <!-- Line 2 -->
+            <div class="row">
+                <div class="input-field">
+                    <input type="password" ng-model="password" id="password" name="password" required ng-maxlength="16">
+                    <label for="password">Password</label>
+                </div>
+            </div>
+            <!-- Line 3 -->
+            <div class="field">
+                <div class="input-field">
+                    <input type="password" ng-model="passwordRetype" id="passwordRetype" name="passwordRetype" data-match="signupForm.password" required ng-maxlength="16">
+                    <label for="passwordRetype">Retype your password</label>
+                </div>
+            </div>
+            <!-- Submit button -->
+            <a class="waves-effect waves-light btn" ng-disabled="signupForm.$invalid && signupForm.password !== signupForm.passwordRetype" ng-click="ctrl.signup(username, password)">Sign Up</a>
+            <!-- ngMessages form validation -->
+            <div class="field">
+                <ng-messages class="error-message" for="signupForm.username.$error">
+                    <ng-message when="required">Invalid username.</ng-message>
+                </ng-messages>
+                <!-- space that out -->
+                <ng-messages class="error-message" for="signupForm.password.$error">
+                    <ng-message when="required">Invalid password.</ng-message>
+                    <ng-message when="maxlength">Password is longer than maximum.</ng-message>
+                </ng-messages>
+                <ng-messages class="error-message" for="signupForm.passwordRetype.$error">
+                    <ng-message when="required">Retype password.</ng-message>
+                    <ng-message when="match">Passwords do not match.</ng-message>
+                </ng-messages>
+            </div>
+        </form>
+        <!-- Or log in -->
+        <div class="login-re-btn">
+            <a class="waves-effect waves-light btn" ui-sref="login">Log In</a>
         </div>
     </div>
 </div>

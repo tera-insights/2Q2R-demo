@@ -163,7 +163,6 @@ ng-messages {
 
 .signup-return {
     width: 100%;
-    height: calc(100% - 8rem);
     display: flex;
     flex-direction: column;
     align-items: center;

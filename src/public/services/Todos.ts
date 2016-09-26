@@ -6,37 +6,25 @@ module todos {
     /**
      * Interface for todo items
      */
-    export interface ITodoItem {
+    export interface ITodoItem extends ng.resource.IResource<ITodoItem> {
         title: string; // displayable name
         completed: boolean; // is it completed
+        id: string; // the item ID
+        $update?: Function; // just so the compiler leaves us alone 
     }
 
-    /**
-     * The todolist stored in the back
-     */
-    export interface ITodoList extends ng.resource.IResource<ITodoList> {
-        items: ITodoItem[]; // the array of todo items
-        name: string; // the list name
+    export interface ITodoResource extends ng.resource.IResourceClass<ITodoItem> {
+        update(params: Object, data: ITodoItem, success?: Function, error?: Function): ITodoItem;
     }
 
-    interface ITodoListResource extends ng.resource.IResourceClass<ITodoList> {
+    export class Todos {
+        public resource: ITodoResource; // the resource to access backend
 
-    }
-
-    export class TodoLists {
-        private resource: ITodoListResource; // the resource to access backend
-
-        static Resource($resource: ng.resource.IResourceService): ITodoListResource {
-            var url = "/todos";
-            var resource = $resource("", {}, {
-                'get': { method: 'GET', url: url, isArray: false },
-                'save': { method: 'POST', url: url }
+        static Resource($resource: ng.resource.IResourceService): ITodoResource {
+            var resource = $resource("/todo/:id", { id: '@id' }, {
+                'update': { method: 'PUT', params: { id: '@id' } }
             });
-            return <ITodoListResource>resource;
-        }
-
-        getTodos(): ng.IPromise<ITodoList> {
-            return;
+            return <ITodoResource>resource;
         }
 
         static $inject = ['$resource', '$q', '$http'];
@@ -44,7 +32,7 @@ module todos {
         constructor($resource: ng.resource.IResourceService,
             private $q: angular.IQService,
             private $http: angular.IHttpService) {
-            this.resource = todos.TodoLists.Resource($resource);
+            this.resource = todos.Todos.Resource($resource);
         }
 
     }

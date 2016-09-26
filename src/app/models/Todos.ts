@@ -59,23 +59,17 @@ export class TodosSchema {
      * @returns {Promise<ITodo>}
      */
     update(userid: string, id: string, title: string, completed: boolean) {
-        return this.db.transaction(
-            (transaction: Sequelize.Transaction) => {
-                this.schema.findById(id).then(
-                    (todo: ITodos.ITodoInstance) => {
-                        if (todo.userid !== userid)
-                            throw Error("User does not own the Todo");
-                        todo.title = title;
-                        todo.completed = completed;
-                        this.schema.update(todo, {
-                            where: { id: id },
-                            transaction: transaction
-                        }).then(() => {
-                            return todo;
-                        })
-                    });
-            }
-        );
+        return this.schema.update({
+            title: title,
+            id: id,
+            completed: completed,
+            userid: userid
+        }, {
+                where: { id: id },
+                fields: ['completed']
+            }).then((res) => {
+                return this.schema.findById(id); 
+            });
     }
 
     /**

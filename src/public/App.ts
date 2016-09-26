@@ -3,9 +3,6 @@
 /// <reference path="controllers/RegisterCtrl.ts" />
 /// <reference path="controllers/TodoCtrl.ts" />
 /// <reference path="controllers/LoginCtrl.ts" />
-/// <reference path="controllers/AddDeviceCtrl.ts" />
-/// <reference path="controllers/DeleteDeviceCtrl.ts" />
-/// <reference path="controllers/DeleteAccountCtrl.ts" />
 
 /**
  * The main file for Todo application.
@@ -16,18 +13,15 @@
 module todos {
     'use strict';
 
-    var todos = angular.module('2Q2R', ['ngAria', 'ngMaterial', 'ui.materialize',
+    var todos = angular.module('2Q2R', ['ngAria', 'ui.materialize',
         'ngResource', 'ui.router', 'ct.ui.router.extras',
         'ngMessages', 'validation.match', 'ngDropdown', 'ja.qr'])
-        .service('TodoLists', TodoLists)
+        .service('Todos', Todos)
         .service('Auth', Auth)
         .service('Notify', Notify)
         .controller('RegisterCtrl', RegisterCtrl)
         .controller('TodoCtrl', TodoCtrl)
         .controller('LoginCtrl', LoginCtrl)
-        .controller('AddDeviceCtrl', AddDeviceCtrl)
-        .controller('DeleteDeviceCtrl', DeleteDeviceCtrl)
-        .controller('DeleteAccountCtrl', DeleteAccountCtrl)
         .config((
             $stateProvider: angular.ui.IStateProvider,
             $urlRouterProvider: angular.ui.IUrlRouterProvider

@@ -40,11 +40,10 @@ module todos {
                 });
         }
 
-        static $inject = ['$sce', '$mdDialog', 'Notify', 'Auth', '$state'];
+        static $inject = ['$sce', 'Notify', 'Auth', '$state'];
 
         constructor(
             private $sce: ng.ISCEService,
-            private $mdDialog: ng.material.IDialogService,
             private Notify: Notify,
             private Auth: Auth,
             private $state: angular.ui.IStateService

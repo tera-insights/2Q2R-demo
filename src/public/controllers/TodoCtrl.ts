@@ -1,5 +1,6 @@
 /// <reference path="../services/Todos.ts" />
 /// <reference path="../services/Auth.ts" />
+/// <reference path="../services/Notify.ts" />
 /// <reference path="../../typings/index.d.ts" />
 
 module todos {
@@ -8,35 +9,60 @@ module todos {
     export class TodoCtrl {
         private todos: ITodoItem[] = [];
         private newTodo: string = "";
+        private URL: string; // the iframe URL
+        private openModal = false; // controls the modal
+        private Todo: ITodoResource;
 
-        //define an empty variable
-        private alertman: any;
+        accept(msg) {
+            this.Notify.info(msg);
+            this.openModal = false;
+        }
+
+        cancel(msg) {
+            this.Notify.error(msg);
+            this.openModal = false;
+        }
 
         addDeviceDialog() {
-            this.$mdDialog.show({
-                controller: 'AddDeviceCtrl',
-                templateUrl: '../views/add-device-modal.html',
-                controllerAs: 'cmod',
-                clickOutsideToClose: true
-            });
+            var that = this;
+            this.$http.get('/device/add')
+                .then((rep: any) => {
+                    that.URL = that.$sce.trustAsResourceUrl(rep.data.registerUrl);
+                    that.openModal = true;
+
+                    that.$http.get(rep.data.waitUrl)
+                        .then(() => {
+                            that.accept("Device added successfully.");
+                        },
+                        () => {
+                            that.cancel("Device adding failed.")
+                        })
+                }, (error) => {
+                    that.cancel('Add device failed. ' + error.statusText);
+                });
         }
 
         deleteDeviceDialog() {
-            this.$mdDialog.show({
-                controller: 'DeleteDeviceCtrl',
-                templateUrl: '../views/delete-device-modal.html',
-                controllerAs: 'cmod',
-                clickOutsideToClose: true
-            });
+            var that = this;
+            this.$http.get('/device/delete')
+                .then((rep: any) => {
+                    that.URL = that.$sce.trustAsResourceUrl(rep.data.deleteUrl);
+                    that.openModal = true;
+
+                    that.$http.get(rep.data.waitUrl)
+                        .then(() => {
+                            that.accept("Device deleted successfully.");
+                        },
+                        () => {
+                            that.cancel("Device deletion failed.")
+                        })
+                }, (error) => {
+                    that.cancel('Delete device failed. ' + error.statusText);
+                });
         }
 
         deleteAccountDialog() {
-            this.$mdDialog.show({
-                controller: 'DeleteAccountCtrl',
-                templateUrl: '../views/delete-account-modal.html',
-                controllerAs: 'cmod',
-                clickOutsideToClose: true
-            });
+            // TODO.
         }
 
         addTodo() {
@@ -44,17 +70,29 @@ module todos {
             if (!this.newTodo.length) {
                 return;
             }
-            this.todos.push({
+            var todo = new this.Todo({
                 title: this.newTodo,
                 completed: false
             });
+            todo.$save();
+            this.todos.push(todo);
 
             this.newTodo = ""; // reset newTodo
         }
 
-        removeTodo($index) {
+        updateTodo(todo) {
+            todo.$update();
+        }
+
+        removeTodo(todo) {
+            var $index = -1;
+            this.todos.forEach( (t, i, a) => {
+                if (t.id == todo.id)
+                    $index = i;
+            });
             // Take out current element from todos array
             if ($index >= 0) {
+                todo.$delete();
                 this.todos.splice($index, 1);
             }
         }
@@ -70,15 +108,23 @@ module todos {
             this.$state.go("login.main");
         }
 
-        static $inject = ['$mdDialog', 'Auth', '$state'];
+        static $inject = ['Auth', 'Notify', '$state', '$http', '$sce', 'Todos'];
 
         constructor(
-            private $mdDialog: ng.material.IDialogService,
             private Auth: Auth,
-            private $state: angular.ui.IStateService
+            private Notify: Notify,
+            private $state: angular.ui.IStateService,
+            private $http: ng.IHttpService,
+            private $sce: ng.ISCEService,
+            TodoSrvc: Todos
         ) {
+            this.Todo = TodoSrvc.resource;
+
             if (!this.Auth.loggedIn)
                 this.$state.go("login.main");
+
+            // asynchronously fill in todos
+            this.todos = this.Todo.query();
         }
 
     }

@@ -15,7 +15,6 @@ module todos {
                 .then((rep: any) => {
                     that.challengeInfo = rep;
                     that.URL = that.$sce.trustAsResourceUrl(rep.registerUrl);
-                    console.log("Signup: ", rep);
                     that.$state.go("register.2q2r");
 
                     // finish the registration
@@ -28,15 +27,14 @@ module todos {
                             that.Notify.error('Registration Failed');
                         });
                 }, (err) => {
-                    console.log("Sigup failed: ", err);
+                    console.log("Sign up failed: ", err);
                     that.Notify.error("Registration Failed. " + err.data);
                 });
         }
-        static $inject = ['$sce', '$mdDialog', 'Notify', 'Auth', '$state'];
+        static $inject = ['$sce', 'Notify', 'Auth', '$state'];
 
         constructor(
             private $sce: ng.ISCEService,
-            private $mdDialog: ng.material.IDialogService,
             private Notify: Notify,
             private Auth: Auth,
             private $state: angular.ui.IStateService

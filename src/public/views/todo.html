@@ -10,35 +10,44 @@
             <li><a href='javascript:void(0);' ng-click="ctrl.deleteDeviceDialog()">Delete Device</a></li>
         </ul>
         <div class="input-field">
-            <input type="text" ng-model="ctrl.newTodo" id="newTodo" autofocus>
+            <input type="text" ng-model="ctrl.newTodo" ng-keyup="$event.keyCode == 13 ? ctrl.addTodo() : false" id="newTodo" autofocus>
             <label for="newTodo">Write a todo...</label>
         </div>
         <a class="btn-floating red" ng-click="ctrl.addTodo()"><i class="material-icons">add</i></a>
     </div>
     <div class="todo-list">
-        <h6 class="ui sub header">
-          Active Todos
+        <h6 class="todo-header">
+            <b>Active Todos</b>
         </h6>
         <div class="material-list">
             <div class="material-item" ng-repeat="todo in ctrl.todos | filter:{completed:false}">
-                <input type="checkbox" id="{{ todo.title }}" ng-model="todo.completed"/>
+                <input type="checkbox" id="{{ todo.title }}" ng-model="todo.completed" ng-change="ctrl.updateTodo(todo)"/>
                 <label for="{{ todo.title }}">{{ todo.title }}</label>
-                <a href='javascript:void(0);' ng-click="ctrl.removeTodo($index)">
+                <a href='javascript:void(0);' ng-click="ctrl.removeTodo(todo)">
                     <i class="material-icons">delete</i>
                 </a>
             </div>
         </div>
-        <h6 class="ui sub header">
-          Completed
+        <h6 class="todo-header">
+            <b>Completed</b>
         </h6>
         <div class="material-list">
             <div class="material-item" ng-repeat="todo in ctrl.todos | filter:{completed:true}">
-                <input type="checkbox" id="{{ todo.title }}" ng-model="todo.completed"/>
+                <input type="checkbox" id="{{ todo.title }}" ng-model="todo.completed" ng-change="ctrl.updateTodo(todo)" />
                 <label for="{{ todo.title }}">{{ todo.title }}</label>
-                <a href='javascript:void(0);' ng-click="ctrl.removeTodo($index)">
+                <a href='javascript:void(0);' ng-click="ctrl.removeTodo(todo)">
                     <i class="material-icons">delete</i>
                 </a>
             </div>
+        </div>
+    </div>
+    <a target='todoModal' open="ctrl.openModal" modal></a>
+    <div id="todoModal" class="modal">
+        <div class="modal-content">
+            <iframe ng-if="ctrl.URL" ng-src="{{ctrl.URL}}"></iframe>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
         </div>
     </div>
 </div>

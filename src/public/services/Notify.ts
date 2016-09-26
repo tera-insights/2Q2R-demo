@@ -1,31 +1,25 @@
 /// <reference path="../../typings/index.d.ts" />
 
+declare var Materialize: {
+    toast: Function;
+}
+
 module todos {
     'use strict';
-
 
     export class Notify {
 
         info(msg: string) {
-            this.$mdToast.show(
-                this.$mdToast.simple()
-                    .textContent(msg)
-                    .hideDelay(3000)
-            );
+            Materialize.toast(msg, 3000);
         }
 
         error(msg: string) {
-            this.$mdToast.show(
-                this.$mdToast.simple()
-                    .textContent(msg)
-                    .hideDelay(3000)
-            );
+            Materialize.toast(msg, 3000);
         }
 
-        static $inject = ["$mdToast"];
+        static $inject = [];
 
         constructor(
-            private $mdToast: ng.material.IToastService
         ) { }
 
     }

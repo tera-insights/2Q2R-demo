@@ -44,6 +44,7 @@ export function update(req: express.Request, res: express.Response) {
         (todo) => {
             res.json(todo);
         }, (err) => {
+            console.log("Error: ", err);
             res.status(404).send(err);
         }
         );

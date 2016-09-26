@@ -18,8 +18,8 @@ import {sequelize} from './models';
 var app = express();
 var server = require('http').createServer(app);
 
+// Primary factor verifier
 function primaryFactorIn(req: express.Request, res: express.Response, next: Function) {
-    console.log("Request: ", req.user);
     if (req.user) { // passport filled in the user
         next();
     } else {
@@ -27,7 +27,7 @@ function primaryFactorIn(req: express.Request, res: express.Response, next: Func
     }
 }
 
-
+// Second factor verifier
 function secondFactorIn(req: express.Request, res: express.Response, next: Function) {
     if (req.session["secondFactor"] === '2Q2R') {
         next();
@@ -81,8 +81,8 @@ app.route('/device/delete').get(primaryFactorIn, secondFactorIn, deviceRoutes.re
 // Todos CRUD routes. Require full session
 app.route('/todo').get(primaryFactorIn, secondFactorIn, todosRoutes.get); // all of user's todos
 app.route('/todo').post(primaryFactorIn, secondFactorIn, todosRoutes.create);
-app.route('/todo/:ID').put(primaryFactorIn, secondFactorIn, todosRoutes.update);
-app.route('/todo/:ID').delete(primaryFactorIn, secondFactorIn, todosRoutes.remove);
+app.route('/todo/:id').put(primaryFactorIn, secondFactorIn, todosRoutes.update);
+app.route('/todo/:id').delete(primaryFactorIn, secondFactorIn, todosRoutes.remove);
 
 // This is critical. Without it, the schema is not created
 sequelize.sync();

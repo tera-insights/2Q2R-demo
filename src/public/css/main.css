@@ -396,3 +396,11 @@ ng-dropdown > .dropdown > i {
 label {
     color: rgba(0 ,0 ,0 ,0.87) !important;
 }
+
+#todoModal {
+    width: 690px;
+}
+
+.todo-header {
+    margin-top: 2rem;
+}

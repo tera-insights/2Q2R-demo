@@ -18,7 +18,7 @@
     "moment-node": "github:DefinitelyTyped/DefinitelyTyped/moment/moment-node.d.ts#381479952e9725f6e14e7974f082b5e11585bf0b",
     "morgan": "github:DefinitelyTyped/DefinitelyTyped/morgan/morgan.d.ts#98a9440752f3f2ad7786aba1bf9bdefec818919e",
     "multer": "github:DefinitelyTyped/DefinitelyTyped/multer/multer.d.ts#001ca36ba58cef903c4c063555afb07bbc36bb58",
-    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#001ca36ba58cef903c4c063555afb07bbc36bb58",
+    "node": "registry:dt/node#6.0.0+20161110151007",
     "passport": "github:DefinitelyTyped/DefinitelyTyped/passport/passport.d.ts#05557455c49043ff0189182e27c9e04403a70802",
     "passport-http-bearer": "registry:dt/passport-http-bearer#1.0.1+20160316155526",
     "passport-local": "registry:dt/passport-local#0.0.0+20160316155526",

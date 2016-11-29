@@ -1,3 +1,5 @@
+/// <reference path="../typings/index.d.ts" />
+
 import * as httputil from "../app/routes/2Q2R-server"
 import * as crypto from "crypto";
 const EC = require("elliptic").ec;
@@ -31,13 +33,13 @@ function register(appID: string, challenge: string, baseURL: string, userID: str
 
     let h = crypto.createHash("sha256")
     h.update(appID)
-    const hashedAppID = h.digest('utf-8' as crypto.HexBase64Latin1Encoding)
+    const hashedAppID = new Buffer(h.digest('hex'), 'hex').toString('utf8');
 
     const clientData = `{"type":"navigator.id.finishEnrollment","challenge"` + 
         `:"${challenge}","origin":"${baseURL}"}`
     h = crypto.createHash("sha256")
     h.update(clientData)
-    const hashedClientData = h.digest('utf-8' as crypto.HexBase64Latin1Encoding)
+    const hashedClientData = new Buffer(h.digest('hex'), 'hex').toString('utf8');
 
     const pub = key.getPublic("hex");
     const pubBytes = Converters.hexToBytes(pub);
@@ -100,25 +102,28 @@ interface challengeReply {
 export default class User {
     requestID: string
 
-    constructor(userID: string) {
+    constructor(appID: string, userID: string, baseURL: string) {
         httputil.get("/v1/register/request/" + userID)
             .then((r: registerSetupReply) => {
                 this.requestID = r.id
 
                 httputil.post("/v1/register/wait", {
                     requestID: this.requestID,
-                }).then(this.waitThenAuthenticate)
-                .catch((e: Error) => {
+                }).then(() => {
+                    console.log("Authentication complete!")
+                }).catch((e: Error) => {
                     throw e
                 })
                 
-                // Get the challenge then register using the soft-u2f library
                 httputil.post("/v1/register/challenge", {
                     requestID: this.requestID,
                 }).then((r: challengeReply) => {
-                    console.log(`challenge = ${r.challenge}`);
-                    
+                    httputil.post("/v1/register", {
+                        successful: true,
+                        Data: register(appID, r.challenge, baseURL, userID)
+                    })
                 })
+
             }).catch((e: any) => {
             throw new Error(`Got error: e`)
         });

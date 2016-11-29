@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outDir": "../build",
+        "sourceMap": true,
+        "lib": ["es6", "es2015.promise"]
+    }, 
+    "exclude": [
+        "tsd.json",
+        "tsconfig.json",
+        "typings"
+    ]
+}

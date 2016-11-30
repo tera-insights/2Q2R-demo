@@ -29,7 +29,7 @@ export default class User {
                 })
 
             }).catch((e: any) => {
-            throw new Error(`Got error: e`)
+            throw new Error(`Got error: ${e}`)
         });
     }
 }

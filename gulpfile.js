@@ -57,6 +57,19 @@ gulp.task('copy config', ['typescript client'], function() {
     return result;
 });
 
+gulp.task('build_stresstest', function () {
+    var result = gulp.src('src/stresstest/*.ts')
+            .pipe(sourcemaps.init())
+            .pipe(ts(tsProject));
+    return result.js
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('stresstest/'));
+});
+
+gulp.task('stresstest', ['build_stresstest'], function () {
+    require("./stresstest/run.js")
+})
+
 /*
 
  gulp.task('build tests', ['typescript client'], function() {

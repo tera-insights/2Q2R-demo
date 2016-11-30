@@ -44,6 +44,8 @@ app
 !src/app
 public
 !src/public
+stresstest
+!src/stresstest
 
 config/local.json
 # the Sqlite3 database

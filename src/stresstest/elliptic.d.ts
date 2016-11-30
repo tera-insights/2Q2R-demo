@@ -7,8 +7,8 @@
  */
 export class ECDSA {
     keyPair(options?: ECOptions): ECKeyPair
-    keyFromPrivate(private: any, encoding: string): ECKeyPair
-    keyFromPublic(public: any, encoding: string): ECKeyPair
+    keyFromPrivate(priv: any, encoding: string): ECKeyPair
+    keyFromPublic(pub: any, encoding: string): ECKeyPair
     genKeyPair(options?: ECOptions): ECKeyPair
     sign(message: ArrayBuffer | string, key: ECKeyPair | any, encoding: string, options: SignatureOptions): Signature
     verify(message: ArrayBuffer | string, signature: Signature, key: ECKeyPair | any, encoding: string): boolean

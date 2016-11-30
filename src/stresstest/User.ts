@@ -8,15 +8,11 @@ import { ECKeyPair } from "./elliptic.d";
 import { Converters } from "./Converters";
 
 export default class User {
-    requestID: string
-
     constructor(appID: string, userID: string, baseURL: string) {
         httputil.get("/v1/register/request/" + userID)
             .then((r: registerSetupReply) => {
-                this.requestID = r.id
-
                 httputil.post("/v1/register/wait", {
-                    requestID: this.requestID,
+                    requestID: r.id,
                 }).then(() => {
                     console.log("Authentication complete!")
                 }).catch((e: Error) => {
@@ -24,7 +20,7 @@ export default class User {
                 })
                 
                 httputil.post("/v1/register/challenge", {
-                    requestID: this.requestID,
+                    requestID: r.id,
                 }).then((r: challengeReply) => {
                     httputil.post("/v1/register", {
                         successful: true,

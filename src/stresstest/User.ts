@@ -7,6 +7,37 @@ const EC = require("elliptic").ec;
 import { ECKeyPair } from "./elliptic.d";
 import { Converters } from "./Converters";
 
+export default class User {
+    requestID: string
+
+    constructor(appID: string, userID: string, baseURL: string) {
+        httputil.get("/v1/register/request/" + userID)
+            .then((r: registerSetupReply) => {
+                this.requestID = r.id
+
+                httputil.post("/v1/register/wait", {
+                    requestID: this.requestID,
+                }).then(() => {
+                    console.log("Authentication complete!")
+                }).catch((e: Error) => {
+                    throw e
+                })
+                
+                httputil.post("/v1/register/challenge", {
+                    requestID: this.requestID,
+                }).then((r: challengeReply) => {
+                    httputil.post("/v1/register", {
+                        successful: true,
+                        Data: register(appID, r.challenge, baseURL, userID)
+                    })
+                })
+
+            }).catch((e: any) => {
+            throw new Error(`Got error: e`)
+        });
+    }
+}
+
 interface IRegisterData {
     clientData: string; // serialized client data JSON
     registrationData: string; // websafe-base64-encoded U2F registration binary
@@ -17,7 +48,17 @@ interface RegistrationResult {
     response: IRegisterData
 }
 
-function register(appID: string, challenge: string, baseURL: string, userID: string): RegistrationResult {
+interface registerSetupReply {
+    id: string
+    registerUrl: string
+}
+
+interface challengeReply {
+    challenge: string;
+}
+
+function register(appID: string, challenge: string, baseURL: string,
+    userID: string): RegistrationResult {
     const key: ECKeyPair = new EC("p256").ec.genKeyPair()
 
     let h = crypto.createHash("sha256")
@@ -74,47 +115,8 @@ function register(appID: string, challenge: string, baseURL: string, userID: str
         keyID: Converters.Uint8ArrayToBase64(handle),
         response: {
             clientData: clientData,
-            registrationData: Converters.base64ToBase64URL(Converters.Uint8ArrayToBase64(reg))
+            registrationData: Converters.base64ToBase64URL(
+                Converters.Uint8ArrayToBase64(reg))
         }
-    }
-}
-
-interface registerSetupReply {
-    id: string
-    registerUrl: string
-}
-
-interface challengeReply {
-    challenge: string;
-}
-
-export default class User {
-    requestID: string
-
-    constructor(appID: string, userID: string, baseURL: string) {
-        httputil.get("/v1/register/request/" + userID)
-            .then((r: registerSetupReply) => {
-                this.requestID = r.id
-
-                httputil.post("/v1/register/wait", {
-                    requestID: this.requestID,
-                }).then(() => {
-                    console.log("Authentication complete!")
-                }).catch((e: Error) => {
-                    throw e
-                })
-                
-                httputil.post("/v1/register/challenge", {
-                    requestID: this.requestID,
-                }).then((r: challengeReply) => {
-                    httputil.post("/v1/register", {
-                        successful: true,
-                        Data: register(appID, r.challenge, baseURL, userID)
-                    })
-                })
-
-            }).catch((e: any) => {
-            throw new Error(`Got error: e`)
-        });
     }
 }

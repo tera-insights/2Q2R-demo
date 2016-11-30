@@ -14,7 +14,7 @@ export default class User {
                 httputil.post("/v1/register/wait", {
                     requestID: r.id,
                 }).then(() => {
-                    console.log("Authentication complete!")
+                    console.log("Registration complete")
                 }).catch((e: Error) => {
                     throw e
                 })

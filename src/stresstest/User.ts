@@ -18,7 +18,7 @@ export default class User {
                 }).catch((e: Error) => {
                     throw e
                 })
-                
+
                 httputil.post("/v1/register/challenge", {
                     requestID: r.id,
                 }).then((r: challengeReply) => {
@@ -29,8 +29,8 @@ export default class User {
                 })
 
             }).catch((e: any) => {
-            throw new Error(`Got error: ${e}`)
-        });
+                throw new Error(`Got error: ${e}`)
+            });
     }
 }
 
@@ -61,7 +61,7 @@ function register(appID: string, challenge: string, baseURL: string,
     h.update(appID)
     const hashedAppID = new Buffer(h.digest('hex'), 'hex').toString('utf8');
 
-    const clientData = `{"type":"navigator.id.finishEnrollment","challenge"` + 
+    const clientData = `{"type":"navigator.id.finishEnrollment","challenge"` +
         `:"${challenge}","origin":"${baseURL}"}`
     h = crypto.createHash("sha256")
     h.update(clientData)

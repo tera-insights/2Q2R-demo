@@ -35,7 +35,7 @@ export function post(subroute: string, obj: any) {
             .headers({
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authentication': appID + ':' + hmac.digest('base64')
+                'X-Authentication': appID + ':' + hmac.digest('base64')
             })
             .send(objStr)
             .end((response) => {
@@ -62,7 +62,7 @@ export function get(subroute: string) {
 
         unirest.get(server2FA + subroute)
             .headers({
-                'Authentication': appID + ':' + hmac.digest('base64')
+                'X-Authentication': appID + ':' + hmac.digest('base64')
             })
             .end((response) => {
                 if (response.error) {
@@ -88,7 +88,7 @@ export function _delete(subroute: string) {
 
         unirest.delete(server2FA + subroute)
             .headers({
-                'Authentication': appID + ':' + hmac.digest('base64')
+                'X-Authentication': appID + ':' + hmac.digest('base64')
             })
             .end((response) => {
                 if (response.error) {

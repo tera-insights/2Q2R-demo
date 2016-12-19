@@ -68,7 +68,7 @@ export class TodosSchema {
                 where: { id: id },
                 fields: ['completed']
             }).then((res) => {
-                return this.schema.findById(id); 
+                return this.schema.findById(id);
             });
     }
 

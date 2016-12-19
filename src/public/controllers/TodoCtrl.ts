@@ -86,7 +86,7 @@ module todos {
 
         removeTodo(todo) {
             var $index = -1;
-            this.todos.forEach( (t, i, a) => {
+            this.todos.forEach((t, i, a) => {
                 if (t.id == todo.id)
                     $index = i;
             });

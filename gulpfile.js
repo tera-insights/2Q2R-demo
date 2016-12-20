@@ -5,17 +5,17 @@ var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
 var shell = require('gulp-shell');
 
-var tsProject = ts.createProject({
+var tsOptions = {
     module: "commonjs",
     target: "es5",
     preserveConstEnums: true,
     sourceMap: true
-});
+};
 
 gulp.task('typescript server', [/*'prettify'*/], function() {
     var result = gulp.src('src/app/**/*.ts')
             .pipe(sourcemaps.init())
-            .pipe(ts(tsProject));
+            .pipe(ts(ts.createProject(tsOptions)));
 
     gulp.src('src/config.js')
         .pipe(gulp.dest('.'));
@@ -28,7 +28,7 @@ gulp.task('typescript server', [/*'prettify'*/], function() {
 gulp.task('typescript client', ['typescript server'], function() {
     var result = gulp.src('src/public/**/*.ts')
             .pipe(sourcemaps.init())
-            .pipe(ts(tsProject));
+            .pipe(ts(ts.createProject(tsOptions)));
     
     return result.js
         .pipe(sourcemaps.write())
@@ -60,13 +60,13 @@ gulp.task('copy config', ['typescript client'], function() {
 gulp.task('build_stresstest', function () {
     var result = gulp.src('src/stresstest/*.ts')
             .pipe(sourcemaps.init())
-            .pipe(ts(tsProject));
+            .pipe(ts(ts.createProject(tsOptions)));
     return result.js
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('stresstest/'));
 });
 
-gulp.task('stresstest', ['build_stresstest'], function () {
+gulp.task('stresstest', ['build_stresstest', 'typescript server'], function () {
     require("./stresstest/run.js")
 })
 

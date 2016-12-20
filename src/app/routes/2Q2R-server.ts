@@ -59,10 +59,10 @@ export function get(subroute: string) {
     return new Promise((resolve, reject) => {
         var hmac = crypto.createHmac('sha256', token2FA);
         hmac.update(subroute);
-
+        let digest = hmac.digest('base64');
         unirest.get(server2FA + subroute)
             .headers({
-                'X-Authentication': appID + ':' + hmac.digest('base64')
+                'X-Authentication': appID + ':' + digest
             })
             .end((response) => {
                 if (response.error) {

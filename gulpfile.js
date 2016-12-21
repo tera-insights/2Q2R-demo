@@ -15,7 +15,7 @@ var tsOptions = {
 gulp.task('typescript server', [/*'prettify'*/], function() {
     var result = gulp.src('src/app/**/*.ts')
             .pipe(sourcemaps.init())
-            .pipe(ts(ts.createProject(tsOptions)));
+            .pipe(ts.createProject(tsOptions)());
 
     gulp.src('src/config.js')
         .pipe(gulp.dest('.'));
@@ -28,7 +28,7 @@ gulp.task('typescript server', [/*'prettify'*/], function() {
 gulp.task('typescript client', ['typescript server'], function() {
     var result = gulp.src('src/public/**/*.ts')
             .pipe(sourcemaps.init())
-            .pipe(ts(ts.createProject(tsOptions)));
+            .pipe(ts.createProject(tsOptions)());
     
     return result.js
         .pipe(sourcemaps.write())
@@ -60,7 +60,12 @@ gulp.task('copy config', ['typescript client'], function() {
 gulp.task('build_stresstest', function () {
     var result = gulp.src('src/stresstest/*.ts')
             .pipe(sourcemaps.init())
-            .pipe(ts(ts.createProject(tsOptions)));
+            .pipe(ts.createProject({
+                module: "commonjs",
+                target: "es6",
+                preserveConstEnums: true,
+                sourceMap: true
+            })());
     return result.js
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('stresstest/'));

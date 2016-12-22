@@ -1,9 +1,8 @@
+import * as config from 'config';
 import User from "./User";
 
-const numUsers = 1,
-    appID = "_T-zi0wzr7GCi4vsfsXsUuKOfmiWLiHBVbmJJPidvhA",
-    baseURL = "localhost:8080"
+const numUsers = 1;
 
 for (let i = 0; i < numUsers; i++) {
-    new User(appID, "user-" + i, baseURL)
+    new User(config.get("appID") as string, "user-" + i, config.get("2FAserver") as string)
 }

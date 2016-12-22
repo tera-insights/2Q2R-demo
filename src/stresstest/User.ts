@@ -24,13 +24,14 @@ export default class User {
                     device.register(appID, r.challenge, baseURL, userID).then((result) => {
                         httputil.post("/v1/register", {
                             successful: true,
-                            Data: result,
+                            Data: result.response,
+                        }).catch((e: any) => {
+                            throw e
                         })
                     }).catch((e: any) => {
                         throw e
                     })
                 })
-
             }).catch((e: any) => {
                 throw new Error(`Got error: ${e}`)
             });

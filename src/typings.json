@@ -30,6 +30,7 @@
     "bluebird": "registry:npm/bluebird#3.3.4+20160802085254",
     "mongoose": "registry:npm/mongoose#4.3.5+20160628072220",
     "node-uuid": "registry:npm/node-uuid#1.4.7+20160723033700",
-    "sequelize": "registry:npm/sequelize#3.0.0+20160801095441"
+    "sequelize": "registry:npm/sequelize#3.0.0+20160801095441",
+    "urlsafe-base64": "registry:dt/urlsafe-base64#1.0.0+20160510010627"
   }
 }

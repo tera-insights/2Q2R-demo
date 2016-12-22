@@ -62,6 +62,7 @@
     "typescript-formatter": "^4.0.1",
     "typings": "^2.1.0",
     "unirest": "^0.5.0",
+    "urlsafe-base64": "^1.0.0",
     "validator": "^6.2.0"
   }
 }

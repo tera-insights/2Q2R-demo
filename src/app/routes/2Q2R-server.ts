@@ -9,6 +9,7 @@ var unirest = require('unirest');
 import * as config from 'config';
 import * as Promise from "bluebird";
 import * as crypto from "crypto";
+import * as URLSafeBase64 from "urlsafe-base64";
 
 var server2FA = config.get("2FAserver");
 var token2FA = <string>config.get("2FAtoken");
@@ -30,12 +31,13 @@ export function post(subroute: string, obj: any) {
         var hmac = crypto.createHmac('sha256', token2FA);
         hmac.update(subroute);
         hmac.update(objStr);
+        const auth = appID + ':' + URLSafeBase64.encode(hmac.digest())
 
         unirest.post(server2FA + subroute)
             .headers({
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'X-Authentication': appID + ':' + hmac.digest('base64')
+                'X-Authentication': auth,
             })
             .send(objStr)
             .end((response) => {
@@ -59,10 +61,11 @@ export function get(subroute: string) {
     return new Promise((resolve, reject) => {
         var hmac = crypto.createHmac('sha256', token2FA);
         hmac.update(subroute);
-        let digest = hmac.digest('base64');
+        const auth = appID + ':' + URLSafeBase64.encode(hmac.digest())
+
         unirest.get(server2FA + subroute)
             .headers({
-                'X-Authentication': appID + ':' + digest
+                'X-Authentication': auth
             })
             .end((response) => {
                 if (response.error) {
@@ -85,10 +88,11 @@ export function _delete(subroute: string) {
     return new Promise((resolve, reject) => {
         var hmac = crypto.createHmac('sha256', token2FA);
         hmac.update(subroute);
+        const auth = appID + ':' + URLSafeBase64.encode(hmac.digest());
 
         unirest.delete(server2FA + subroute)
             .headers({
-                'X-Authentication': appID + ':' + hmac.digest('base64')
+                'X-Authentication': auth
             })
             .end((response) => {
                 if (response.error) {

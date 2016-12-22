@@ -21,7 +21,7 @@ export default class User {
                 httputil.post("/v1/register/challenge", {
                     requestID: r.id,
                 }).then((r: challengeReply) => {
-                    device.register(appID, r.challenge, baseURL, userID).then((result) => {
+                    device.register(baseURL, r.challenge, baseURL, userID).then((result) => {
                         httputil.post("/v1/register", {
                             successful: true,
                             Data: result.response,

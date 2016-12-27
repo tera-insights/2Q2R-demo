@@ -1,6 +1,9 @@
 {
   "name": "2q2r-demo",
   "version": "1.0.0",
+  "engines": {
+    "node": "6.9.2"
+  },
   "description": "This is a demo of the 2Q2R library and set of tools.",
   "main": "index.js",
   "scripts": {

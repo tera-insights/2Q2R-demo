@@ -28,24 +28,28 @@ for (let i = 0; i < 100; i++) {
             Data: r.response,
         })
     }).then(() => {
-        const nonce = crypto.randomBytes(20).toString("hex")
-        return httputil.get(`/v1/auth/request/${userID}/${nonce}`)
-    }).then((r: authSetupReply) => {
-        httputil.post("/v1/auth/wait", {
-            requestID: r.id,
-        }).then(() => { console.log(`${userID} authenticated`)}).timeout(30 * 1000)
+        for (let j = 0; j < 10; j++) {
+            const nonce = crypto.randomBytes(20).toString("hex")
+            httputil.get(`/v1/auth/request/${userID}/${nonce}`).then((r: authSetupReply) => {
+                httputil.post("/v1/auth/wait", {
+                    requestID: r.id,
+                }).then(() => {
+                    console.log(`${userID} completed authentication ${j}`)
+                })
 
-        return httputil.post("/v1/auth/challenge", {
-            keyID,
-            requestID: r.id,
-        })
-    }).then((r: setKeyReply) => {
-        return device.authenticate(keyID, baseURL, r.challenge, r.counter)
-    }).then((r: softU2F.ISignatureData) => {
-        return httputil.post("/v1/auth", {
-            successful: true,
-            data: r,
-        })
+                return httputil.post("/v1/auth/challenge", {
+                    keyID,
+                    requestID: r.id,
+                })
+            }).then((r: setKeyReply) => {
+                return device.authenticate(keyID, baseURL, r.challenge, r.counter)
+            }).then((r: softU2F.ISignatureData) => {
+                return httputil.post("/v1/auth", {
+                    successful: true,
+                    data: r,
+                })
+            })
+        }
     })
 }
 

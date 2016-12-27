@@ -17,7 +17,7 @@ export var sequelize = new Sequelize(configDB.db, configDB.username,
 // Export classes and instances of used schemas
 export { TodosSchema } from './Todos';
 export var Todos = new TodosSchema(sequelize);
-export { UsersSchema} from './Users';
+export { UsersSchema } from './Users';
 export var Users = new UsersSchema(sequelize);
 // not a real schema
 export var Keys = new KeysSchema();

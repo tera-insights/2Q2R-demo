@@ -12,7 +12,7 @@ import * as staticRoutes from './routes/static';
 import * as authRoutes from './routes/auth';
 import * as todosRoutes from './routes/todos';
 import * as deviceRoutes from './routes/devices';
-import {sequelize} from './models';
+import { sequelize } from './models';
 
 // Set up express and Socket.IO
 var app = express();

@@ -5,7 +5,7 @@
  */
 
 import * as express from 'express';
-import {Todos} from '../models';
+import { Todos } from '../models';
 
 // GET: /todos
 export function get(req: express.Request, res: express.Response) {

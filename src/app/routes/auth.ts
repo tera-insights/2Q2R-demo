@@ -8,13 +8,13 @@
 import * as express from 'express';
 import * as path from 'path';
 import * as passport from 'passport';
-import {Strategy as LocalStrategy} from "passport-local";
+import { Strategy as LocalStrategy } from "passport-local";
 
 var APIStrategy = require('passport-localapikey').Strategy;
 var unirest = require('unirest');
 
-import {Users} from '../models';
-import {Keys} from '../models';
+import { Users } from '../models';
+import { Keys } from '../models';
 import * as server2Q2R from './2Q2R-server';
 
 var pending: { [challenge: string]: string } = {}

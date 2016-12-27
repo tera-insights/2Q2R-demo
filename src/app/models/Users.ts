@@ -4,7 +4,7 @@
 import * as Sequelize from 'sequelize';
 import * as Promise from "bluebird";
 import * as uuid from "node-uuid";
-import {hashSync, compareSync} from "bcryptjs";
+import { hashSync, compareSync } from "bcryptjs";
 
 import * as IUser from '../interfaces/IUser';
 

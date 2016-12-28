@@ -4,17 +4,22 @@ import * as softU2F from "soft-u2f";
 
 import * as httputil from "../app/routes/2Q2R-server"
 
-const device = softU2F.createDevice()
-const baseURL = config.get("2FAserver") as string;
+const device = softU2F.createDevice(),
+    baseURL = config.get("2FAserver") as string,
+    users = 10,
+    auths = 10,
+    start = Date.now()
 
-for (let i = 0; i < 100; i++) {
+let authsDone = 0
+
+for (let i = 0; i < users; i++) {
     const userID = "user-" + i;
     let keyID: string = undefined;
 
     httputil.get(`/v1/register/request/${userID}`).then((r: registerSetupReply) => {
         httputil.post("/v1/register/wait", {
             requestID: r.id,
-        }).then(() => { console.log(`${userID} created`) }).timeout(15 * 1000)
+        })
 
         return httputil.post("/v1/register/challenge", {
             requestID: r.id,
@@ -28,13 +33,20 @@ for (let i = 0; i < 100; i++) {
             Data: r.response,
         })
     }).then(() => {
-        for (let j = 0; j < 10; j++) {
+        for (let j = 0; j < auths; j++) {
             const nonce = crypto.randomBytes(20).toString("hex")
             httputil.get(`/v1/auth/request/${userID}/${nonce}`).then((r: authSetupReply) => {
                 httputil.post("/v1/auth/wait", {
                     requestID: r.id,
                 }).then(() => {
-                    console.log(`${userID} completed authentication ${j}`)
+                    authsDone = authsDone + 1
+                    if (authsDone == users * auths) {
+                        const elapsed = (Date.now() - start) / 1000
+                        console.log(`Elapsed time in seconds: ${elapsed}`)
+                        console.log(`Number of registrations: ${users}`)
+                        console.log(`Total number of authentications: ${users * auths}`)
+                        console.log(`Actions per second: ${(users * auths + users) / elapsed}`) 
+                    }
                 })
 
                 return httputil.post("/v1/auth/challenge", {

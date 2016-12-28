@@ -1,13 +1,15 @@
 import * as config from "config";
 import * as crypto from "crypto";
 import * as softU2F from "soft-u2f";
+import PD = require("probability-distributions")
 
 import * as httputil from "../app/routes/2Q2R-server"
 
 const device = softU2F.createDevice(),
     baseURL = config.get("2FAserver") as string,
     users = 10,
-    auths = 100,
+    auths = 10,
+    registerIntervals: Array<number> = PD.rbeta(users - 1, 2, 5),
     start = Date.now()
 
 let registrationsDone = 0,
@@ -39,13 +41,15 @@ function register() {
         if (registrationsDone == users) {
             console.log("Registrations done")
         } else {
-            setTimeout(register, 1000)
+            setTimeout(register, registerIntervals[registrationsDone - 1])
         }
-        authenticate(userID, keyID, 0)
+        let intervals: Array<number> = PD.rnorm(auths - 1)
+        intervals = intervals.map((n) => n + Math.max(...intervals))
+        authenticate(userID, keyID, 0, intervals)
     })
 }
 
-function authenticate(userID, keyID: string, numDone: number) {
+function authenticate(userID, keyID: string, numDone: number, intervals: Array<number>) {
     const nonce = crypto.randomBytes(20).toString("hex")
     httputil.get(`/v1/auth/request/${userID}/${nonce}`).then((r: authSetupReply) => {
         httputil.post("/v1/auth/wait", {
@@ -61,8 +65,8 @@ function authenticate(userID, keyID: string, numDone: number) {
             }
             if (numDone + 1 < auths) {
                 setTimeout(function() {
-                    authenticate(userID, keyID, numDone + 1)
-                }, 50)
+                    authenticate(userID, keyID, numDone + 1, intervals)
+                }, intervals[numDone] * 1000)
             }
         })
 

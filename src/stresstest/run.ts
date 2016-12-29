@@ -8,14 +8,15 @@ import * as httputil from "../app/routes/2Q2R-server"
 const device = softU2F.createDevice(),
     baseURL = config.get("2FAserver") as string,
     users = 10,
-    auths = 10,
     registerIntervals: Array<number> = PD.rbeta(users - 1, 2, 5),
-    start = Date.now()
+    start = Date.now(),
+    speedup = 100
 
 let registrationsDone = 0,
     authsDone = 0
 
 register()
+printStats()
 
 function register() {
     const userID = "user-" + registrationsDone;
@@ -41,33 +42,24 @@ function register() {
         if (registrationsDone == users) {
             console.log("Registrations done")
         } else {
-            setTimeout(register, registerIntervals[registrationsDone - 1])
+            setTimeout(register, 1000 * registerIntervals[registrationsDone - 1] / speedup)
         }
-        let intervals: Array<number> = PD.rnorm(auths - 1)
-        intervals = intervals.map((n) => n + Math.max(...intervals))
-        authenticate(userID, keyID, 0, intervals)
+        setTimeout(() => {
+            authenticate(userID, keyID, 0)
+        }, Math.abs(PD.rnorm(1)[0]) * 1000 / speedup)
     })
 }
 
-function authenticate(userID, keyID: string, numDone: number, intervals: Array<number>) {
+function authenticate(userID, keyID: string, numDone: number) {
     const nonce = crypto.randomBytes(20).toString("hex")
     httputil.get(`/v1/auth/request/${userID}/${nonce}`).then((r: authSetupReply) => {
         httputil.post("/v1/auth/wait", {
             requestID: r.id,
         }).then(() => {
-            authsDone = authsDone + 1
-            if (authsDone == users * auths) {
-                const elapsed = (Date.now() - start) / 1000
-                console.log(`Elapsed time in seconds: ${elapsed}`)
-                console.log(`Number of registrations: ${users}`)
-                console.log(`Total number of authentications: ${users * auths}`)
-                console.log(`Actions per second: ${(users * auths + users) / elapsed}`) 
-            }
-            if (numDone + 1 < auths) {
-                setTimeout(function() {
-                    authenticate(userID, keyID, numDone + 1, intervals)
-                }, intervals[numDone] * 1000)
-            }
+            authsDone = authsDone + 1 
+            setTimeout(function() {
+                authenticate(userID, keyID, numDone + 1)
+            }, Math.abs(PD.rnorm(1)[0]) * 1000 / speedup)
         })
 
         return httputil.post("/v1/auth/challenge", {
@@ -82,6 +74,15 @@ function authenticate(userID, keyID: string, numDone: number, intervals: Array<n
             data: r,
         })
     })
+}
+
+function printStats() {
+    const elapsed = (Date.now() - start) / 1000
+    console.log(`Elapsed time in seconds: ${elapsed}`)
+    console.log(`Registrations done: ${registrationsDone}`)
+    console.log(`Authentications done: ${authsDone}`)
+    console.log(`Actions per second: ${(authsDone + registrationsDone) / elapsed}`)
+    setTimeout(printStats, 1000)
 }
 
 interface registerSetupReply {

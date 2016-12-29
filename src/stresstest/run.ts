@@ -41,10 +41,13 @@ function register() {
     }).then((r: challengeReply) => {
         return device.register(baseURL, r.challenge, baseURL, userID)
     }).then((r: softU2F.RegistrationResult) => {
+        // ??? Sam, this needs to be set inside the softU2F library
+        (r as any).response.deviceName = "Stresstest";
+        (r as any).response.type = "soft-u2f";
         keyID = r.keyID
         return httputil.post("/v1/register", {
             successful: true,
-            Data: r.response,
+            data: r.response
         })
     }).then(() => {
         regsDone += 1
@@ -57,6 +60,8 @@ function register() {
         setTimeout(() => {
             authenticate(userID, keyID, 0)
         }, Math.abs(PD.rnorm(1)[0]) * averageAuthOffset)
+    }).catch( (e) => {
+        console.error("Register", e);
     })
 }
 
@@ -84,6 +89,8 @@ function authenticate(userID, keyID: string, numDone: number) {
             successful: true,
             data: r,
         })
+    }).catch( (e) => {
+        console.error("Auth: ", e);
     })
 }
 

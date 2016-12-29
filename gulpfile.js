@@ -57,7 +57,7 @@ gulp.task('copy config', ['typescript client'], function() {
     return result;
 });
 
-gulp.task('build_stresstest', function () {
+gulp.task('build_stresstest', ['typescript server'], function () {
     var result = gulp.src('src/stresstest/*.ts')
             .pipe(sourcemaps.init())
             .pipe(ts.createProject({
@@ -70,10 +70,6 @@ gulp.task('build_stresstest', function () {
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('stresstest/'));
 });
-
-gulp.task('stresstest', ['build_stresstest', 'typescript server'], function () {
-    require("./stresstest/run.js")
-})
 
 /*
 

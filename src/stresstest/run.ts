@@ -1,26 +1,35 @@
-import * as config from "config";
-import * as crypto from "crypto";
-import * as softU2F from "soft-u2f";
+import * as config from "config"
+import * as crypto from "crypto"
+import * as softU2F from "soft-u2f"
+import * as path from "path"
+import * as os from "os"
 import PD = require("probability-distributions")
-
 import * as httputil from "../app/routes/2Q2R-server"
+
+const scenario = require(path.join(__dirname, process.argv.slice(2)[0])),
+    speedup = parseFloat(process.argv.slice(2)[1])
 
 const device = softU2F.createDevice(),
     baseURL = config.get("2FAserver") as string,
-    users = 10,
-    registerIntervals: Array<number> = PD.rbeta(users - 1, 2, 5),
+    users = scenario["users"] as number,
+    registerIntervals = PD.rbeta(users - 1, 2, 5).map((n) => {
+        return n * 1000 / speedup
+    }),
     start = Date.now(),
-    speedup = 100
+    averageAuthOffset = 24 * 60 * 60 * 1000 / 
+        (speedup * (scenario["averageOffsPerDay"] as number))
 
-let registrationsDone = 0,
-    authsDone = 0
+let regsDone = 0,
+    regsLastInterval = 0,
+    authsDone = 0,
+    authsLastInterval = 0
 
 register()
 printStats()
 
 function register() {
-    const userID = "user-" + registrationsDone;
-    let keyID: string = undefined;
+    const userID = "user-" + regsDone
+    let keyID: string = undefined
     httputil.get(`/v1/register/request/${userID}`).then((r: registerSetupReply) => {
         httputil.post("/v1/register/wait", {
             requestID: r.id,
@@ -38,15 +47,16 @@ function register() {
             Data: r.response,
         })
     }).then(() => {
-        registrationsDone = registrationsDone + 1
-        if (registrationsDone == users) {
-            console.log("Registrations done")
+        regsDone += 1
+        regsLastInterval += 1
+        if (regsDone == users) {
+            console.log(os.EOL + "Registrations done" + os.EOL)
         } else {
-            setTimeout(register, 1000 * registerIntervals[registrationsDone - 1] / speedup)
+            setTimeout(register, registerIntervals[regsDone - 1])
         }
         setTimeout(() => {
             authenticate(userID, keyID, 0)
-        }, Math.abs(PD.rnorm(1)[0]) * 1000 / speedup)
+        }, Math.abs(PD.rnorm(1)[0]) * averageAuthOffset)
     })
 }
 
@@ -56,10 +66,11 @@ function authenticate(userID, keyID: string, numDone: number) {
         httputil.post("/v1/auth/wait", {
             requestID: r.id,
         }).then(() => {
-            authsDone = authsDone + 1 
+            authsDone += 1
+            authsLastInterval += 1 
             setTimeout(function() {
                 authenticate(userID, keyID, numDone + 1)
-            }, Math.abs(PD.rnorm(1)[0]) * 1000 / speedup)
+            }, Math.abs(PD.rnorm(1)[0]) * averageAuthOffset)
         })
 
         return httputil.post("/v1/auth/challenge", {
@@ -79,9 +90,15 @@ function authenticate(userID, keyID: string, numDone: number) {
 function printStats() {
     const elapsed = (Date.now() - start) / 1000
     console.log(`Elapsed time in seconds: ${elapsed}`)
-    console.log(`Registrations done: ${registrationsDone}`)
-    console.log(`Authentications done: ${authsDone}`)
-    console.log(`Actions per second: ${(authsDone + registrationsDone) / elapsed}`)
+    console.log(`Total registrations done: ${regsDone}`)
+    console.log(`Total authentications done: ${authsDone}`)
+    console.log(`Registrations done last second: ${regsLastInterval}`)
+    console.log(`Authentications done last second: ${authsLastInterval}`)
+    console.log(`Actions done in last second: ${authsLastInterval + regsLastInterval}`)
+    console.log(`Average actions per second: ${(authsDone + regsDone) / elapsed}`)
+    console.log(os.EOL)
+    regsLastInterval = 0
+    authsLastInterval = 0
     setTimeout(printStats, 1000)
 }
 
@@ -91,7 +108,7 @@ interface registerSetupReply {
 }
 
 interface challengeReply {
-    challenge: string;
+    challenge: string
 }
 
 interface authSetupReply {

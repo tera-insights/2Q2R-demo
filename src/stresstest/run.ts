@@ -15,9 +15,15 @@ const device = softU2F.createDevice(),
     registerIntervals = PD.rbeta(users - 1, 2, 5).map((n) => {
         return n * 1000 / speedup
     }),
-    start = Date.now(),
-    averageAuthOffset = 24 * 60 * 60 * 1000 / 
-        (speedup * (scenario["averageOffsPerDay"] as number))
+    start = Date.now()
+
+let averageAuthOffset: number = 24 * 60 * 60 * 1000 / speedup
+if (!isNaN(scenario["averageAuthsPerDay"])) {
+    averageAuthOffset /= scenario["averageAuthsPerDay"]
+} else {
+    averageAuthOffset /= 1
+    console.log("Scenario does not have key 'averageAuthsPerDay'. Assuming 1")
+}
 
 let regsDone = 0,
     regsLastInterval = 0,

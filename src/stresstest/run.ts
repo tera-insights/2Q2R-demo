@@ -7,7 +7,8 @@ import PD = require("probability-distributions")
 import * as httputil from "../app/routes/2Q2R-server"
 
 const scenario = require(path.join(__dirname, process.argv.slice(2)[0])),
-    speedup = parseFloat(process.argv.slice(2)[1])
+    speedup = parseFloat(process.argv.slice(2)[1]),
+    userPrefix = process.argv.slice(2)[3] || "";
 
 const device = softU2F.createDevice(),
     baseURL = config.get("2FAserver") as string,
@@ -28,13 +29,14 @@ if (!isNaN(scenario["averageAuthsPerDay"])) {
 let regsDone = 0,
     regsLastInterval = 0,
     authsDone = 0,
-    authsLastInterval = 0
+    authsLastInterval = 0,
+    pendingAuths = 0
 
 register()
 printStats()
 
 function register() {
-    const userID = "user-" + regsDone
+    const userID = userPrefix + "user-" + regsDone
     let keyID: string = undefined
     httputil.get(`/v1/register/request/${userID}`).then((r: registerSetupReply) => {
         httputil.post("/v1/register/wait", {
@@ -66,20 +68,22 @@ function register() {
         setTimeout(() => {
             authenticate(userID, keyID, 0)
         }, Math.abs(PD.rnorm(1)[0]) * averageAuthOffset)
-    }).catch( (e) => {
+    }).catch((e) => {
         console.error("Register", e);
     })
 }
 
 function authenticate(userID, keyID: string, numDone: number) {
-    const nonce = crypto.randomBytes(20).toString("hex")
+    const nonce = crypto.randomBytes(20).toString("hex");
+    pendingAuths++;
     httputil.get(`/v1/auth/request/${userID}/${nonce}`).then((r: authSetupReply) => {
         httputil.post("/v1/auth/wait", {
             requestID: r.id,
         }).then(() => {
             authsDone += 1
-            authsLastInterval += 1 
-            setTimeout(function() {
+            authsLastInterval += 1
+            pendingAuths--;
+            setTimeout(function () {
                 authenticate(userID, keyID, numDone + 1)
             }, Math.abs(PD.rnorm(1)[0]) * averageAuthOffset)
         })
@@ -95,7 +99,7 @@ function authenticate(userID, keyID: string, numDone: number) {
             successful: true,
             data: r,
         })
-    }).catch( (e) => {
+    }).catch((e) => {
         console.error("Auth: ", e);
     })
 }
@@ -109,6 +113,7 @@ function printStats() {
     console.log(`Authentications done last second: ${authsLastInterval}`)
     console.log(`Actions done in last second: ${authsLastInterval + regsLastInterval}`)
     console.log(`Average actions per second: ${(authsDone + regsDone) / elapsed}`)
+    console.log(`Pendign Auths: ${pendingAuths}`)
     console.log(os.EOL)
     regsLastInterval = 0
     authsLastInterval = 0

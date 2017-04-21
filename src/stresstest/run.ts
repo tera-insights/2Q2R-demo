@@ -83,7 +83,7 @@ function authenticate(userID, keyID: string, numDone: number) {
             authsDone += 1
             authsLastInterval += 1
             pendingAuths--;
-            setTimeout(function () {
+            setTimeout(function() {
                 authenticate(userID, keyID, numDone + 1)
             }, Math.abs(PD.rnorm(1)[0]) * averageAuthOffset)
         })

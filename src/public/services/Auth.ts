@@ -121,18 +121,14 @@ module todos {
         }
 
         register() {
-            var that = this;
-            console.log("State: ", that);
             return this.$http.post('/register',
                 {
-                    userID: that.user,
-                    password: that.regPasswd,
-                    request: that.request
-                }).then(
-                (rep: any) => {
-                    return "User " + that.user + " registerred";
-                }
-                )
+                    userID: this.user,
+                    password: this.regPasswd,
+                    request: this.request
+                }).then((rep: any) => {
+                    return `User ${this.user} registerred`;
+                })
         }
 
         static $inject = ['$http'];

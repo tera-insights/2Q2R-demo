@@ -77,6 +77,7 @@ function authenticate(userID, keyID: string, numDone: number) {
     const nonce = crypto.randomBytes(20).toString("hex");
     pendingAuths++;
     httputil.get(`/v1/auth/request/${userID}/${nonce}`).then((r: authSetupReply) => {
+        console.log("ID:", r.id);
         httputil.post("/v1/auth/wait", {
             requestID: r.id,
         }).then(() => {

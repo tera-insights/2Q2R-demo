@@ -21,6 +21,7 @@ var server = require('http').createServer(app);
 // Primary factor verifier
 function primaryFactorIn(req: express.Request, res: express.Response, next: Function) {
     if (req.user) { // passport filled in the user
+        console.log("User: ", req.user);
         next();
     } else {
         res.status(401).send("Must be logged in to use this route.");

@@ -36,7 +36,7 @@ passport.use(new LocalStrategy(
         Users.checkPasswd(username, password).then(
             (user) => { // good password, ask for the keys of this user 
                 done(null, user);
-            }, (error) => {
+            }, (error: Error) => {
                 console.log("Error: ", error);
                 done(null, false, { message: error.message });
             });
@@ -54,8 +54,9 @@ passport.use(new APIStrategy({
     apiKeyField: "request"
 }, (id: string, done: Function) => {
     server2Q2R.post(`/v1/auth/wait`, {
-        id: id
+        requestID: id
     }).then((nonce: string) => { // 2FA client authenticated on /auth route
+        console.log("Nonce: ", nonce);
         let pend = pending[id];
         if (pend.nonce === nonce)
             done(null, nonce);
@@ -63,7 +64,8 @@ passport.use(new APIStrategy({
             console.error('Security violation.');
             done(null, false, { message: "Security Violation" });
         }
-    }, (error) => { // some error during authentication
+    }, (error: Error) => { // some error during authentication
+        console.error(error);
         done(null, false, { message: error.message });
     })
 }

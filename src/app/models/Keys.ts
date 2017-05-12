@@ -35,10 +35,13 @@ export class KeysSchema {
     }
 
     constructor() {
-        var that = this;
-        server2Q2R.get("/v1/info/" + appID).then((reply) => {
-            that.info = reply;
-            console.log("INFO: ", reply);
-        });
+        server2Q2R.get("/v1/info/" + appID).then(
+            (reply) => {
+                this.info = reply;
+                console.log("INFO: ", reply);
+            },
+            (obj: { error: any, message: string }) => {
+                console.error("Error ", obj.error.status, obj.message);
+            });
     }
 }

@@ -66,7 +66,7 @@ export function get(subroute: string) {
             })
             .end((response) => {
                 if (response.error) {
-                    reject(response.error);
+                    reject({ error: response.error, message: response.body });
                 } else {
                     resolve(response.body);
                 }

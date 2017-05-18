@@ -60,9 +60,10 @@ export function get(subroute: string) {
         var hmac = crypto.createHmac('sha256', token2FA);
         hmac.update(subroute);
 
+        // console.log(hmac.digest('base64'))
         unirest.get(server2FA + subroute)
             .headers({
-                'Authentication': appID + ':' + hmac.digest('base64')
+                'x-authentication': appID + ':' + hmac.digest('base64')
             })
             .end((response) => {
                 if (response.error) {

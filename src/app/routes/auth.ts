@@ -8,6 +8,8 @@
 import * as express from 'express';
 import * as path from 'path';
 import * as passport from 'passport';
+import * as crypto from 'crypto';
+import * as URLSafeBase64 from 'urlsafe-base64';
 import {Strategy as LocalStrategy} from "passport-local";
 
 var APIStrategy = require('passport-localapikey').Strategy;
@@ -67,7 +69,10 @@ passport.use(new APIStrategy({
 // Validate user and provide set of available keys
 export function prelogin(req: express.Request, res: express.Response) {
     var userID = req.body.username;
-    server2Q2R.get("/v1/auth/request/" + userID).then((rep: any) => {
+    // Is 16 a good number?
+    let nonce = crypto.randomBytes(16);
+    console.log(nonce.toString('hex'));
+    server2Q2R.get("/v1/auth/request/" + userID + "/" + URLSafeBase64.encode(nonce.toString('hex'))).then((rep: any) => {
         pending[rep.id] = userID;
         res.json(rep);
     }, (error) => {

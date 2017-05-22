@@ -19,7 +19,7 @@ import {Users} from '../models';
 import {Keys} from '../models';
 import * as server2Q2R from './2Q2R-server';
 
-var pending: { [challenge: string]: string } = {}
+var pending: { [challenge: string]: { userID: string, nonce: string } } = {}
 
 interface IKeyInfo {
     type: "2q2r" | "u2f"; // key type
@@ -69,12 +69,15 @@ passport.use(new APIStrategy({
 // Validate user and provide set of available keys
 export function prelogin(req: express.Request, res: express.Response) {
     var userID = req.body.username;
-    // Is 16 a good number?
-    let nonce = crypto.randomBytes(16);
-    console.log(nonce.toString('hex'));
-    server2Q2R.get("/v1/auth/request/" + userID + "/" + URLSafeBase64.encode(nonce.toString('hex'))).then((rep: any) => {
-        pending[rep.id] = userID;
-        res.json(rep);
+    // Generate 256 bit nonce
+    let nonce: string = URLSafeBase64.encode(crypto.randomBytes(32).toString('hex'))
+    server2Q2R.get("/v1/auth/request/" + userID + "/" + nonce).then((rep: any) => {
+        pending[rep.id] = { userID, nonce };
+        if (pending[rep.id].nonce !== rep.nonce) {
+            res.status(502).send("Server returned incorrect authentication");
+        } else {
+            res.json(rep);
+        }
     }, (error) => {
         console.log("Error: ", error);
         res.status(401).send(error);
@@ -96,16 +99,23 @@ export function logout(req: express.Request, res: express.Response) {
 // POST: /preregister 
 export function preRegister(req: express.Request, res: express.Response) {
     var userID = req.params.userID;
+    // Generate 256 bit nonce
+    let nonce: string = URLSafeBase64.encode(crypto.randomBytes(32).toString('hex'))
     Keys.exists(userID).then(
         (exists) => { // we already have key for this user
             console.log("Exists:", exists);
             if (exists)
                 res.status(401).send("User already exists");
             else {
-                server2Q2R.get("/v1/register/request/" + userID).then(
+                server2Q2R.get("/v1/register/request/" + userID + "/" + nonce).then(
                     (rep: any) => {
-                        pending[rep.id] = userID;
-                        res.json(rep);
+                        pending[rep.id] = { userID, nonce };
+                        console.log(pending[rep.id].nonce, rep.nonce)
+                        if (pending[rep.id].nonce !== rep.nonce) {
+                            res.status(502).send("Server returned incorrect authentication");
+                        } else {
+                            res.json(rep);
+                        }
                     }, (error) => {
                         res.status(error.status).send(error.message);
                     });
@@ -128,8 +138,11 @@ export function register(req: express.Request, res: express.Response) {
 
     var pendingUser = pending[requestID];
 
-    if (pending[requestID] !== userID)
+    if (pending[requestID].userID !== userID){
+        console.log("REGISTRATION FAILED")
+        console.log(pending, userID)
         res.status(401).send("Pre-register not called or incorrect info");
+    }
     else
         server2Q2R.get("/v1/register/" + requestID + "/wait")
             .then((rep: any) => {

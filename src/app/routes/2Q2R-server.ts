@@ -9,6 +9,7 @@ var unirest = require('unirest');
 import * as config from 'config';
 import * as Promise from "bluebird";
 import * as crypto from "crypto";
+import * as URLSafeBase64 from "urlsafe-base64";
 
 var server2FA = config.get("2FAserver");
 var token2FA = <string>config.get("2FAtoken");
@@ -63,7 +64,7 @@ export function get(subroute: string) {
         // console.log(hmac.digest('base64'))
         unirest.get(server2FA + subroute)
             .headers({
-                'x-authentication': appID + ':' + hmac.digest('base64')
+                'x-authentication': appID + ':' + URLSafeBase64.encode(hmac.digest('base64'))
             })
             .end((response) => {
                 if (response.error) {
